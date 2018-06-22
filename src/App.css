@@ -26,3 +26,15 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.node{
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+}
+.nodeIcon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
