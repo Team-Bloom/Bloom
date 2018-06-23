@@ -38,3 +38,18 @@
     left: 0;
     z-index: -1;
 }
+.nodeWrap{
+    position: relative;
+}
+.test{
+    top: 20px;
+}
+.connection{
+    position: absolute;
+    z-index: -2;
+    overflow: visible;
+}
+
+.dragger{
+    position: absolute;
+}
