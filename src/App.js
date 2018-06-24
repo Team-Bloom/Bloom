@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {Node} from './components'
+import Routes from './routes.jsx';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        
-        <div className="App-intro">
-            <Node />
-        </div>
-      </div>
-    );
-  }
-}
+const App = () => {
+  return (
+    <div id="app">
+      {/* <NavBar /> */}
+      <Routes />
+    </div>
+  );
+};
 
 export default App;
