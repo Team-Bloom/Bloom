@@ -11,7 +11,9 @@ class Node extends Component {
           pos1: 0,
           pos2: 0,
           pos3: 0,
-          pos4: 0
+          pos4: 0,
+          children: [],
+          shouldEdit: true
       }
     }
 
@@ -23,10 +25,14 @@ class Node extends Component {
     }
 
     toggleEdit = () => {
-        this.setState({
-            ...this.state,
-            isEdit: !this.state.isEdit
-        })
+        if(this.state.shouldEdit){
+            this.setState({
+                ...this.state,
+                isEdit: !this.state.isEdit
+            })
+        } else {
+            this.setState({shouldEdit: true})
+        }
     }
 
     drag = (ev) => {
@@ -39,6 +45,9 @@ class Node extends Component {
         })
         ev.target.parentNode.style.top = (ev.target.parentNode.offsetTop - this.state.pos2) + "px"
         ev.target.parentNode.style.left = (ev.target.parentNode.offsetLeft - this.state.pos1) + "px"
+        this.setState({
+            shouldEdit: false
+        })
     }
 
     startDrag = (ev) => {
@@ -51,9 +60,16 @@ class Node extends Component {
     }
 
     stopDrag = (ev) => {
-        //stop drag and drag need to be about the mouse event anywhere, making it based on the event target isn't reliable
+        //TODO: stop drag and drag need to be about the mouse event anywhere, making it based on the event target isn't reliable
         //allows you to move quicker than the browser's response and get off the object but leave the event live
         ev.target.onmousemove = null
+    }
+
+    addNode = () => {
+        this.setState({
+            ...this.state,
+            children: [...this.state.children, {}]
+        })
     }
 
 
@@ -68,34 +84,11 @@ class Node extends Component {
                  <rect width="100%" height="50%" style={{fill:'rgb(255,255,255)',strokeWidth:'0.01em',stroke:'rgb(0,0,0)'}} />
              </svg>
           </div>
-          <div className="nodeWrap test">
-          <div className="dragger">
-          <svg className="connection" height="210" width="500">
-            <line x1="75" y1="-20" x2="75" y2="0" style={{stroke:'rgb(0,0,0)',strokeWidth:'0.05em'}} />
-          </svg>
-            <div className="node" onClick={this.toggleEdit}>
-                {this.state.isEdit ? (<input type="text" name="text" value={this.state.text} onChange={this.handleChange} onClick={(ev) => {ev.stopPropagation()}}/>) : (<span>{this.state.text}</span>)}
-                <svg className="nodeIcon" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 32 32" aria-labelledby="title">
-    	           <title id="title">Umbrella Icon</title>
-                   <rect width="100%" height="50%" style={{fill:'rgb(255,255,255)',strokeWidth:'0.01em',stroke:'rgb(0,0,0)'}} />
-               </svg>
-            </div>
-            </div>
-          </div>
-          <div className="nodeWrap test">
-          <div className="dragger">
-          <svg className="connection" height="210" width="500">
-            <line x1="75" y1="-20" x2="75" y2="0" style={{stroke:'rgb(0,0,0)',strokeWidth:'0.05em'}} />
-          </svg>
-            <div className="node" onClick={this.toggleEdit}>
-                {this.state.isEdit ? (<input type="text" name="text" value={this.state.text} onChange={this.handleChange} onClick={(ev) => {ev.stopPropagation()}}/>) : (<span>{this.state.text}</span>)}
-                <svg className="nodeIcon" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 32 32" aria-labelledby="title">
-                  <title id="title">Umbrella Icon</title>
-                   <rect width="100%" height="50%" style={{fill:'rgb(255,255,255)',strokeWidth:'0.01em',stroke:'rgb(0,0,0)'}} />
-               </svg>
-            </div>
-            </div>
-          </div>
+          <button onClick={this.addNode}>Add </button>
+          {this.state.children.map(node => {
+              return <Node />
+          })
+          }
           </div>
         </div>
     );
