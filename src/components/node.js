@@ -13,6 +13,8 @@ class Node extends Component {
           pos2: 0,
           pos3: 0,
           pos4: 0,
+          left: this.props.left || '50px',
+          top: this.props.top || '50px',
           children: [],
           shouldEdit: true
       }
@@ -45,11 +47,10 @@ class Node extends Component {
             pos2: this.state.pos4 - ev.clientY,
             pos3: ev.clientX,
             pos4: ev.clientY,
-            shouldEdit: false
+            top: (this.dragger.current.offsetTop - this.state.pos2) + "px",
+            left: (this.dragger.current.offsetLeft - this.state.pos1) + "px",
+            shouldEdit: false,
         })
-        this.dragger.current.style.top = (this.dragger.current.offsetTop - this.state.pos2) + "px"
-        this.dragger.current.style.left = (this.dragger.current.offsetLeft - this.state.pos1) + "px"
-
     }
 
     startDrag = (ev) => {
@@ -60,22 +61,20 @@ class Node extends Component {
             pos4: ev.clientY,
         })
         //this is why the mousemove is needing to be to its parents
-        this.dragger.current.onmousemove = this.drag
+        document.onmousemove = this.drag
         document.onmouseup = this.stopDrag
     }
 
     stopDrag = (ev) => {
         ev.stopPropagation()
-        //TODO: stop drag and drag need to be about the mouse event anywhere, making it based on the event target isn't reliable
-        //allows you to move quicker than the browser's response and get off the object but leave the event live
-        this.dragger.current.onmousemove = null
+        document.onmousemove = null
     }
 
     addNode = (ev) => {
         ev.stopPropagation()
         this.setState({
             ...this.state,
-            children: [...this.state.children, {}]
+            children: [...this.state.children, {left: '200px', top: `${this.state.children.length * 100 - 100}px`}]
         })
     }
 
@@ -83,7 +82,7 @@ class Node extends Component {
   render() {
     return (
         <div className="nodeWrap">
-            <div className="dragger" onMouseDown={this.startDrag} ref={this.dragger} >
+            <div className="dragger" onMouseDown={this.startDrag} ref={this.dragger} style={{left: this.state.left, top: this.state.top}}>
           <div className="node" onClick={this.toggleEdit}>
               {this.state.isEdit ? (<input type="text" name="text" value={this.state.text} onChange={this.handleChange} onClick={(ev) => {ev.stopPropagation()}}/>) : (<span>{this.state.text}</span>)}
               <svg className="nodeIcon" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 32 32" aria-labelledby="title">
@@ -93,7 +92,7 @@ class Node extends Component {
              <button onClick={this.addNode}>Add </button>
           </div>
           {this.state.children.map(node => {
-              return <RecNode />
+              return <RecNode left={node.left} top={node.top}/>
           })
           }
           </div>

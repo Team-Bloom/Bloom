@@ -26,3 +26,7 @@
 .dragger{
     position: absolute;
 }
+
+.dragger .dragger{
+    min-width: 100%;
+}
