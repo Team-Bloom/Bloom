@@ -13,8 +13,8 @@ class Node extends Component {
           pos2: 0,
           pos3: 0,
           pos4: 0,
-          left: this.props.left || '50px',
-          top: this.props.top || '50px',
+          left: this.props.left || '50',
+          top: this.props.top || '50',
           children: [],
           shouldEdit: true
       }
@@ -47,8 +47,8 @@ class Node extends Component {
             pos2: this.state.pos4 - ev.clientY,
             pos3: ev.clientX,
             pos4: ev.clientY,
-            top: (this.dragger.current.offsetTop - this.state.pos2) + "px",
-            left: (this.dragger.current.offsetLeft - this.state.pos1) + "px",
+            top: (this.dragger.current.offsetTop - this.state.pos2),
+            left: (this.dragger.current.offsetLeft - this.state.pos1),
             shouldEdit: false,
         })
     }
@@ -74,7 +74,7 @@ class Node extends Component {
         ev.stopPropagation()
         this.setState({
             ...this.state,
-            children: [...this.state.children, {left: '200px', top: `${this.state.children.length * 100 - 100}px`}]
+            children: [...this.state.children, {left: '200', top: `${this.state.children.length * 100 - 100}`}]
         })
     }
 
@@ -82,20 +82,23 @@ class Node extends Component {
   render() {
     return (
         <div className="nodeWrap">
-            <div className="dragger" onMouseDown={this.startDrag} ref={this.dragger} style={{left: this.state.left, top: this.state.top}}>
-          <div className="node" onClick={this.toggleEdit}>
-              {this.state.isEdit ? (<input type="text" name="text" value={this.state.text} onChange={this.handleChange} onClick={(ev) => {ev.stopPropagation()}}/>) : (<span>{this.state.text}</span>)}
-              <svg className="nodeIcon" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 32 32" aria-labelledby="title">
-  	           <title id="title">Umbrella Icon</title>
-                 <rect width="100%" height="50%" style={{fill:'rgb(255,255,255)',strokeWidth:'0.01em',stroke:'rgb(0,0,0)'}} />
-             </svg>
-             <button onClick={this.addNode}>Add </button>
-          </div>
-          {this.state.children.map(node => {
-              return <RecNode left={node.left} top={node.top}/>
-          })
-          }
-          </div>
+            <svg className="line" height={Math.abs(this.state.top) + 2 + 'px'} width={Math.abs(this.state.left) + 2 + 'px'}>
+                <line x1="0" y1="0" x2={this.state.left + 'px'} y2={this.state.top + 'px'} style={{stroke:'rgb(255,0,0)', strokeWidth:2}} />
+            </svg>
+            <div className="dragger" onMouseDown={this.startDrag} ref={this.dragger} style={{left: this.state.left + 'px', top: this.state.top + 'px'}}>
+                <div className="node" onClick={this.toggleEdit}>
+                    {this.state.isEdit ? (<input type="text" name="text" value={this.state.text} onChange={this.handleChange} onClick={(ev) => {ev.stopPropagation()}}/>) : (<span>{this.state.text}</span>)}
+                    <svg className="nodeIcon" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 32 32" aria-labelledby="title">
+  	                    <title id="title">Umbrella Icon</title>
+                        <rect width="100%" height="50%" style={{fill:'rgb(255,255,255)',strokeWidth:'0.01em',stroke:'rgb(0,0,0)'}} />
+                    </svg>
+                    <button onClick={this.addNode}>Add </button>
+                </div>
+                {this.state.children.map(node => {
+                        return <RecNode left={node.left} top={node.top}/>
+                    })
+                }
+            </div>
         </div>
     );
   }
