@@ -1,0 +1,28 @@
+.node{
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+    top: 0 !important;
+    left: 0 !important;
+}
+.nodeIcon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.nodeWrap{
+    position: relative;
+}
+.test{
+    top: 20px;
+}
+.connection{
+    position: absolute;
+    z-index: -2;
+    overflow: visible;
+}
+
+.dragger{
+    position: absolute;
+}
