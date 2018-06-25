@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
+import './navbar.css'
 
 class Navbar extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class Navbar extends Component {
       userEmail: '',
       recipientName: '',
       recipientEmail: '',
-      // checkedForUser: false,
+      projectName: ''
     };
 
     this.saveProject = this.saveProject.bind(this);
@@ -22,6 +23,7 @@ class Navbar extends Component {
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
     this.authUser = this.authUser.bind(this);
+    this.logOutUser = this.logOutUser.bind(this)
   }
 
   componentDidMount() {
@@ -32,6 +34,20 @@ class Navbar extends Component {
         console.log('no user');
       }
     });
+  }
+
+
+  logOutUser() {
+    firebase.auth().signOut().then(() => {
+      console.log('Signed Out');
+      this.setState({
+        userName: '',
+        userEmail: ''
+      })
+    }, function(error) {
+      console.error('Sign Out Error', error);
+    });
+
   }
 
   authUser(user) {
@@ -50,33 +66,35 @@ class Navbar extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-
-    const user = firebase.auth().currentUser;
-    if (user) {
-      console.log(user);
-    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
   }
 
-  hideForm() {
-    const popup = document.getElementById('collab-form');
-    if (popup.classList.contains('show')) {
-      popup.classList.remove('show');
-    }
+  hideForm(action) {
+    const formOne = document.getElementById('collab-form');
+    const formTwo = document.getElementById('save-form')
+      formOne.classList.remove('show');
+      formTwo.classList.remove('show');
   }
 
-  showForm() {
-    const popup = document.getElementById('collab-form');
-    if (!popup.classList.contains('show')) {
-      popup.classList.add('show');
+  showForm(action) {
+    if (action === 'addCollaborator') {
+    const formOne = document.getElementById('collab-form');
+    if (!formOne.classList.contains('show')) {
+      formOne.classList.add('show');
     }
+    } else if (action === 'save') {
+      const formTwo = document.getElementById('save-form');
+      if (!formTwo.classList.contains('show')) {
+        formTwo.classList.add('show');
+      }
+  }
   }
 
   render() {
-    return !this.state.userName ? (
+    return this.state.userName ? (
       <ul className="navbar-container">
         <li className="dropdown">
           <span className="dropbtn">Bloom</span>
@@ -93,9 +111,30 @@ class Navbar extends Component {
           </span>
           <div className="dropdown-content">
             <span>New project</span>
+
+            <div className="popup" onClick={() => this.showForm('save')}>
             <span>Save as</span>
+            <form className="popuptext" id="save-form" autoComplete="off">
+                <label htmlFor="recipientName">Project name</label>
+                <input
+                  className="recipientName"
+                  type="text"
+                  name="recipientName"
+                  onChange={this.handleChange}
+                  value={this.state.recipientName}
+                />
+                <button
+                  type="submit"
+                  className="email-form-btn"
+                  onClick={this.handleSubmit}
+                >
+                  Save
+                </button>
+              </form>
+              </div>
+
             <span>Open...</span>
-            <div className="popup" onClick={this.showForm}>
+            <div className="popup" onClick={() => this.showForm('addCollaborator')}>
               <span>Add collaborator</span>
 
               <form className="popuptext" id="collab-form" autoComplete="off">
@@ -122,23 +161,25 @@ class Navbar extends Component {
                 >
                   Share
                 </button>
+
+
               </form>
             </div>
           </div>
         </li>
-        <li className="logged-in">
+        <li className="logged-in" onClick={this.logOutUser}>
           <span>Sign out</span>
         </li>
       </ul>
     ) : (
       <ul className="navbar-container">
+                <li>
         <Link to="/login">
-          <li>
-            <span>Sign-in</span>
-          </li>
+            <span className="logged-out">Sign-in</span>
         </Link>
+        </li>
         <li>
-          <span>New project</span>
+          <span className="logged-out">New project</span>
         </li>
       </ul>
     );

@@ -1,9 +1,9 @@
 import { withRouter, Route, Switch, BrowserRouter } from 'react-router-dom';
 import React, { Component } from 'react';
-import Login from './Login';
+import Login from './Login.jsx';
 import Dashboard from './Users/dashboard';
 import {Node} from './components'
-import Navbar from './Navbar'
+import Navbar from './components/navbar/Navbar.js'
 
 class Routes extends Component {
   componentDidMount() {}
