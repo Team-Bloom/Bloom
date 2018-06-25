@@ -4,7 +4,6 @@ import Routes from './routes.jsx';
 const App = () => {
   return (
     <div id="app">
-      {/* <NavBar /> */}
       <Routes />
     </div>
   );

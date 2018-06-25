@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Login from './Login';
 import Dashboard from './Users/dashboard';
 import {Node} from './components'
+import Navbar from './Navbar'
 
 class Routes extends Component {
   componentDidMount() {}
@@ -12,8 +13,8 @@ class Routes extends Component {
       <BrowserRouter>
         <Switch>
           <Route path="/login" component={Login} />
-          <Route path="/home" component={Dashboard} />
-          <Route path="/map" component={Node} />
+          <Route exact path="/node" component={Node} />
+          <Route exact path="/nav" component={Navbar} />
         </Switch>
       </BrowserRouter>
     );
