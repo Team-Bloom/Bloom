@@ -1,0 +1,50 @@
+.node{
+    position: relative;
+    display: inline-block;
+    padding: 20px;
+    z-index: 1;
+    top: 0 !important;
+    left: 0 !important;
+}
+.nodeIcon{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.nodeWrap{
+    position: relative;
+    left: 0;
+}
+.nodeWrap .nodeWrap{
+    top: -64px;
+}
+.test{
+    top: 20px;
+}
+.connection{
+    position: absolute;
+    z-index: -2;
+    overflow: visible;
+}
+
+.dragger{
+    position: absolute;
+}
+
+.dragger .dragger{
+    min-width: 100%;
+}
+
+.line{
+    position: absolute;
+    z-index: -1;
+    top: 20px;
+    left: 150px;
+    display: none;
+    overflow: visible;
+}
+
+.dragger .line{
+    display: block;
+}
