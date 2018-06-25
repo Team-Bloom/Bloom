@@ -11,7 +11,7 @@ export const addNewUser = async (userObj, uid) => {
       .collection('Users')
       .doc(uid)
       .set({
-        metadata: userObj,
+        metadata: {...userObj,uid},
         projects: [metadata],
       });
   } catch (e) {
@@ -23,6 +23,7 @@ export const searchForUser = async uid => {
   try {
     const docRef = db.collection('Users').doc(uid);
     const user = await docRef.get();
+    console.log("line 26 in function JS: USER", user.data())
     return user.exists;
   } catch (error) {
     console.error(error);
