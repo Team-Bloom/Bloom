@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { ui, uiConfig } from './index.js';
 
 class Login extends Component {
-  render() {
+  componentDidMount() {
     ui.start('#firebaseui-auth-container', uiConfig);
-
+  }
+  render() {
     return (
       <div>
         <h1>Bloom</h1>
