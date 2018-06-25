@@ -13,4 +13,12 @@ const myFirstProject = (userObj, uid) => ({
   ],
 });
 
+export const firstProjMetaData = (uid, id) => ({
+  title: 'My First Project',
+  owner: uid,
+  collaborators: [],
+  lastUpdated: '',
+  projectId: id,
+});
+
 export default myFirstProject;

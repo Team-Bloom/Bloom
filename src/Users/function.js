@@ -1,26 +1,19 @@
 import { db } from '../index.js';
-import myFirstProject from './myFirstProject';
+import myFirstProject, { firstProjMetaData } from './myFirstProject';
 
 export const addNewUser = async (userObj, uid) => {
   try {
     const newProj = myFirstProject(userObj, uid);
-    const newUser = await db
+    const { id } = await db.collection('Projects').add(newProj);
+    console.log(id);
+    const metadata = firstProjMetaData(uid, id);
+    await db
       .collection('Users')
       .doc(uid)
       .set({
         metadata: userObj,
+        projects: [metadata],
       });
-    console.log(newUser); // should be undefined as Set doesn't return anything
-    const { id } = await db
-      .collection('Users')
-      .doc(uid)
-      .collection('projects')
-      .add(newProj.metadata);
-    console.log(id);
-    await db
-      .collection('Projects')
-      .doc(id)
-      .set(newProj);
   } catch (e) {
     console.error(e);
   }
