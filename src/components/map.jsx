@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Node } from './index';
 import { db } from '../index.js';
 
-export default class Map extends Component {
+export default class MapView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   async componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
     const docRef = db
       .collection('Projects')
       .doc(this.props.match.params.projectId);

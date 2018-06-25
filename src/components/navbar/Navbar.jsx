@@ -26,6 +26,7 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
+    console.log('navbar');
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({
@@ -37,7 +38,6 @@ class Navbar extends Component {
       }
     });
   }
-
 
   logOutUser() {
     firebase
