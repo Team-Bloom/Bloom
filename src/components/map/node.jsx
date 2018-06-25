@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './node.css'
-import {Node as RecNode} from './'
+import { NodeObject } from './'
 
 class Node extends Component {
     constructor(props) {
@@ -25,17 +25,6 @@ class Node extends Component {
             ...this.state,
             [ev.target.name]: ev.target.value
         })
-    }
-
-    toggleEdit = () => {
-        if(this.state.shouldEdit){
-            this.setState({
-                ...this.state,
-                isEdit: !this.state.isEdit
-            })
-        } else {
-            this.setState({shouldEdit: true})
-        }
     }
 
     drag = (ev) => {
@@ -85,16 +74,9 @@ class Node extends Component {
                 <line x1="0" y1="0" x2={this.state.left + 'px'} y2={this.state.top + 'px'} style={{stroke:'rgb(255,0,0)', strokeWidth:2}} />
             </svg>
             <div className="dragger" onMouseDown={this.startDrag} ref={this.dragger} style={{left: this.state.left + 'px', top: this.state.top + 'px'}}>
-                <div className="node" onClick={this.toggleEdit}>
-                    {this.state.isEdit ? (<input type="text" name="text" value={this.state.text} onChange={this.handleChange} onClick={(ev) => {ev.stopPropagation()}}/>) : (<span>{this.state.text}</span>)}
-                    <svg className="nodeIcon" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 32 32" aria-labelledby="title">
-  	                    <title id="title">Umbrella Icon</title>
-                        <rect width="100%" height="50%" style={{fill:'rgb(255,255,255)',strokeWidth:'0.01em',stroke:'rgb(0,0,0)'}} />
-                    </svg>
-                    <button onClick={this.addNode}>Add </button>
-                </div>
+                <NodeObject addNode={this.addNode} handleChange={this.handleChange} text={this.state.text} />
                 {this.state.children.map(node => {
-                        return <RecNode left={node.left} top={node.top}/>
+                        return <Node left={node.left} top={node.top}/>
                     })
                 }
             </div>
