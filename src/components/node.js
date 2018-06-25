@@ -60,7 +60,6 @@ class Node extends Component {
             pos3: ev.clientX,
             pos4: ev.clientY,
         })
-        //this is why the mousemove is needing to be to its parents
         document.onmousemove = this.drag
         document.onmouseup = this.stopDrag
     }
