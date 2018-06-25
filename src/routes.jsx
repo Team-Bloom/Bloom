@@ -4,6 +4,7 @@ import Login from './Login.jsx';
 import Dashboard from './Users/dashboard';
 import {Node} from './components'
 import Navbar from './components/navbar/Navbar.js'
+// import UserPage from './components/Users/UserPage'
 
 class Routes extends Component {
   componentDidMount() {}
@@ -15,6 +16,7 @@ class Routes extends Component {
           <Route path="/login" component={Login} />
           <Route path="/map" component={Node} />
           <Route path="/nav" component={Navbar} />
+          {/* <Route path="/user-page" component={UserPage} /> */}
         </Switch>
       </BrowserRouter>
     );
@@ -22,3 +24,6 @@ class Routes extends Component {
 }
 
 export default Routes;
+
+
+

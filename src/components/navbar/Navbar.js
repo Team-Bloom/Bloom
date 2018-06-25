@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
-import AddCollaboratorForm from './AddCollaboratorForm.js'
-import SaveProjectForm from './SaveProjectForm.js'
+import AddCollaboratorForm from './AddCollaboratorForm.js';
+import SaveProjectForm from './SaveProjectForm.js';
 
 class Navbar extends Component {
   constructor() {
@@ -22,19 +22,22 @@ class Navbar extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
-    this.authUser = this.authUser.bind(this);
     this.logOutUser = this.logOutUser.bind(this);
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.authUser(user);
+        this.setState({
+          userName: user.displayName,
+          userEmail: user.email,
+        });
       } else {
         console.log('no user');
       }
     });
   }
+
 
   logOutUser() {
     firebase
@@ -54,14 +57,6 @@ class Navbar extends Component {
       );
   }
 
-  authUser(user) {
-    this.setState({
-      userName: user.displayName,
-      userEmail: user.email,
-    });
-  }
-
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -71,7 +66,13 @@ class Navbar extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (event.target.name === 'collab-btn') {
-      window.open(`mailto:${this.state.recipientEmail}?subject=Invite to collaborate on a Bloom project&body=${this.state.userName} has invited you to collaborate on a project`)
+      window.open(
+        `mailto:${
+          this.state.recipientEmail
+        }?subject=Invite to collaborate on a Bloom project&body=${
+          this.state.userName
+        } has invited you to collaborate on a project`
+      );
     }
   }
 
@@ -84,9 +85,17 @@ class Navbar extends Component {
 
   showForm(action) {
     if (action === 'addCollaborator') {
+      const formTwo = document.getElementById('save-form');
+      if (formTwo.classList.contains('show')) {
+        formTwo.classList.remove('show');
+      }
       const formOne = document.getElementById('collab-form');
       formOne.classList.add('show');
     } else if (action === 'save') {
+      const formOne = document.getElementById('collab-form');
+      if (formOne.classList.contains('show')) {
+        formOne.classList.remove('show');
+      }
       const formTwo = document.getElementById('save-form');
       formTwo.classList.add('show');
     }
@@ -111,10 +120,21 @@ class Navbar extends Component {
           <div className="dropdown-content">
             <span>New project</span>
 
-          <SaveProjectForm showForm={this.showForm} handleChange={this.handleChange} handleSubmit={this.handleSubmit} projectName={this.state.projectName}/>
+            <SaveProjectForm
+              showForm={this.showForm}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              projectName={this.state.projectName}
+            />
 
             <span>Open...</span>
-            <AddCollaboratorForm showForm={this.showForm} handleChange={this.handleChange} recipientName={this.state.recipientName} recipientEmail={this.state.recipientEmail} handleSubmit={this.handleSubmit} />
+            <AddCollaboratorForm
+              showForm={this.showForm}
+              handleChange={this.handleChange}
+              recipientName={this.state.recipientName}
+              recipientEmail={this.state.recipientEmail}
+              handleSubmit={this.handleSubmit}
+            />
           </div>
         </li>
         <li className="logged-in" onClick={this.logOutUser}>
