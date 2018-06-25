@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
-import './navbar.css'
+import './navbar.css';
+import AddCollaboratorForm from './AddCollaboratorForm.js'
+import SaveProjectForm from './SaveProjectForm.js'
 
 class Navbar extends Component {
   constructor() {
     super();
 
     this.state = {
-      projectName: '',
       collaborator: '',
       userName: '',
       userEmail: '',
       recipientName: '',
       recipientEmail: '',
-      projectName: ''
+      projectName: '',
     };
 
-    this.saveProject = this.saveProject.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
     this.authUser = this.authUser.bind(this);
-    this.logOutUser = this.logOutUser.bind(this)
+    this.logOutUser = this.logOutUser.bind(this);
   }
 
   componentDidMount() {
@@ -36,18 +36,22 @@ class Navbar extends Component {
     });
   }
 
-
   logOutUser() {
-    firebase.auth().signOut().then(() => {
-      console.log('Signed Out');
-      this.setState({
-        userName: '',
-        userEmail: ''
-      })
-    }, function(error) {
-      console.error('Sign Out Error', error);
-    });
-
+    firebase
+      .auth()
+      .signOut()
+      .then(
+        () => {
+          console.log('Signed Out');
+          this.setState({
+            userName: '',
+            userEmail: '',
+          });
+        },
+        function(error) {
+          console.error('Sign Out Error', error);
+        }
+      );
   }
 
   authUser(user) {
@@ -57,10 +61,6 @@ class Navbar extends Component {
     });
   }
 
-  saveProject(event) {
-
-
-  }
 
   handleChange(event) {
     this.setState({
@@ -70,27 +70,26 @@ class Navbar extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    if (event.target.name === 'collab-btn') {
+      window.open(`mailto:${this.state.recipientEmail}?subject=Invite to collaborate on a Bloom project&body=${this.state.userName} has invited you to collaborate on a project`)
+    }
   }
 
   hideForm(action) {
     const formOne = document.getElementById('collab-form');
-    const formTwo = document.getElementById('save-form')
-      formOne.classList.remove('show');
-      formTwo.classList.remove('show');
+    const formTwo = document.getElementById('save-form');
+    formOne.classList.remove('show');
+    formTwo.classList.remove('show');
   }
 
   showForm(action) {
     if (action === 'addCollaborator') {
-    const formOne = document.getElementById('collab-form');
-    if (!formOne.classList.contains('show')) {
+      const formOne = document.getElementById('collab-form');
       formOne.classList.add('show');
-    }
     } else if (action === 'save') {
       const formTwo = document.getElementById('save-form');
-      if (!formTwo.classList.contains('show')) {
-        formTwo.classList.add('show');
-      }
-  }
+      formTwo.classList.add('show');
+    }
   }
 
   render() {
@@ -112,59 +111,10 @@ class Navbar extends Component {
           <div className="dropdown-content">
             <span>New project</span>
 
-            <div className="popup" onClick={() => this.showForm('save')}>
-            <span>Save as</span>
-            <form className="popuptext" id="save-form" autoComplete="off">
-                <label htmlFor="recipientName">Project name</label>
-                <input
-                  className="recipientName"
-                  type="text"
-                  name="recipientName"
-                  onChange={this.handleChange}
-                  value={this.state.recipientName}
-                />
-                <button
-                  type="submit"
-                  className="email-form-btn"
-                  onClick={this.handleSubmit}
-                >
-                  Save
-                </button>
-              </form>
-              </div>
+          <SaveProjectForm showForm={this.showForm} handleChange={this.handleChange} handleSubmit={this.handleSubmit} projectName={this.state.projectName}/>
 
             <span>Open...</span>
-            <div className="popup" onClick={() => this.showForm('addCollaborator')}>
-              <span>Add collaborator</span>
-
-              <form className="popuptext" id="collab-form" autoComplete="off">
-                <label htmlFor="recipientName">First and last name</label>
-                <input
-                  className="recipientName"
-                  type="text"
-                  name="recipientName"
-                  onChange={this.handleChange}
-                  value={this.state.recipientName}
-                />
-                <label htmlFor="recipientEmail">Email</label>
-                <input
-                  className="recipientEmail"
-                  type="text"
-                  name="recipientEmail"
-                  onChange={this.handleChange}
-                  value={this.state.recipientEmail}
-                />
-                <button
-                  type="submit"
-                  className="email-form-btn"
-                  onClick={this.handleSubmit}
-                >
-                  Share
-                </button>
-
-
-              </form>
-            </div>
+            <AddCollaboratorForm showForm={this.showForm} handleChange={this.handleChange} recipientName={this.state.recipientName} recipientEmail={this.state.recipientEmail} handleSubmit={this.handleSubmit} />
           </div>
         </li>
         <li className="logged-in" onClick={this.logOutUser}>
@@ -173,10 +123,10 @@ class Navbar extends Component {
       </ul>
     ) : (
       <ul className="navbar-container">
-                <li>
-        <Link to="/login">
+        <li>
+          <Link to="/login">
             <span className="logged-out">Sign-in</span>
-        </Link>
+          </Link>
         </li>
         <li>
           <span className="logged-out">New project</span>

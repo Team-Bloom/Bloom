@@ -23,3 +23,4 @@ export const addNewUser = async (userObj, uid) => {
     console.error(e);
   }
 };
+
