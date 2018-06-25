@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ui, uiConfig } from './index.js';
-const firebase = require('firebase');
 
 class Login extends Component {
   render() {
