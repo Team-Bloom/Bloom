@@ -5,6 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import firebase from 'firebase';
 import config from './firebaseConfig';
+import { BrowserRouter } from 'react-router-dom';
 require('firebase/firestore');
 const firebaseui = require('firebaseui');
 
@@ -33,7 +34,7 @@ export const uiConfig = {
   },
   // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
   signInFlow: 'popup',
-  signInSuccessUrl: '/nav',
+  signInSuccessUrl: '/home',
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -44,5 +45,10 @@ export const uiConfig = {
   tosUrl: '<your-tos-url>',
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById('root')
+);
 registerServiceWorker();

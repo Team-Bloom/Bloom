@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Routes from './routes.jsx';
+import Navbar from './Navbar';
 
 const App = () => {
   return (
     <div id="app">
-      <Routes />
+      <Navbar />
+      <div>
+        <Routes />
+      </div>
     </div>
   );
 };

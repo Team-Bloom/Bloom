@@ -4,21 +4,18 @@ import Login from './Login.jsx';
 import Dashboard from './Users/dashboard';
 import {Node} from './components'
 import Navbar from './components/navbar/Navbar.js'
-// import UserPage from './components/Users/UserPage'
+import { Node } from './components';
 
 class Routes extends Component {
   componentDidMount() {}
 
   render() {
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/map" component={Node} />
-          <Route path="/nav" component={Navbar} />
-          {/* <Route path="/user-page" component={UserPage} /> */}
-        </Switch>
-      </BrowserRouter>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/map" component={Node} />
+        <Route path="/home" component={Dashboard} />
+      </Switch>
     );
   }
 }

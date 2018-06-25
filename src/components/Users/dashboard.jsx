@@ -1,18 +1,36 @@
 import React from 'react';
 import firebase from 'firebase';
-import { addNewUser } from './function.js';
+import { addNewUser, searchForUser } from './function.js';
+import ProjectCard from './projectCard';
 
 class Dashboard extends React.Component {
-  render() {
-    firebase.auth().onAuthStateChanged(function(user) {
+  state = {
+    user: {},
+  };
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        console.log(user);
-        addNewUser({ name: user.displayName, email: user.email }, user.uid);
+        this.setState({
+          user: user,
+        });
+        const exists = await searchForUser(user.uid);
+        if (!exists) {
+          console.log('running?');
+          addNewUser({ name: user.displayName, email: user.email }, user.uid);
+        }
       } else {
         console.log('no one signed in');
       }
     });
-    return <div>Hello</div>;
+  }
+  render() {
+    if (!this.state.user.displayName) return <div>Loading...</div>;
+    return (
+      <div>
+        <ProjectCard />
+      </div>
+    );
   }
 }
 
