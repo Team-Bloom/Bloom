@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
         {this.state.user.projects.map(project => {
           return (
             <div key={project.projectId}>
-              <Link to={{pathname: '/map', state:{project}}}>
+              <Link to={`/map/${project.projectId}`}>
                 <ProjectCard project={project} />
               </Link>
             </div>

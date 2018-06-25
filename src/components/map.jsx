@@ -8,9 +8,10 @@ export default class Map extends Component {
     this.state = {};
   }
   async componentDidMount() {
+    console.log(this.props)
     const docRef = db
       .collection('Projects')
-      .doc(this.props.location.state.project.projectId);
+      .doc(this.props.match.params.projectId);
     const projectObj = await docRef.get();
     console.log('line 15', projectObj.data());
   }
