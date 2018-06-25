@@ -25,7 +25,7 @@ const ProjectCard = props => {
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography className={classes.title}>Title</Typography>
+          <Typography className={classes.title}>{props.project.title}</Typography>
           <Typography component="p" color="textSecondary">
             Authors
           </Typography>
