@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
-import AddCollaboratorForm from './AddCollaboratorForm.js';
-import SaveProjectForm from './SaveProjectForm.js';
+import AddCollaboratorForm from './AddCollaboratorForm.jsx';
+import SaveProjectForm from './SaveProjectForm.jsx';
 
 class Navbar extends Component {
   constructor() {
