@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase";
 import { addNewUser } from "./function.js";
 import Chat from '../chatRoom/ChatRoom'
+import Node from '../components/node.js'
 
 class Dashboard extends React.Component {
   constructor(props){
@@ -28,6 +29,7 @@ class Dashboard extends React.Component {
   <div>
     <h1>Hello</h1>
     <Chat path={this.state.newUser.path}/>
+    <Node />
     </div>);
   }
 }

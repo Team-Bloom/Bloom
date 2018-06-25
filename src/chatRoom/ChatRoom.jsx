@@ -16,14 +16,13 @@ export default class Form extends Component {
     // this.messageRef = db.collection("Projects").doc();
     // this.listenMessages();
   }
-
-  componentWillReceiveProps(nextProps) {
-    // console.log("Props line 21:\n", props)
-    console.log("Next Props line 22:\n", nextProps)
-    // if (nextProps.user) {
-    //   this.setState({ userName: nextProps.user.displayName });
-    // }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // `
+  //   console.log("Next Props line 22:\n", nextProps)
+  //   // if (nextProps.user) {
+  //   //   this.setState({ userName: nextProps.user.displayName });
+  //   // }
+  // }
 
   // handleChange(event) {
   //   this.setState({ message: event.target.value });
@@ -54,6 +53,7 @@ export default class Form extends Component {
   // }
 
   render() {
+    console.log('Line 57 Props:', this.props)
     return (
       <div className="form">
       <h1> Hello</h1>
