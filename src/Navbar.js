@@ -96,17 +96,17 @@ class Navbar extends Component {
           <div className="popup" onClick={this.showForm}>
           <span>Add collaborator</span>
 
-          <form className="popuptext" id="collab-form">
+          <form className="popuptext" id="collab-form" autocomplete="off">
 
      <label htmlFor="recipientName">First and last name</label>
       <input
         className="recipient-input"
         type="text"
+
         name="recipientName"
         onChange={this.state.handleChange}
         value={this.state.recipientName}
       />
-
       <label htmlFor="recipientEmail">Email</label>
       <input
         className="recipient-input"
