@@ -119,26 +119,28 @@ a {
 }
 
 
-/*
+
 .recipientEmail {
-  margin-top: 7px;
-  margin-bottom: 4px;
+    margin-top: 3px;
+
 }
 
 .recipientName {
-  margin-top: 10px;
+  margin-top: 8px;
+  margin-bottom: 4px;
 
-} */
+}
 
 .email-form-btn {
   color: #0099CC;
   border: 2px solid #0099CC;
   border-radius: 6px;
-  padding: 16px 32px;
+  padding: 8px 16px;
   text-align: center;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin-top: 10px;
+  margin-bottom: 4px;
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;

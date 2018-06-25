@@ -17,7 +17,6 @@ class Navbar extends Component {
     }
 
     this.saveProject = this.saveProject.bind(this)
-    this.addCollaborator = this.addCollaborator.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.showForm = this.showForm.bind(this)
@@ -42,11 +41,11 @@ class Navbar extends Component {
 
   }
 
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
+    console.log(this.state.recipientEmail)
 
   }
 
@@ -55,11 +54,6 @@ class Navbar extends Component {
     event.preventDefault();
   }
 
-
-  addCollaborator() {
-
-    //emailJS or nodemailer
-  }
 
   hideForm() {
     const popup = document.getElementById("collab-form");
@@ -96,11 +90,11 @@ class Navbar extends Component {
           <div className="popup" onClick={this.showForm}>
           <span>Add collaborator</span>
 
-          <form className="popuptext" id="collab-form" autocomplete="off">
+          <form className="popuptext" id="collab-form" autoComplete="off">
 
      <label htmlFor="recipientName">First and last name</label>
       <input
-        className="recipient-input"
+        className="recipientName"
         type="text"
 
         name="recipientName"
@@ -109,7 +103,7 @@ class Navbar extends Component {
       />
       <label htmlFor="recipientEmail">Email</label>
       <input
-        className="recipient-input"
+        className="recipientEmail"
         type="text"
         name="recipientEmail"
         onChange={this.handleChange}

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-const firebase = require('firebase');
+import { ui, uiConfig } from './index.js';
 
 class Login extends Component {
   render() {
+    ui.start('#firebaseui-auth-container', uiConfig);
+
     return (
       <div>
-        <h1>Welcome to My Awesome App</h1>
+        <h1>Bloom</h1>
         <div id="firebaseui-auth-container" />
         <div id="loader">Loading...</div>
       </div>
