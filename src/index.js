@@ -5,20 +5,18 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import firebase from 'firebase';
 import config from './firebaseConfig';
-import { addNewUser } from './Users/function.js';
 require('firebase/firestore');
 const firebaseui = require('firebaseui');
 
 firebase.initializeApp(config);
 export const test = firebase.auth;
-// export const test = firebase.auth;
 export const db = firebase.firestore();
 const settings = { /* your settings... */ timestampsInSnapshots: true };
 db.settings(settings);
 
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
+export const ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-const uiConfig = {
+export const uiConfig = {
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       console.log(authResult);
@@ -45,7 +43,6 @@ const uiConfig = {
   // Terms of service url.
   tosUrl: '<your-tos-url>',
 };
-ui.start('#firebaseui-auth-container', uiConfig);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
