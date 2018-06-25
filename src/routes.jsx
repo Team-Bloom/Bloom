@@ -1,9 +1,7 @@
 import { withRouter, Route, Switch, BrowserRouter } from 'react-router-dom';
 import React, { Component } from 'react';
 import Login from './Login.jsx';
-import Dashboard from './Users/dashboard';
-import {Node} from './components'
-import Navbar from './components/navbar/Navbar.js'
+import Dashboard from './components/Users/dashboard.jsx';
 import { Node } from './components';
 
 class Routes extends Component {
