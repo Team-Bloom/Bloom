@@ -1,24 +1,26 @@
-import { db } from '../index.js';
+import { db } from "../index.js";
 
 export const addNewUser = async (userObj, uid) => {
   try {
     const newUser = await db
-      .collection('Users')
+      .collection("Users")
       .doc(uid)
       .set({
-        metadata: userObj,
+        metadata: userObj
       });
-    console.log(newUser);
-    const { id } = await db
-      .collection('Users')
+
+    const { id, path } = await db
+      .collection("Users")
       .doc(uid)
-      .collection('projects')
-      .add({ name: 'test' });
+      .collection("projects")
+      .add({ name: "test" });
     console.log(id);
+    console.log(path);
     await db
-      .collection('Projects')
+      .collection("Projects")
       .doc(id)
-      .set({ name: 'test' });
+      .set({ name: "test" });
+    return { id, path };
   } catch (e) {
     console.error(e);
   }
