@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './node.css';
 import { NodeObject } from './';
 import { db } from './';
+import hashCode from '../../utilities/hash'
 
 class Node extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class Node extends Component {
       ...this.state,
       children: [
         ...this.state.children,
-        { left: '200', top: `${this.state.children.length * 100 - 100}` },
+        { left: '200', top: `${this.state.children.length * 100 - 100}`, id: hashCode(), text: 'Nodename', children: [] },
       ],
     });
     this.checkState();
@@ -124,6 +125,7 @@ class Node extends Component {
             this.state.children.map(node => {
               return (
                 <Node
+                  key={node.id}
                   left={node.left}
                   top={node.top}
                   text={node.text}

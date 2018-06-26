@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Node } from './index';
+import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
 
@@ -30,10 +31,12 @@ export default class MapView extends Component {
       <div>
         <Navbar />
         <Node checkState={this.checkState} />
+        <div className="sideBar">
+          <SideBar />
+        </div>
       </div>
     ) : (
       <div>
-        {/* <Chat />  not finished yet*/}
         <div>
           <Navbar projectId={this.props.match.params.projectId}/>
           {maps.map(map => {
@@ -47,6 +50,7 @@ export default class MapView extends Component {
               />
             );
           })}
+            <SideBar />
         </div>
       </div>
     );
