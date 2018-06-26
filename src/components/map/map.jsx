@@ -62,7 +62,7 @@ export default class MapView extends Component {
               />
             );
           })}
-            <SideBar />
+            <SideBar projectId={this.props.match.params.projectId} />
         </div>
       </div>
     );
