@@ -22,11 +22,26 @@ export default class MapView extends Component {
       });
     }
   }
-  checkState = () => {};
+  checkState = (mapState) => {
+      //DANGER ZONE, we are about to change the data to be sent
+      //this probably should only happen in a file that only does that
+      //to make it clear as possible that our database is being changed and sent
+      console.log("incomingState", mapState)
+      if(this.state.project.maps){
+          this.setState({
+              project: {
+                  maps: [mapState]
+              }
+          })
+      } else {
+          this.setState({project: {
+              maps: [mapState]
+          }})
+      }
+  };
 
   render() {
     const maps = this.state.project.maps;
-    console.log('IT HIT LOOK FOR PARAMS ALL CAPS!', this.props);
     return !maps ? (
       <div>
         <Navbar />
@@ -35,7 +50,7 @@ export default class MapView extends Component {
     ) : (
       <div>
         <div>
-          <Navbar />
+          <Navbar projectId={this.props.match.params.projectId}/>
           {maps.map(map => {
             return (
               <Node
