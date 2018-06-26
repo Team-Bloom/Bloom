@@ -22,22 +22,35 @@ export default class MapView extends Component {
       });
     }
   }
-  checkState = (mapState) => {
+  checkState = async (mapState) => {
       //DANGER ZONE, we are about to change the data to be sent
       //this probably should only happen in a file that only does that
       //to make it clear as possible that our database is being changed and sent
       console.log("incomingState", mapState)
       if(this.state.project.maps){
-          this.setState({
+          await this.setState({
               project: {
+                  ...this.state.project,
                   maps: [mapState]
               }
           })
       } else {
-          this.setState({project: {
+          await this.setState({project: {
+              ...this.state.project,
               maps: [mapState]
           }})
       }
+      console.log("STUGFGF", this.props.match.params.projectId, this.state.project)
+      try{
+      const docRef = db
+        .collection('Projects')
+        .doc(this.props.match.params.projectId)
+
+        docRef.update({maps: [mapState]})
+    } catch(error){
+        console.log(error)
+    }
+
   };
 
   render() {
