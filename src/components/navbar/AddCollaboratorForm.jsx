@@ -33,6 +33,12 @@ const AddCollaboratorForm = props => {
       >
         Share
       </button>
+      <div>
+      { props.collabName ?
+        <div>{props.collabName} is not signed up</div>
+        : <div />
+      }
+      </div>
     </form>
   </div>
 
