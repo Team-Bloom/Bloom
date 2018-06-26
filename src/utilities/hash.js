@@ -1,9 +1,9 @@
 const hashCode = () => {
-    let id = "";
-    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let id = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     for (let i = 0; i < 7; i++){
         id += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-    return id;
+    return id
 }
-export default hashCode;
+export default hashCode
