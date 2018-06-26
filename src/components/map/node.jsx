@@ -77,7 +77,7 @@ class Node extends Component {
   checkState = (childState) => {
       //this will need to recursively bubble up the state
       console.log("CHECKSTATE!", this.state, childState)
-      if(childState.children.length > 0){
+      if(childState && childState.children && childState.children.length > 0){
           for(let i = 0; i < this.state.children.length; i++){
               //compare children names or maybe react ids
               //names aren't yet on the children state
@@ -120,7 +120,7 @@ class Node extends Component {
             text={this.state.text}
             checkState={this.checkState}
           />
-          {this.state.children.map(node => {
+          {this.state && this.state.children && this.state.children.map(node => {
             return (
               <Node
                 left={node.left}
