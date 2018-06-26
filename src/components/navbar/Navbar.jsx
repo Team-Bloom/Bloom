@@ -67,21 +67,29 @@ class Navbar extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    if (event.target.name === 'collab-btn') {
-      window.open(
-        `mailto:${
-          this.state.recipientEmail
-        }?subject=Invite to collaborate on a Bloom project&body=${
-          this.state.userName
-        } has invited you to collaborate on a project`
-      );
+    // if (event.target.name === 'collab-btn') {
+    //   window.open(
+    //     `mailto:${
+    //       this.state.recipientEmail
+    //     }?subject=Invite to collaborate on a Bloom project&body=${
+    //       this.state.userName
+    //     } has invited you to collaborate on a project`
+    //   );
 
-      const docRef = db
+
+      const projectData = await db
       .collection('Projects')
-      .doc(this.props.match.params.projectId);
-     const projectObj = await docRef.get();
+      .doc(this.props.projectId).get()
 
-    }
+      const metadata = projectData.data().metadata
+
+      const docRef = await db
+      .collection('Projects')
+      .doc(this.props.projectId).update({
+       'metadata.collaborators': [...metadata, {name: this.state.recipientName, email: this.state.recipientEmail}]
+      })
+
+    // }
   }
 
   hideForm(action) {
@@ -111,6 +119,7 @@ class Navbar extends Component {
   }
 
   render() {
+
     return this.state.userName ? (
       <ul className="navbar-container">
         <li className="dropdown">
