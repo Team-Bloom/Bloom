@@ -11,7 +11,9 @@ export const addNewUser = async (userObj, email) => {
       .doc(email)
       .set({
         metadata: userObj,
-        projects: [metadata],
+        projects: {
+          [metadata.projectId]: metadata,
+        },
       });
   } catch (e) {
     console.error(e);
