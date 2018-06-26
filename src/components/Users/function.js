@@ -1,17 +1,16 @@
 import { db } from '../../index.js';
 import myFirstProject, { firstProjMetaData } from './myFirstProject';
 
-export const addNewUser = async (userObj, uid) => {
+export const addNewUser = async (userObj, email) => {
   try {
-    const newProj = myFirstProject(userObj, uid);
+    const newProj = myFirstProject(userObj, email);
     const { id } = await db.collection('Projects').add(newProj);
-    console.log(id);
-    const metadata = firstProjMetaData(uid, id);
+    const metadata = firstProjMetaData(userObj, id);
     await db
       .collection('Users')
-      .doc(uid)
+      .doc(email)
       .set({
-        metadata: {...userObj,uid},
+        metadata: userObj,
         projects: [metadata],
       });
   } catch (e) {
@@ -19,11 +18,10 @@ export const addNewUser = async (userObj, uid) => {
   }
 };
 
-export const searchForUser = async uid => {
+export const searchForUser = async email => {
   try {
-    const docRef = db.collection('Users').doc(uid);
+    const docRef = db.collection('Users').doc(email);
     const user = await docRef.get();
-    console.log("line 26 in function JS: USER", user.data())
     return user.exists;
   } catch (error) {
     console.error(error);

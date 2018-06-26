@@ -40,7 +40,6 @@ class Navbar extends Component {
     });
   }
 
-
   logOutUser() {
     firebase
       .auth()
@@ -99,7 +98,6 @@ class Navbar extends Component {
 
 
 
-
       }
     }
   } else if (event.target.name === 'save-btn') {
@@ -118,7 +116,6 @@ class Navbar extends Component {
   }
 
   render() {
-
     return this.state.userName ? (
       <UserIsLoggedIn
         showForm={this.showForm}
