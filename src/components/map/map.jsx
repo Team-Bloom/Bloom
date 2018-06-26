@@ -35,7 +35,7 @@ export default class MapView extends Component {
       <div>
         {/* <Chat />  not finished yet*/}
         <div>
-          <Navbar />
+          <Navbar projectId={this.props.match.params.projectId}/>
           {maps.map(map => {
             return (
               <Node

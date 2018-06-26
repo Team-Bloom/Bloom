@@ -35,7 +35,7 @@ const AddCollaboratorForm = props => {
       </button>
       <div>
       { props.collabName ?
-        <div>{props.collabName} is not signed up</div>
+        <div>{props.collabName} is not a user</div>
         : <div />
       }
       </div>

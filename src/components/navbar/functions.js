@@ -26,8 +26,10 @@ export const removeForm = () => {
   formTwo.classList.remove('show');
 }
 
-export const checkUnique = (collaborators, email) => {
+export const checkUnique = (collaborators, collabEmail, userEmail) => {
   return collaborators.filter(person => {
-    return person.email === email
+    if ((person.email === collabEmail) && (person.email !== userEmail)) {
+    return person
+    }
   })
 }

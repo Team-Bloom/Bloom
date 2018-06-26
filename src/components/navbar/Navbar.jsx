@@ -16,7 +16,7 @@ class Navbar extends Component {
       recipientName: '',
       recipientEmail: '',
       projectName: '',
-      nonExistentCollaboratorsName: '',
+      nonExistentCollaboratorsEmail: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -62,6 +62,7 @@ class Navbar extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+
   }
 
   async handleSubmit(event) {
@@ -70,15 +71,25 @@ class Navbar extends Component {
 
         // check to see if collaborator exists in the system
 
-        if (!this.state.nonExistentCollaboratorsName) {
+        const userData = await db
+        .collection('Users')
+        .doc(this.state.recipientEmail).get()
+        const foundUser = userData.data()
+        console.log(foundUser)
 
-      window.open(
-        `mailto:${
-          this.state.recipientEmail
-        }?subject=Invite to collaborate on a Bloom project&body=${
-          this.state.userName
-        } has invited you to collaborate on a project`
-      );
+        if (!foundUser) {
+          this.setState({
+            nonExistentCollaboratorsEmail: this.state.recipientEmail
+          })
+        }
+
+        console.log(this.state.nonExistentCollaboratorsEmail)
+
+
+      console.log(this.props)
+
+        if (!this.state.nonExistentCollaboratorsEmail) {
+
 
       const projectData = await db
       .collection('Projects')
@@ -86,8 +97,7 @@ class Navbar extends Component {
       const metadata = projectData.data().metadata
       const collaborators = metadata.collaborators
 
-      const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail).length
-      console.log(collaborators)
+      const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail, this.state.userEmail).length
 
       if (!alreadyAddedUser) {
       const docRef = await db
@@ -96,7 +106,13 @@ class Navbar extends Component {
        'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
       })
 
-
+      window.open(
+        `mailto:${
+          this.state.recipientEmail
+        }?subject=Invite to collaborate on a Bloom project&body=${
+          this.state.userName
+        } has invited you to collaborate on a project`
+      );
 
       }
     }
@@ -125,7 +141,7 @@ class Navbar extends Component {
         recipientName={this.state.recipientName}
         recipientEmail={this.state.recipientEmail}
         hideForm={this.hideForm}
-        collabName={this.state.nonExistentCollaboratorsName}
+        collabName={this.state.nonExistentCollaboratorsEmail}
         logOutUser={this.logOutUser}
       />
     ) : (
