@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Node } from './index';
+import { Node, SideBar } from './index';
 import { db } from '../index.js';
 
 export default class MapView extends Component {
@@ -31,11 +31,12 @@ export default class MapView extends Component {
     if (!maps) return <div>Loading...</div>;
     return (
       <div>
-        {/* <Chat />  not finished yet*/}
+        {}
         <div>
           {maps.map(map => {
             return (
               <div>
+              <SideBar />
                 <Node
                   left={map.left}
                   top={map.top}
