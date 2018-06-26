@@ -13,16 +13,16 @@ class Dashboard extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
-        const exists = await searchForUser(user.uid);
+        const exists = await searchForUser(user.email);
         if (!exists) {
           await addNewUser(
-            { name: user.displayName, email: user.email },
-            user.uid
+            { name: user.displayName, email: user.email, uid: user.uid },
+            user.email
           );
         }
         const userObj = await db
           .collection('Users')
-          .doc(user.uid)
+          .doc(user.email)
           .get();
         const data = userObj.data();
         this.setState({
@@ -43,11 +43,7 @@ class Dashboard extends React.Component {
               <Link to={`/map/${project.projectId}`}>
                 <ProjectCard project={project} />
               </Link>
-              <button
-        className="add-btn"
-      >
-        Add new project
-      </button>
+              <button className="add-btn">Add new project</button>
             </div>
           );
         })}

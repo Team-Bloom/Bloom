@@ -40,7 +40,6 @@ class Navbar extends Component {
     });
   }
 
-
   logOutUser() {
     firebase
       .auth()
@@ -76,18 +75,22 @@ class Navbar extends Component {
     //     } has invited you to collaborate on a project`
     //   );
 
-
-      const projectData = await db
+    const projectData = await db
       .collection('Projects')
-      .doc(this.props.projectId).get()
+      .doc(this.props.projectId)
+      .get();
 
-      const metadata = projectData.data().metadata
+    const metadata = projectData.data().metadata;
 
-      const docRef = await db
+    const docRef = await db
       .collection('Projects')
-      .doc(this.props.projectId).update({
-       'metadata.collaborators': [...metadata, {name: this.state.recipientName, email: this.state.recipientEmail}]
-      })
+      .doc(this.props.projectId)
+      .update({
+        'metadata.collaborators': [
+          ...metadata,
+          { name: this.state.recipientName, email: this.state.recipientEmail },
+        ],
+      });
 
     // }
   }
@@ -107,7 +110,6 @@ class Navbar extends Component {
       }
       const formOne = document.getElementById('collab-form');
       formOne.classList.add('show');
-
     } else if (action === 'save') {
       const formOne = document.getElementById('collab-form');
       if (formOne.classList.contains('show')) {
@@ -119,7 +121,6 @@ class Navbar extends Component {
   }
 
   render() {
-
     return this.state.userName ? (
       <ul className="navbar-container">
         <li className="dropdown">
@@ -144,8 +145,8 @@ class Navbar extends Component {
               handleSubmit={this.handleSubmit}
               projectName={this.state.projectName}
             />
-            <Link to='/home' >
-            <span>Open...</span>
+            <Link to="/home">
+              <span>Open...</span>
             </Link>
             <AddCollaboratorForm
               showForm={this.showForm}
@@ -157,7 +158,9 @@ class Navbar extends Component {
           </div>
         </li>
         <li className="logged-in" onClick={this.logOutUser}>
-          <span>Sign out</span>
+          <Link to="/login">
+            <span>Sign out</span>
+          </Link>
         </li>
       </ul>
     ) : (
