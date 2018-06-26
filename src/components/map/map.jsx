@@ -3,7 +3,6 @@ import { Node } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
-import './map.css';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -51,9 +50,7 @@ export default class MapView extends Component {
               />
             );
           })}
-          <div className="sideBar">
             <SideBar />
-          </div>
         </div>
       </div>
     );

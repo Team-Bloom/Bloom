@@ -17,6 +17,7 @@ export default class SideBar extends Component {
 
   render() {
     return (
+    <div className="sideBar">
       <OffCanvas
         width={300}
         transitionDuration={300}
@@ -44,6 +45,7 @@ export default class SideBar extends Component {
           </ul>
         </OffCanvasMenu>
       </OffCanvas>
+    </div>
     );
   }
 }
