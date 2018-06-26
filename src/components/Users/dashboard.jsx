@@ -35,13 +35,15 @@ class Dashboard extends React.Component {
   }
   render() {
     if (!this.state.user.metadata) return <div>Loading...</div>;
+    const projects = this.state.user.projects;
+    const keys = Object.keys(projects);
     return (
       <div>
-        {this.state.user.projects.map(project => {
+        {keys.map(project => {
           return (
-            <div key={project.projectId}>
-              <Link to={`/map/${project.projectId}`}>
-                <ProjectCard project={project} />
+            <div key={projects[project].projectId}>
+              <Link to={`/map/${projects[project].projectId}`}>
+                <ProjectCard project={projects[project]} />
               </Link>
               <button className="add-btn">Add new project</button>
             </div>
