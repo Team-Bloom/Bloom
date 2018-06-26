@@ -11,22 +11,27 @@ export default class MapView extends Component {
       project: {},
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
-      const projectObj = await docRef.get();
-      this.setState({
-        project: projectObj.data(),
+      docRef.onSnapshot(doc => {
+        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+        console.log(source, ' data: ', doc.data());
+        this.setState({
+          project: doc.data(),
+        });
       });
     }
   }
+
   checkState = async mapState => {
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
-    console.log('incomingState', mapState);
+
+    // console.log('incomingState', mapState);
     if (this.state.project.maps) {
       await this.setState({
         project: {
