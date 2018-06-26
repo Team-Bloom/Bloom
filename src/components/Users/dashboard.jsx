@@ -43,6 +43,11 @@ class Dashboard extends React.Component {
               <Link to={`/map/${project.projectId}`}>
                 <ProjectCard project={project} />
               </Link>
+              <button
+        className="add-btn"
+      >
+        Add new project
+      </button>
             </div>
           );
         })}

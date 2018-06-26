@@ -12,6 +12,7 @@ class Routes extends Component {
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/map/:projectId" component={MapView} />
+        <Route exact path="/" component={MapView} />
         <Route path="/home" component={Dashboard} />
       </Switch>
     );
