@@ -31,12 +31,11 @@ export default class MapView extends Component {
     if (!maps) return <div>Loading...</div>;
     return (
       <div>
-        {}
         <div>
-          {maps.map(map => {
+          <SideBar />
+          {/* {maps.map(map => {
             return (
               <div>
-              <SideBar />
                 <Node
                   left={map.left}
                   top={map.top}
@@ -46,7 +45,7 @@ export default class MapView extends Component {
                 />
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
     );
