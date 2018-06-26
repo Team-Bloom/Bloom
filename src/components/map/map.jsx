@@ -31,9 +31,6 @@ export default class MapView extends Component {
       <div>
         <Navbar />
         <Node checkState={this.checkState} />
-        <div className="sideBar">
-          <SideBar />
-        </div>
       </div>
     ) : (
       <div>
