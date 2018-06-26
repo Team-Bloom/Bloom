@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
-import AddCollaboratorForm from './AddCollaboratorForm.jsx';
-import SaveProjectForm from './SaveProjectForm.jsx';
 import { db } from '../../index.js';
+import { displayForm, removeForm, checkUnique } from './functions.js'
+import UserIsLoggedIn from './UserIsLoggedIn.jsx'
 
 class Navbar extends Component {
   constructor() {
     super();
 
     this.state = {
-      collaborator: '',
       userName: '',
       userEmail: '',
       recipientName: '',
       recipientEmail: '',
       projectName: '',
+      nonExistentCollaboratorsEmail: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,9 +27,9 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
-    console.log('navbar');
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log('found user')
         this.setState({
           userName: user.displayName,
           userEmail: user.email,
@@ -62,107 +62,88 @@ class Navbar extends Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+
   }
 
   async handleSubmit(event) {
     event.preventDefault();
-    // if (event.target.name === 'collab-btn') {
-    //   window.open(
-    //     `mailto:${
-    //       this.state.recipientEmail
-    //     }?subject=Invite to collaborate on a Bloom project&body=${
-    //       this.state.userName
-    //     } has invited you to collaborate on a project`
-    //   );
+    if (event.target.name === 'collab-btn') {
 
-    const projectData = await db
+        // check to see if collaborator exists in the system
+
+        const userData = await db
+        .collection('Users')
+        .doc(this.state.recipientEmail).get()
+        const foundUser = userData.data()
+        console.log(foundUser)
+
+        if (!foundUser) {
+          this.setState({
+            nonExistentCollaboratorsEmail: this.state.recipientEmail
+          })
+        }
+
+        console.log(this.state.nonExistentCollaboratorsEmail)
+
+
+      console.log(this.props)
+
+        if (!this.state.nonExistentCollaboratorsEmail) {
+
+
+      const projectData = await db
       .collection('Projects')
-      .doc(this.props.projectId)
-      .get();
+      .doc(this.props.projectId).get()
+      const metadata = projectData.data().metadata
+      const collaborators = metadata.collaborators
 
-    const metadata = projectData.data().metadata;
+      const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail, this.state.userEmail).length
 
-    const docRef = await db
+      if (!alreadyAddedUser) {
+      const docRef = await db
       .collection('Projects')
-      .doc(this.props.projectId)
-      .update({
-        'metadata.collaborators': [
-          ...metadata,
-          { name: this.state.recipientName, email: this.state.recipientEmail },
-        ],
-      });
+      .doc(this.props.projectId).update({
+       'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
+      })
 
-    // }
+      window.open(
+        `mailto:${
+          this.state.recipientEmail
+        }?subject=Invite to collaborate on a Bloom project&body=${
+          this.state.userName
+        } has invited you to collaborate on a project`
+      );
+
+      }
+    }
+  // } else if (event.target.name === 'save-btn') {
+
+
+    }
   }
 
-  hideForm(action) {
-    const formOne = document.getElementById('collab-form');
-    const formTwo = document.getElementById('save-form');
-    formOne.classList.remove('show');
-    formTwo.classList.remove('show');
+
+  hideForm() {
+    removeForm()
   }
 
   showForm(action) {
-    if (action === 'addCollaborator') {
-      const formTwo = document.getElementById('save-form');
-      if (formTwo.classList.contains('show')) {
-        formTwo.classList.remove('show');
-      }
-      const formOne = document.getElementById('collab-form');
-      formOne.classList.add('show');
-    } else if (action === 'save') {
-      const formOne = document.getElementById('collab-form');
-      if (formOne.classList.contains('show')) {
-        formOne.classList.remove('show');
-      }
-      const formTwo = document.getElementById('save-form');
-      formTwo.classList.add('show');
-    }
+    displayForm(action)
   }
 
   render() {
     return this.state.userName ? (
-      <ul className="navbar-container">
-        <li className="dropdown">
-          <span className="dropbtn">Bloom</span>
-          <div className="dropdown-content">
-            <Link to="/user-page">
-              <span>Profile & account</span>
-            </Link>
-            <span>Preferences</span>
-          </div>
-        </li>
-        <li className="dropdown">
-          <span className="dropbtn" onMouseOver={this.hideForm}>
-            Projects
-          </span>
-          <div className="dropdown-content">
-            <span>New project</span>
-
-            <SaveProjectForm
-              showForm={this.showForm}
-              handleChange={this.handleChange}
-              handleSubmit={this.handleSubmit}
-              projectName={this.state.projectName}
-            />
-            <Link to="/home">
-              <span>Open...</span>
-            </Link>
-            <AddCollaboratorForm
-              showForm={this.showForm}
-              handleChange={this.handleChange}
-              recipientName={this.state.recipientName}
-              recipientEmail={this.state.recipientEmail}
-              handleSubmit={this.handleSubmit}
-            />
-          </div>
-        </li>
-        <li className="logged-in" onClick={this.logOutUser}>
-          <Link to="/login">
-            <span>Sign out</span>
-          </Link>
-        </li>
-      </ul>
+      <UserIsLoggedIn
+        showForm={this.showForm}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+        projectName={this.state.projectName}
+        recipientName={this.state.recipientName}
+        recipientEmail={this.state.recipientEmail}
+        hideForm={this.hideForm}
+        collabName={this.state.nonExistentCollaboratorsEmail}
+        logOutUser={this.logOutUser}
+      />
     ) : (
       <ul className="navbar-container">
         <li>

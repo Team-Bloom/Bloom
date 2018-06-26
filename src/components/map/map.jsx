@@ -38,7 +38,7 @@ export default class MapView extends Component {
     ) : (
       <div>
         <div>
-          <Navbar />
+          <Navbar projectId={this.props.match.params.projectId}/>
           {maps.map(map => {
             return (
               <Node
