@@ -15,7 +15,6 @@ class Dashboard extends React.Component {
       if (user) {
         const exists = await searchForUser(user.uid);
         if (!exists) {
-          console.log('running?');
           await addNewUser(
             { name: user.displayName, email: user.email },
             user.uid
@@ -26,7 +25,6 @@ class Dashboard extends React.Component {
           .doc(user.uid)
           .get();
         const data = userObj.data();
-        console.log('Line 22 userObj', data);
         this.setState({
           user: data,
         });
