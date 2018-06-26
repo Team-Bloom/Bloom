@@ -26,26 +26,28 @@ export default class MapView extends Component {
   render() {
     const maps = this.state.project.maps;
     console.log('IT HIT LOOK FOR PARAMS ALL CAPS!', this.props);
-    if (!maps) return <div>Loading...</div>;
-    return (
-      <div>
+    return !maps ? (
+        <div>
         <Navbar />
+        <Node />
+        </div>
+     ) : (
+       <div>
         {/* <Chat />  not finished yet*/}
         <div>
+        <Navbar />
           {maps.map(map => {
             return (
-              <div>
                 <Node
                   left={map.left}
                   top={map.top}
                   text={map.text}
                   children={map.children}
                 />
-              </div>
             );
           })}
         </div>
-      </div>
-    );
+        </div>
+     )
   }
 }
