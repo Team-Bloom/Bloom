@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Node } from './index';
 import { db } from '../index.js';
+import Navbar from './navbar/Navbar';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -10,8 +11,7 @@ export default class MapView extends Component {
     };
   }
   async componentDidMount() {
-    //no await here
-    console.log(this.props);
+    if (this.props.match.params.projectId) {
     const docRef = db
       .collection('Projects')
       .doc(this.props.match.params.projectId);
@@ -20,6 +20,7 @@ export default class MapView extends Component {
     this.setState({
       project: projectObj.data(),
     });
+    }
   }
   checkState = () => {
      console.log("STATE", this.state)
@@ -28,14 +29,20 @@ export default class MapView extends Component {
   render() {
     const maps = this.state.project.maps;
     console.log('IT HIT LOOK FOR PARAMS ALL CAPS!', this.props);
-    if (!maps) return <div>Loading...</div>;
-    return (
-      <div>
+    return !maps ? (
+        <div>
+        <Navbar />
+        <Node
+        checkState={this.checkState}
+        />
+        </div>
+     ) : (
+       <div>
         {/* <Chat />  not finished yet*/}
         <div>
+        <Navbar />
           {maps.map(map => {
             return (
-              <div>
                 <Node
                   left={map.left}
                   top={map.top}
@@ -43,11 +50,10 @@ export default class MapView extends Component {
                   children={map.children}
                   checkState={this.checkState}
                 />
-              </div>
             );
           })}
         </div>
-      </div>
-    );
+        </div>
+     )
   }
 }
