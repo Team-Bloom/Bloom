@@ -57,8 +57,8 @@ class Node extends Component {
   stopDrag = ev => {
     ev.stopPropagation();
     document.onmousemove = null;
-    this.checkState()
-    console.log("STOP DRAG", this.state)
+    this.checkState();
+    console.log('STOP DRAG', this.state);
   };
 
   addNode = ev => {
@@ -70,27 +70,26 @@ class Node extends Component {
         { left: '200', top: `${this.state.children.length * 100 - 100}` },
       ],
     });
-    this.checkState()
-    console.log("ADD NODE", this.state)
+    this.checkState();
   };
 
-  checkState = (childState) => {
-      //this will need to recursively bubble up the state
-      console.log("CHECKSTATE!", this.state, childState)
-      if(childState.children.length > 0){
-          for(let i = 0; i < this.state.children.length; i++){
-              //compare children names or maybe react ids
-              //names aren't yet on the children state
-              //need to be added and then checked
-              //id will be fine,
-              //every add will have to instantly bubble up
-              //and then the api will respond with entire json object
-              //then maybe we compare or maybe we just refill out form
-              //probably depends on speed test
-          }
+  checkState = childState => {
+    //this will need to recursively bubble up the state
+    console.log('CHECKSTATE!', this.state, childState);
+    if (childState.children.length > 0) {
+      for (let i = 0; i < this.state.children.length; i++) {
+        //compare children names or maybe react ids
+        //names aren't yet on the children state
+        //need to be added and then checked
+        //id will be fine,
+        //every add will have to instantly bubble up
+        //and then the api will respond with entire json object
+        //then maybe we compare or maybe we just refill out form
+        //probably depends on speed test
       }
-      this.props.checkState(this.state)
-  }
+    }
+    this.props.checkState(this.state);
+  };
 
   render() {
     return (

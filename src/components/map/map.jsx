@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Node } from './index';
-import { db } from '../index.js';
+import { db } from '../../index.js';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -10,24 +10,18 @@ export default class MapView extends Component {
     };
   }
   async componentDidMount() {
-    //no await here
-    console.log(this.props);
     const docRef = db
       .collection('Projects')
       .doc(this.props.match.params.projectId);
     const projectObj = await docRef.get();
-    console.log('line 15', projectObj.data());
     this.setState({
       project: projectObj.data(),
     });
   }
-  checkState = () => {
-     console.log("STATE", this.state)
-  }
+  checkState = () => {};
 
   render() {
     const maps = this.state.project.maps;
-    console.log('IT HIT LOOK FOR PARAMS ALL CAPS!', this.props);
     if (!maps) return <div>Loading...</div>;
     return (
       <div>
