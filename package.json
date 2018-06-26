@@ -16,10 +16,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./ --ignore-path .gitignore"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",
+    "eslint": "^5.0.1",
+    "eslint-config-fullstack": "^5.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "jest-cli": "^20.0.4",
     "react-test-renderer": "^16.4.1"
   }
