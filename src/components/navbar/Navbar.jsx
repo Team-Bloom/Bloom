@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './navbar.css';
 import AddCollaboratorForm from './AddCollaboratorForm.jsx';
 import SaveProjectForm from './SaveProjectForm.jsx';
+import { db } from '../../index.js';
 
 class Navbar extends Component {
   constructor() {
@@ -63,17 +64,35 @@ class Navbar extends Component {
     });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-    if (event.target.name === 'collab-btn') {
-      window.open(
-        `mailto:${
-          this.state.recipientEmail
-        }?subject=Invite to collaborate on a Bloom project&body=${
-          this.state.userName
-        } has invited you to collaborate on a project`
-      );
-    }
+    // if (event.target.name === 'collab-btn') {
+    //   window.open(
+    //     `mailto:${
+    //       this.state.recipientEmail
+    //     }?subject=Invite to collaborate on a Bloom project&body=${
+    //       this.state.userName
+    //     } has invited you to collaborate on a project`
+    //   );
+
+    const projectData = await db
+      .collection('Projects')
+      .doc(this.props.projectId)
+      .get();
+
+    const metadata = projectData.data().metadata;
+
+    const docRef = await db
+      .collection('Projects')
+      .doc(this.props.projectId)
+      .update({
+        'metadata.collaborators': [
+          ...metadata,
+          { name: this.state.recipientName, email: this.state.recipientEmail },
+        ],
+      });
+
+    // }
   }
 
   hideForm(action) {
@@ -126,8 +145,9 @@ class Navbar extends Component {
               handleSubmit={this.handleSubmit}
               projectName={this.state.projectName}
             />
-
-            <span>Open...</span>
+            <Link to="/home">
+              <span>Open...</span>
+            </Link>
             <AddCollaboratorForm
               showForm={this.showForm}
               handleChange={this.handleChange}
@@ -138,7 +158,9 @@ class Navbar extends Component {
           </div>
         </li>
         <li className="logged-in" onClick={this.logOutUser}>
-          <span>Sign out</span>
+          <Link to="/login">
+            <span>Sign out</span>
+          </Link>
         </li>
       </ul>
     ) : (

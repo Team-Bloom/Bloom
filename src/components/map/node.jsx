@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './node.css';
 import { NodeObject } from './';
 import { db } from './';
+import hashCode from '../../utilities/hash'
 
 class Node extends Component {
   constructor(props) {
@@ -57,8 +58,8 @@ class Node extends Component {
   stopDrag = ev => {
     ev.stopPropagation();
     document.onmousemove = null;
-    this.checkState()
-    console.log("STOP DRAG", this.state)
+    this.checkState();
+    console.log('STOP DRAG', this.state);
   };
 
   addNode = ev => {
@@ -67,30 +68,29 @@ class Node extends Component {
       ...this.state,
       children: [
         ...this.state.children,
-        { left: '200', top: `${this.state.children.length * 100 - 100}` },
+        { left: '200', top: `${this.state.children.length * 100 - 100}`, id: hashCode(), text: 'Nodename', children: [] },
       ],
     });
-    this.checkState()
-    console.log("ADD NODE", this.state)
+    this.checkState();
   };
 
-  checkState = (childState) => {
-      //this will need to recursively bubble up the state
-      console.log("CHECKSTATE!", this.state, childState)
-      if(childState.children.length > 0){
-          for(let i = 0; i < this.state.children.length; i++){
-              //compare children names or maybe react ids
-              //names aren't yet on the children state
-              //need to be added and then checked
-              //id will be fine,
-              //every add will have to instantly bubble up
-              //and then the api will respond with entire json object
-              //then maybe we compare or maybe we just refill out form
-              //probably depends on speed test
-          }
+  checkState = childState => {
+    //this will need to recursively bubble up the state
+    console.log('CHECKSTATE!', this.state, childState);
+    if (childState && childState.children && childState.children.length > 0) {
+      for (let i = 0; i < this.state.children.length; i++) {
+        //compare children names or maybe react ids
+        //names aren't yet on the children state
+        //need to be added and then checked
+        //id will be fine,
+        //every add will have to instantly bubble up
+        //and then the api will respond with entire json object
+        //then maybe we compare or maybe we just refill out form
+        //probably depends on speed test
       }
-      this.props.checkState(this.state)
-  }
+    }
+    this.props.checkState(this.state);
+  };
 
   render() {
     return (
@@ -120,17 +120,20 @@ class Node extends Component {
             text={this.state.text}
             checkState={this.checkState}
           />
-          {this.state.children.map(node => {
-            return (
-              <Node
-                left={node.left}
-                top={node.top}
-                text={node.text}
-                children={node.children}
-                checkState={this.checkState}
-              />
-            );
-          })}
+          {this.state &&
+            this.state.children &&
+            this.state.children.map(node => {
+              return (
+                <Node
+                  key={node.id}
+                  left={node.left}
+                  top={node.top}
+                  text={node.text}
+                  children={node.children}
+                  checkState={this.checkState}
+                />
+              );
+            })}
         </div>
       </div>
     );
