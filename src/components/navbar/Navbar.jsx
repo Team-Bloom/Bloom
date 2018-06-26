@@ -61,6 +61,7 @@ class Navbar extends Component {
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
+      nonExistentCollaboratorsEmail: ''
     });
 
   }
@@ -70,6 +71,7 @@ class Navbar extends Component {
     if (event.target.name === 'collab-btn') {
 
         // check to see if collaborator exists in the system
+
 
         const userData = await db
         .collection('Users')
@@ -106,6 +108,13 @@ class Navbar extends Component {
        'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
       })
 
+      // const updateCollaborator = await db
+      // .collection('Users')
+      // .doc(this.state.recipientEmail).update({
+      //   'projects'
+      // })
+
+
       window.open(
         `mailto:${
           this.state.recipientEmail
@@ -113,7 +122,6 @@ class Navbar extends Component {
           this.state.userName
         } has invited you to collaborate on a project`
       );
-
       }
     }
   // } else if (event.target.name === 'save-btn') {
