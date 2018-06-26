@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Node } from './index';
 import { db } from '../index.js';
+import Navbar from './navbar/Navbar';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class MapView extends Component {
     };
   }
   async componentDidMount() {
-    console.log(this.props);
+    if (this.props.match.params.projectId) {
     const docRef = db
       .collection('Projects')
       .doc(this.props.match.params.projectId);
@@ -19,6 +20,7 @@ export default class MapView extends Component {
     this.setState({
       project: projectObj.data(),
     });
+    }
   }
 
   render() {
@@ -27,6 +29,7 @@ export default class MapView extends Component {
     if (!maps) return <div>Loading...</div>;
     return (
       <div>
+        <Navbar />
         {/* <Chat />  not finished yet*/}
         <div>
           {maps.map(map => {
