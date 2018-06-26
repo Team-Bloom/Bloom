@@ -15,6 +15,8 @@ class NodeObject extends Component {
                 ...this.state,
                 isEdit: !this.state.isEdit
             })
+            console.log('from edit')
+            this.props.checkState()
         } else {
             this.setState({shouldEdit: true})
         }

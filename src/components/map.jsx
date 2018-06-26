@@ -22,6 +22,9 @@ export default class MapView extends Component {
     });
     }
   }
+  checkState = () => {
+     console.log("STATE", this.state)
+  }
 
   render() {
     const maps = this.state.project.maps;
@@ -29,7 +32,9 @@ export default class MapView extends Component {
     return !maps ? (
         <div>
         <Navbar />
-        <Node />
+        <Node
+        checkState={this.checkState}
+        />
         </div>
      ) : (
        <div>
@@ -43,6 +48,7 @@ export default class MapView extends Component {
                   top={map.top}
                   text={map.text}
                   children={map.children}
+                  checkState={this.checkState}
                 />
             );
           })}
