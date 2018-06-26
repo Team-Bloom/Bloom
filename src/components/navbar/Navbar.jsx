@@ -116,7 +116,7 @@ class Navbar extends Component {
 
       }
     }
-  } else if (event.target.name === 'save-btn') {
+  // } else if (event.target.name === 'save-btn') {
 
 
     }
