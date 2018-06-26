@@ -8,7 +8,10 @@ const myFirstProject = (userObj, uid) => ({
   messages: [],
   maps: [
     {
-      node: 'first node',
+      text: 'first node',
+      left: 50,
+      top: 50,
+      children: [],
     },
   ],
 });
