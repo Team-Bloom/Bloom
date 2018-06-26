@@ -22,35 +22,36 @@ export default class MapView extends Component {
       });
     }
   }
-  checkState = async (mapState) => {
-      //DANGER ZONE, we are about to change the data to be sent
-      //this probably should only happen in a file that only does that
-      //to make it clear as possible that our database is being changed and sent
-      console.log("incomingState", mapState)
-      if(this.state.project.maps){
-          await this.setState({
-              project: {
-                  ...this.state.project,
-                  maps: [mapState]
-              }
-          })
-      } else {
-          await this.setState({project: {
-              ...this.state.project,
-              maps: [mapState]
-          }})
-      }
-      console.log("STUGFGF", this.props.match.params.projectId, this.state.project)
-      try{
-      const docRef = db
-        .collection('Projects')
-        .doc(this.props.match.params.projectId)
-
-        docRef.update({maps: [mapState]})
-    } catch(error){
-        console.log(error)
+  checkState = async mapState => {
+    //DANGER ZONE, we are about to change the data to be sent
+    //this probably should only happen in a file that only does that
+    //to make it clear as possible that our database is being changed and sent
+    console.log('incomingState', mapState);
+    if (this.state.project.maps) {
+      await this.setState({
+        project: {
+          ...this.state.project,
+          maps: [mapState],
+        },
+      });
+    } else {
+      await this.setState({
+        project: {
+          ...this.state.project,
+          maps: [mapState],
+        },
+      });
     }
 
+    const obj = this.state.project;
+    try {
+      const docRef = await db
+        .collection('Projects')
+        .doc(this.props.match.params.projectId)
+        .update({ maps: [mapState] });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
@@ -66,7 +67,7 @@ export default class MapView extends Component {
     ) : (
       <div>
         <div>
-          <Navbar projectId={this.props.match.params.projectId}/>
+          <Navbar projectId={this.props.match.params.projectId} />
           {maps.map(map => {
             return (
               <Node
@@ -78,7 +79,7 @@ export default class MapView extends Component {
               />
             );
           })}
-            <SideBar />
+          <SideBar />
         </div>
       </div>
     );
