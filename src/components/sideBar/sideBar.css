@@ -8,3 +8,9 @@
   background-color: #999;
   padding: 15px;
 }
+
+.sideBar{
+  position:absolute;
+  bottom: 5%;
+  left:0%;
+}
