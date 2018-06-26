@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './navbar.css';
 import AddCollaboratorForm from './AddCollaboratorForm.jsx';
 import SaveProjectForm from './SaveProjectForm.jsx';
+import { db } from '../../index.js';
 
 class Navbar extends Component {
   constructor() {
@@ -39,6 +40,7 @@ class Navbar extends Component {
     });
   }
 
+
   logOutUser() {
     firebase
       .auth()
@@ -63,7 +65,7 @@ class Navbar extends Component {
     });
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     if (event.target.name === 'collab-btn') {
       window.open(
@@ -73,6 +75,12 @@ class Navbar extends Component {
           this.state.userName
         } has invited you to collaborate on a project`
       );
+
+      const docRef = db
+      .collection('Projects')
+      .doc(this.props.match.params.projectId);
+     const projectObj = await docRef.get();
+
     }
   }
 
@@ -91,6 +99,7 @@ class Navbar extends Component {
       }
       const formOne = document.getElementById('collab-form');
       formOne.classList.add('show');
+
     } else if (action === 'save') {
       const formOne = document.getElementById('collab-form');
       if (formOne.classList.contains('show')) {
@@ -126,8 +135,9 @@ class Navbar extends Component {
               handleSubmit={this.handleSubmit}
               projectName={this.state.projectName}
             />
-
+            <Link to='/home' >
             <span>Open...</span>
+            </Link>
             <AddCollaboratorForm
               showForm={this.showForm}
               handleChange={this.handleChange}
