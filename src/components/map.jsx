@@ -10,6 +10,7 @@ export default class MapView extends Component {
     };
   }
   async componentDidMount() {
+    //no await here
     console.log(this.props);
     const docRef = db
       .collection('Projects')
@@ -19,6 +20,9 @@ export default class MapView extends Component {
     this.setState({
       project: projectObj.data(),
     });
+  }
+  checkState = () => {
+     console.log("STATE", this.state)
   }
 
   render() {
@@ -37,6 +41,7 @@ export default class MapView extends Component {
                   top={map.top}
                   text={map.text}
                   children={map.children}
+                  checkState={this.checkState}
                 />
               </div>
             );
