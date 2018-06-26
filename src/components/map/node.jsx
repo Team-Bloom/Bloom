@@ -60,7 +60,6 @@ class Node extends Component {
     ev.stopPropagation();
     document.onmousemove = null;
     this.checkState();
-    console.log('STOP DRAG', this.state);
   };
 
   addNode = async (ev) => {
