@@ -11,8 +11,7 @@ export default class MapView extends Component {
       project: {},
     };
   }
-
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
@@ -20,7 +19,9 @@ export default class MapView extends Component {
       this.unsubscribe = docRef.onSnapshot(doc => {
         const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
-        this.setState({
+        const proj = await doc.data();
+        console.log("proj data!!!!", proj)
+        return this.setState({
           project: doc.data(),
         });
       });
@@ -65,9 +66,8 @@ export default class MapView extends Component {
   };
 
   render() {
-    console.log('rerender');
-    console.log(this.state.project);
-    const maps = this.state.project.maps;
+    let maps = this.state.project.maps;
+    console.log("RERENDER", maps)
     return !maps ? (
       <div>
         <Navbar />
@@ -80,9 +80,10 @@ export default class MapView extends Component {
       <div>
         <div>
           <Navbar projectId={this.props.match.params.projectId} />
-          {maps.map(map => {
+          {maps.map((map, index) => {
+              console.log("INNER NEST", map.children.length, map.children)
             return (
-              <Node
+              <Node key={index}
                 left={map.left}
                 top={map.top}
                 text={map.text}
