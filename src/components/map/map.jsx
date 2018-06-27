@@ -29,12 +29,14 @@ export default class MapView extends Component {
   }
 
   checkState = async mapState => {
+    console.log(mapState)
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
 
     // console.log('incomingState', mapState);
     if (this.state.project.maps) {
+        console.log('existente')
       await this.setState({
         project: {
           ...this.state.project,
@@ -42,6 +44,7 @@ export default class MapView extends Component {
         },
       });
     } else {
+        console.log('nonexistent')
       await this.setState({
         project: {
           ...this.state.project,
@@ -52,18 +55,19 @@ export default class MapView extends Component {
 
     const obj = this.state.project;
     try {
+      let payload = {...this.state.project, maps: [mapState]}
+      console.log("ABOUT TO SEND", payload)
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
-        .update({ maps: [mapState] });
+        .set(payload);
     } catch (error) {
       console.error(error);
     }
   };
 
   render() {
-    let maps = this.state.project.maps;
-    console.log("RERENDER", maps)
+    let maps = this.state.project && this.state.project.maps;
     return !maps ? (
       <div>
         <Navbar />
@@ -77,7 +81,6 @@ export default class MapView extends Component {
         <div>
           <Navbar projectId={this.props.match.params.projectId} />
           {maps.map((map, index) => {
-              console.log("INNER NEST", map.children.length, map.children)
             return (
               <Node key={index}
                 left={map.left}
