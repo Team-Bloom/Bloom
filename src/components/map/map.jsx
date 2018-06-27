@@ -16,16 +16,20 @@ export default class MapView extends Component {
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
-      return docRef.onSnapshot(async doc => {
-        const source = await doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+      this.unsubscribe = docRef.onSnapshot(doc => {
+        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
-        const proj = await doc.data();
-        console.log("proj data!!!!", proj)
+        const proj = doc.data();
+        console.log('proj data!!!!', proj);
         return this.setState({
           project: doc.data(),
         });
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   checkState = async mapState => {
@@ -36,7 +40,6 @@ export default class MapView extends Component {
 
     // console.log('incomingState', mapState);
     if (this.state.project.maps) {
-        console.log('existente')
       await this.setState({
         project: {
           ...this.state.project,
@@ -44,7 +47,6 @@ export default class MapView extends Component {
         },
       });
     } else {
-        console.log('nonexistent')
       await this.setState({
         project: {
           ...this.state.project,
@@ -56,7 +58,6 @@ export default class MapView extends Component {
     const obj = this.state.project;
     try {
       let payload = {...this.state.project, maps: [mapState]}
-      console.log("ABOUT TO SEND", payload)
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
@@ -82,7 +83,8 @@ export default class MapView extends Component {
           <Navbar projectId={this.props.match.params.projectId} />
           {maps.map((map, index) => {
             return (
-              <Node key={index}
+              <Node
+                key={index}
                 left={map.left}
                 top={map.top}
                 text={map.text}
