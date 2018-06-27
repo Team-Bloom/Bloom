@@ -19,20 +19,35 @@ class Node extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { left, top, text, children } = nextProps;
-    this.setState({
-      left,
-      top,
-      text,
-      children,
-    });
+  // static getDerivedStateFromProps = (props, state) => {
+  //     console.log('checking')
+  //     if(props.node && props.node.text !== state.node.text){
+  //         console.log('gotime', props.node, state.node)
+  //         return {
+  //             node: {
+  //                 ...state.node
+  //             }
+  //         }
+  //     }
+  //     console.log("RUNNING NEW", props, state)
+  //     //this.setState({node: props.node})
+  //     return {
+  //         //...props
+  //     }
+  //}
+
+  componentWillReceiveProps = (nextProps, prevProps) => {
+      if(!prevProps || !prevProps.node || nextProps.node.text !== prevProps.node.text || nextProps.node.left === prevProps.node.left || nextProps.node.top === prevProps.node.top ){
+          this.setState({node: nextProps.node})
+      }
+
   }
 
   handleChange = ev => {
+      console.log('running')
     this.setState({node: {
         ...this.state.node,
-        [ev.target.name]: ev.target.value
+        text: ev.target.value
     }})
   };
 
@@ -68,7 +83,9 @@ class Node extends Component {
   stopDrag = ev => {
     ev.stopPropagation();
     document.onmousemove = null;
-    this.checkState();
+    if(!this.state.shouldEdit){
+        this.checkState();
+    }
   };
 
   addNode = async ev => {
@@ -151,10 +168,10 @@ class Node extends Component {
           <NodeObject
             addNode={this.addNode}
             handleChange={this.handleChange}
-            text={this.props.node && this.props.node.text}
+            text={this.state.node && this.state.node.text}
             checkState={this.checkState}
             deleteNode={this.deleteNode}
-            id={this.props.node && this.props.node.id}
+            id={this.state.node && this.state.node.id}
           />
           {this.props &&
             this.props.node &&
