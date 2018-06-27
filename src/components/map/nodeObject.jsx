@@ -12,7 +12,6 @@ class NodeObject extends Component {
   toggleEdit = () => {
     if (this.state.shouldEdit) {
       this.setState({
-        ...this.state,
         isEdit: !this.state.isEdit,
       });
       this.props.checkState();
@@ -23,7 +22,6 @@ class NodeObject extends Component {
 
   deleteNode = (ev) => {
       ev.stopPropagation()
-      console.log("running delete from nodeObject")
       this.props.deleteNode(this.props.id)
   }
 
