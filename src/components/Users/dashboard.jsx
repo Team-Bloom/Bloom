@@ -29,6 +29,8 @@ class Dashboard extends React.Component {
         this.setState({
           user: data,
         });
+        console.log(this.props.user)
+        this.props.getuser(data)
       } else {
         console.log('no one signed in');
       }

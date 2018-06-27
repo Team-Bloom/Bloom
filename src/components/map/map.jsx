@@ -3,6 +3,7 @@ import { Node } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
+import firebase from 'firebase'
 
 export default class MapView extends Component {
   constructor(props) {
@@ -12,10 +13,14 @@ export default class MapView extends Component {
     };
   }
   async componentDidMount() {
+    // const test = await firebase.auth().currentUser;
+    // console.log(test)
     if (this.props.match.params.projectId) {
+
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
+
       this.unsubscribe = docRef.onSnapshot(doc => {
         const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
@@ -67,14 +72,12 @@ export default class MapView extends Component {
   };
 
   render() {
+
     let maps = this.state.project && this.state.project.maps;
     return !maps ? (
       <div>
         <Navbar />
         <Node checkState={this.checkState} />
-        <div className="sideBar">
-          <SideBar />
-        </div>
       </div>
     ) : (
       <div>
@@ -92,7 +95,7 @@ export default class MapView extends Component {
               />
             );
           })}
-          <SideBar />
+          <SideBar projectId={this.props.match.params.projectId} messages={this.state.project.messages} user={this.props.user}/>
         </div>
       </div>
     );
