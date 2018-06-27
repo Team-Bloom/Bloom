@@ -21,6 +21,12 @@ class NodeObject extends Component {
     }
   };
 
+  deleteNode = (ev) => {
+      ev.stopPropagation()
+      console.log("running delete from nodeObject")
+      this.props.deleteNode(this.props.id)
+  }
+
   render() {
     return (
       <div className="node" onClick={this.toggleEdit}>
@@ -55,6 +61,7 @@ class NodeObject extends Component {
           />
         </svg>
         <button onClick={this.props.addNode}>Add </button>
+        <button onClick={this.deleteNode}>Delete </button>
       </div>
     );
   }

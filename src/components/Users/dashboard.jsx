@@ -1,9 +1,10 @@
 import React from 'react';
 import firebase from 'firebase';
-import { addNewUser, searchForUser } from './function.js';
+import { addNewUser, searchForUser, addNewProject } from './function.js';
 import ProjectCard from './projectCard';
 import { Link } from 'react-router-dom';
 import { db } from '../../index.js';
+import history from '../../history';
 
 class Dashboard extends React.Component {
   state = {
@@ -28,27 +29,44 @@ class Dashboard extends React.Component {
         this.setState({
           user: data,
         });
+        console.log(this.props.user)
+        this.props.getuser(data)
       } else {
         console.log('no one signed in');
       }
     });
   }
+
+  async addProject(user) {
+    const id = await addNewProject(user);
+    history.push(`/map/${id}`);
+  }
+
   render() {
     if (!this.state.user.metadata) return <div>Loading...</div>;
     const projects = this.state.user.projects;
     const keys = Object.keys(projects);
     return (
-      <div>
-        {keys.map(project => {
-          return (
-            <div key={projects[project].projectId}>
-              <Link to={`/map/${projects[project].projectId}`}>
-                <ProjectCard project={projects[project]} />
-              </Link>
-              <button className="add-btn">Add new project</button>
-            </div>
-          );
-        })}
+      <div id="flexCol">
+        <div className="projSet">
+          {keys.map(project => {
+            return (
+              <div key={projects[project].projectId}>
+                <Link to={`/map/${projects[project].projectId}`}>
+                  <ProjectCard project={projects[project]} />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+        <div>
+          <button
+            onClick={() => this.addProject(this.state.user)}
+            className="add-btn"
+          >
+            Add new project
+          </button>
+        </div>
       </div>
     );
   }

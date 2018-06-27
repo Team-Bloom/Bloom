@@ -90,31 +90,32 @@ class ChatRoom extends React.Component {
     super(props);
 
     this.state = {
-      chats: [],
+      messages: [],
       user: '',
-      photoURL: '',
+      newMsg: '',
     };
-
-    this.submitMessage = this.submitMessage.bind(this);
   }
 
-  async componentDidMount() {
-    console.log(typeof this.props.projectId);
+  async componentWillReceiveProps(nextProps) {
     this.scrollToBot();
-    const { displayName, photoURL } = await firebase.auth().currentUser;
-
-    const projectData = await db
-      .collection('Projects')
-      .doc(this.props.projectId)
-      .get();
-    //get the messages from the specific Project
-    const { messages } = projectData.data();
-    //load them into state to populate the chatbox YEAAHHH!!
     this.setState({
-      user: displayName,
-      chats: messages,
-      photoURL: photoURL,
+      messages: nextProps.messages,
+      user: nextProps.user,
     });
+    // const { displayName, photoURL } = await firebase.auth().currentUser;
+
+    // // const projectData = await db
+    // //   .collection('Projects')
+    // //   .doc(this.props.projectId)
+    // //   .get();
+    // //get the messages from the specific Project
+    // const { messages } = projectData.data();
+    // //load them into state to populate the chatbox YEAAHHH!!
+    // this.setState({
+    //   user: displayName,
+    //   chats: messages,
+    //   photoURL: photoURL,
+    // });
   }
 
   componentDidUpdate() {
@@ -127,38 +128,62 @@ class ChatRoom extends React.Component {
     ).scrollHeight;
   }
 
-  submitMessage(e) {
+  handleChange = evt => {
+    this.setState({
+      [evt.target.name]: evt.target.value,
+    });
+  };
+
+  submitMessage = e => {
     e.preventDefault();
 
-    this.setState(
-      {
-        chats: this.state.chats.concat([
-          {
-            username: this.state.user,
-            content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
-            img: this.state.photoURL || 'http://i.imgur.com/Tj5DGiO.jpg',
-          },
-        ]),
-      },
-      () => {
-        ReactDOM.findDOMNode(this.refs.msg).value = '';
-      }
-    );
-  }
+    const newMsg = {
+      username: this.state.user.metadata.name,
+      content: this.state.newMsg,
+    };
+    console.log("Line 144", this.state.messages, newMsg)
+    db.collection('Projects')
+      .doc(this.props.projectId)
+      .update({
+        messages: [...this.state.messages, newMsg],
+      });
+    this.setState({
+      newMsg: '',
+    });
+    // this.setState(
+    //   {
+    //     chats: this.state.chats.concat([
+    //       {
+    //         username: this.state.user,
+    //         content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+    //         img: this.state.photoURL || 'http://i.imgur.com/Tj5DGiO.jpg',
+    //       },
+    //     ]),
+    //   },
+    //   () => {
+    //     ReactDOM.findDOMNode(this.refs.msg).value = '';
+    //   }
+    // );
+  };
 
   render() {
-    const { chats, user, photoURL } = this.state;
+    const { messages, user } = this.state;
+    console.log('chatroom', messages)
 
     return (
       <div className="chatroom">
         <h3>BloomTime</h3>
         <ul className="chats" ref="chats">
-          {chats.map(chat => (
-            <Message chat={chat} user={user}/>
-          ))}
+          {messages.map(message => <Message message={message} user={user} />)}
         </ul>
         <form className="input" onSubmit={e => this.submitMessage(e)}>
-          <input type="text" ref="msg" />
+          <input
+            onChange={this.handleChange}
+            name="newMsg"
+            type="text"
+            ref="msg"
+            value={this.state.newMsg}
+          />
           <input type="submit" value="Submit" />
         </form>
       </div>

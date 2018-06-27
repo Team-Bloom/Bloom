@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import './node.css';
 import { NodeObject } from './';
 import { db } from './';
-import hashCode from '../../utilities/hash'
+import hashCode from '../../utilities/hash';
 
 class Node extends Component {
   constructor(props) {
+      console.log('IM CONSTRUCTING')
     super(props);
     this.dragger = React.createRef();
     this.state = {
       text: this.props.text || 'Node Name',
-      id: this.props.id,
+      id: this.props.id || 'root',
       isEdit: false,
       pos1: 0,
       pos2: 0,
@@ -21,6 +22,16 @@ class Node extends Component {
       children: this.props.children || [],
       shouldEdit: true,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { left, top, text, children } = nextProps;
+    this.setState({
+      left,
+      top,
+      text,
+      children,
+    });
   }
 
   handleChange = ev => {
@@ -62,40 +73,56 @@ class Node extends Component {
     this.checkState();
   };
 
-  addNode = async (ev) => {
+  addNode = async ev => {
     ev.stopPropagation();
-    const newNode = { left: '200', top: `${this.state.children.length * 100 - 100}`, id: hashCode(), text: 'Nodename', children: [] }
+    const newNode = {
+      left: '200',
+      top: `${this.state.children.length * 100 - 100}`,
+      id: hashCode(),
+      text: 'Nodename',
+      children: [],
+    };
     await this.setState({
       ...this.state,
-      children: [
-        ...this.state.children,
-        newNode,
-      ],
+      children: [...this.state.children, newNode],
     });
     this.checkState();
   };
 
+  deleteNode = id => {
+    console.log("running delete from node")
+    this.props.checkState({delete: true, id: id});
+  };
+
   checkState = childState => {
     //this will need to recursively bubble up the state
-    if(childState){
-        for(let i = 0; i < this.state.children.length; i++){
-            if(this.state.children[i].id === childState.id){
-                //TODO: change this to not mutate data and use the setState method
-                this.state.children[i] = childState;
-            }
+    console.log("childstated", childState)
+    if (childState) {
+      for (let i = 0; i < this.state.children.length; i++) {
+        if (this.state.children[i].id === childState.id) {
+          if(childState.delete){
+              // console.log('in here')
+              const childrenBefore = this.state.children.slice(0, i)
+              const childrenAfter = this.state.children[i + 1] ? this.state.children.slice(i + 1) : []
+              this.state.children = [...childrenBefore, ...childrenAfter]
+          } else {
+              //TODO: change this to not mutate data and use the setState method
+              this.state.children[i] = childState
+          }
         }
-        // if (childState && childState.children && childState.children.length > 0) {
-        //   for (let i = 0; i < this.state.children.length; i++) {
-        //     //compare children names or maybe react ids
-        //     //names aren't yet on the children state
-        //     //need to be added and then checked
-        //     //id will be fine,
-        //     //every add will have to instantly bubble up
-        //     //and then the api will respond with entire json object
-        //     //then maybe we compare or maybe we just refill out form
-        //     //probably depends on speed test
-        //   }
-        // }
+      }
+      // if (childState && childState.children && childState.children.length > 0) {
+      //   for (let i = 0; i < this.state.children.length; i++) {
+      //     //compare children names or maybe react ids
+      //     //names aren't yet on the children state
+      //     //need to be added and then checked
+      //     //id will be fine,
+      //     //every add will have to instantly bubble up
+      //     //and then the api will respond with entire json object
+      //     //then maybe we compare or maybe we just refill out form
+      //     //probably depends on speed test
+      //   }
+      // }
     }
     this.props.checkState(this.state);
   };
@@ -127,10 +154,12 @@ class Node extends Component {
             handleChange={this.handleChange}
             text={this.state.text}
             checkState={this.checkState}
+            deleteNode={this.deleteNode}
+            id={this.props.id}
           />
-          {this.state &&
-            this.state.children &&
-            this.state.children.map(node => {
+          {this.props &&
+            this.props.children &&
+            this.props.children.map(node => {
               return (
                 <Node
                   key={node.id}
@@ -140,6 +169,7 @@ class Node extends Component {
                   children={node.children}
                   id={node.id}
                   checkState={this.checkState}
+                  deleteNode={this.deleteNode}
                 />
               );
             })}

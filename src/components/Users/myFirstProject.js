@@ -1,6 +1,6 @@
-const myFirstProject = (userObj, email) => ({
+const myFirstProject = (userObj, email, title) => ({
   metadata: {
-    title: 'My First Project',
+    title: title,
     owner: email,
     collaborators: [{ name: userObj.name, email: email }],
     lastUpdated: '',
@@ -16,8 +16,8 @@ const myFirstProject = (userObj, email) => ({
   ],
 });
 
-export const firstProjMetaData = (userObj, id) => ({
-  title: 'My First Project',
+export const firstProjMetaData = (userObj, id, title) => ({
+  title: title,
   owner: userObj.email,
   collaborators: [{ name: userObj.name, email: userObj.email }],
   lastUpdated: '',

@@ -17,7 +17,8 @@ export default class SideBar extends Component {
   }
 
   render() {
-    const { projectId } = this.props;
+    console.log("this.props.user at line 20", this.props)
+    const { projectId, messages } = this.props;
     return (
       <div className="sideBar">
         <OffCanvas
@@ -33,7 +34,7 @@ export default class SideBar extends Component {
           </OffCanvasBody>
           <OffCanvasMenu className="menuClass">
             <div>
-              <ChatRoom projectId={projectId} />
+              <ChatRoom user={this.props.user} projectId={projectId} messages={messages} />
             </div>
           </OffCanvasMenu>
         </OffCanvas>

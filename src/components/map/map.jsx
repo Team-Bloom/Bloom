@@ -3,6 +3,7 @@ import { Node } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
+import firebase from 'firebase'
 
 export default class MapView extends Component {
   constructor(props) {
@@ -12,39 +13,67 @@ export default class MapView extends Component {
     };
   }
   async componentDidMount() {
+    // const test = await firebase.auth().currentUser;
+    // console.log(test)
     if (this.props.match.params.projectId) {
+
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
-      const projectObj = await docRef.get();
-      this.setState({
-        project: projectObj.data(),
+
+      this.unsubscribe = docRef.onSnapshot(doc => {
+        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+        console.log(source, ' data: ', doc.data());
+        const proj = doc.data();
+        console.log('proj data!!!!', proj);
+        return this.setState({
+          project: doc.data(),
+        });
       });
     }
   }
-  checkState = mapState => {
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  checkState = async mapState => {
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
-    console.log('incomingState', mapState);
+
+    // console.log('incomingState', mapState);
     if (this.state.project.maps) {
-      this.setState({
+      await this.setState({
         project: {
+          ...this.state.project,
           maps: [mapState],
         },
       });
     } else {
-      this.setState({
+      await this.setState({
         project: {
+          ...this.state.project,
           maps: [mapState],
         },
       });
     }
+
+    const obj = this.state.project;
+    try {
+      let payload = {...this.state.project, maps: [mapState]}
+      const docRef = await db
+        .collection('Projects')
+        .doc(this.props.match.params.projectId)
+        .set(payload);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
-    const { projectId } = this.props.match.params;
-    const maps = this.state.project.maps;
+
+    let maps = this.state.project && this.state.project.maps;
     return !maps ? (
       <div>
         <Navbar />
@@ -54,9 +83,10 @@ export default class MapView extends Component {
       <div>
         <div>
           <Navbar projectId={this.props.match.params.projectId} />
-          {maps.map(map => {
+          {maps.map((map, index) => {
             return (
               <Node
+                key={index}
                 left={map.left}
                 top={map.top}
                 text={map.text}
@@ -65,7 +95,7 @@ export default class MapView extends Component {
               />
             );
           })}
-          <SideBar projectId={projectId}/>
+          <SideBar projectId={this.props.match.params.projectId} messages={this.state.project.messages} user={this.props.user}/>
         </div>
       </div>
     );
