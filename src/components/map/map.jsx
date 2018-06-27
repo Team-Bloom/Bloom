@@ -33,7 +33,6 @@ export default class MapView extends Component {
   }
 
   checkState = async mapState => {
-    console.log(mapState)
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
