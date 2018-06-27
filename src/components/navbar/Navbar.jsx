@@ -3,8 +3,13 @@ import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 import { db } from '../../index.js';
-import { displayForm, removeForm, checkUnique } from './functions.js'
-import UserIsLoggedIn from './UserIsLoggedIn.jsx'
+import {
+  displayForm,
+  removeForm,
+  checkUnique,
+  updateUserProjects,
+} from './functions.js';
+import UserIsLoggedIn from './UserIsLoggedIn.jsx';
 
 class Navbar extends Component {
   constructor() {
@@ -29,7 +34,7 @@ class Navbar extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('found user')
+        console.log('found user');
         this.setState({
           userName: user.displayName,
           userEmail: user.email,
@@ -61,124 +66,114 @@ class Navbar extends Component {
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
-      nonExistentCollaboratorsEmail: ''
+      nonExistentCollaboratorsEmail: '',
     });
   }
 
 
   async handleSubmit(event) {
     event.preventDefault();
-    event.persist()
+    event.persist();
 
-    const projectId = this.props.projectId
+    const projectId = this.props.projectId;
     const projectData = await db
-    .collection('Projects')
-    .doc(this.props.projectId).get()
-    const metadata = projectData.data().metadata
-    const collaborators = metadata.collaborators
-
+      .collection('Projects')
+      .doc(this.props.projectId)
+      .get();
+    const metadata = projectData.data().metadata;
+    const collaborators = metadata.collaborators;
 
     if (event.target.name === 'collab-btn') {
-
-        const userData = await db
+      const userData = await db
         .collection('Users')
-        .doc(this.state.recipientEmail).get()
-        const foundUser = userData.data()
+        .doc(this.state.recipientEmail)
+        .get();
+      const foundUser = userData.data();
 
-
-        if (!foundUser) {
-          this.setState({
-            nonExistentCollaboratorsEmail: this.state.recipientEmail
-          })
-        }
-
-        if (!this.state.nonExistentCollaboratorsEmail) {
-
-
-      const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail, this.state.userEmail).length
-
-      if (!alreadyAddedUser) {
-      const docRef = await db
-      .collection('Projects')
-      .doc(this.props.projectId).update({
-       'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
-      })
-
-
-
-      const allCollaborators = [...collaborators, {email: this.state.recipientEmail}]
-
-      allCollaborators.forEach(async collaborator => {
-
-        const indiUser = await db
-        .collection('Users')
-        .doc(collaborator.email).get()
-        const gotUser = indiUser.data()
-
-         await db
-        .collection('Users')
-        .doc(collaborator.email).update({
-          'projects': {...gotUser.projects, [projectId]: {
-            'collaborators': [{name: this.state.recipientName, email: this.state.recipientEmail}, ...collaborators],
-            'owner': this.state.userEmail,
-            'projectId': this.props.projectId,
-            'title': projectData.data().metadata.title
-          }
-          }
-        })
-      })
-
-      // window.open(
-      //   `mailto:${
-      //     this.state.recipientEmail
-      //   }?subject=Invite to collaborate on a Bloom project&body=${
-      //     this.state.userName
-      //   } has invited you to collaborate on a project`
-      // );
+      if (!foundUser) {
+        this.setState({
+          nonExistentCollaboratorsEmail: this.state.recipientEmail,
+        });
       }
-      this.setState({
-        [event.target.value]: ''
-      })
-    }
-  }  else if (event.target.name === 'save-btn') {
+
+      if (!this.state.nonExistentCollaboratorsEmail) {
+        const alreadyAddedUser = checkUnique(
+          collaborators,
+          this.state.recipientEmail,
+          this.state.userEmail
+        ).length;
+
+        if (!alreadyAddedUser) {
+          const docRef = await db
+            .collection('Projects')
+            .doc(this.props.projectId)
+            .update({
+              'metadata.collaborators': [
+                ...collaborators,
+                {
+                  name: this.state.recipientName,
+                  email: this.state.recipientEmail,
+                },
+              ],
+            });
+
+          const allCollaborators = [
+            ...collaborators,
+            {
+              name: this.state.recipientName,
+              email: this.state.recipientEmail,
+            },
+          ];
+          const projectTitle = metadata.title;
+
+          updateUserProjects(
+            allCollaborators,
+            db,
+            projectId,
+            this.state.userEmail,
+            projectTitle
+          );
+
+          // window.open(
+          //   `mailto:${
+          //     this.state.recipientEmail
+          //   }?subject=Invite to collaborate on a Bloom project&body=${
+          //     this.state.userName
+          //   } has invited you to collaborate on a project`
+          // );
+        }
+        this.setState({
+          [event.target.value]: '',
+        });
+      }
+    } else if (event.target.name === 'save-btn') {
       await db
-      .collection('Projects')
-      .doc(this.props.projectId).update({
-        title: this.state.projectName
-      })
+        .collection('Projects')
+        .doc(this.props.projectId)
+        .update({
+          ['metadata.title']: this.state.projectName,
+        });
 
-      collaborators.forEach(async collaborator => {
-        const changeTitleForUser = await db
-        .collection('Users')
-        .doc(collaborator.email).get()
-        const projectCollaborator = changeTitleForUser.data()
+      updateUserProjects(
+        collaborators,
+        db,
+        projectId,
+        this.state.userEmail,
+        this.state.projectName
+      );
 
-        await db
-        .collection('Users')
-        .doc(collaborator.email).update({
-          'projects': {...projectCollaborator.projects, [projectId]: {
-            'collaborators': collaborators,
-            'owner': this.state.userEmail,
-            'projectId': this.props.projectId,
-            'title': this.state.projectName
-          }
-          }
-        })
-      })
-      // this.setState({
-      //   [event.target.value]: ''
-      // })
-  }
+      this.setState({
+        [event.target.value]: '',
+      });
     }
-
-
+  }
 
   hideForm() {
-    removeForm()
+    removeForm();
   }
 
   showForm(action) {
-    displayForm(action)
+    displayForm(action);
   }
 
   render() {
