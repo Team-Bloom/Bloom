@@ -110,10 +110,19 @@ class Navbar extends Component {
       const allCollaborators = [...collaborators, {email: this.state.recipientEmail}]
 
       allCollaborators.forEach(async collaborator => {
+
+        const indiUser = await db
+        .collection('Users')
+        .doc(collaborator.email).get()
+        const gotUser = indiUser.data()
+
+
+          console.log(gotUser.projects)
+
          await db
         .collection('Users')
         .doc(collaborator.email).update({
-          'projects': {...foundUser.projects, [projectId]: {
+          'projects': {...gotUser.projects, [projectId]: {
             'collaborators': [{name: this.state.recipientName, email: this.state.recipientEmail}, ...collaborators],
             'owner': this.state.userEmail,
             'projectId': this.props.projectId,
