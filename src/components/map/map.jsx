@@ -56,18 +56,18 @@ export default class MapView extends Component {
 
     const obj = this.state.project;
     try {
+      let payload = {...this.state.project, maps: [mapState]}
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
-        .update({ maps: [mapState] });
+        .set(payload);
     } catch (error) {
       console.error(error);
     }
   };
 
   render() {
-    let maps = this.state.project.maps;
-    console.log('RERENDER', maps);
+    let maps = this.state.project && this.state.project.maps;
     return !maps ? (
       <div>
         <Navbar />
@@ -81,7 +81,6 @@ export default class MapView extends Component {
         <div>
           <Navbar projectId={this.props.match.params.projectId} />
           {maps.map((map, index) => {
-            console.log('INNER NEST', map.children.length, map.children);
             return (
               <Node
                 key={index}

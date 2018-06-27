@@ -89,13 +89,26 @@ class Node extends Component {
     this.checkState();
   };
 
+  deleteNode = id => {
+    console.log("running delete from node")
+    this.props.checkState({delete: true, id: id});
+  };
+
   checkState = childState => {
     //this will need to recursively bubble up the state
+    console.log("childstated", childState)
     if (childState) {
       for (let i = 0; i < this.state.children.length; i++) {
         if (this.state.children[i].id === childState.id) {
-          //TODO: change this to not mutate data and use the setState method
-          this.state.children[i] = childState;
+          if(childState.delete){
+              // console.log('in here')
+              const childrenBefore = this.state.children.slice(0, i)
+              const childrenAfter = this.state.children[i + 1] ? this.state.children.slice(i + 1) : []
+              this.state.children = [...childrenBefore, ...childrenAfter]
+          } else {
+              //TODO: change this to not mutate data and use the setState method
+              this.state.children[i] = childState
+          }
         }
       }
       // if (childState && childState.children && childState.children.length > 0) {
@@ -141,6 +154,8 @@ class Node extends Component {
             handleChange={this.handleChange}
             text={this.state.text}
             checkState={this.checkState}
+            deleteNode={this.deleteNode}
+            id={this.props.id}
           />
           {this.props &&
             this.props.children &&
@@ -154,6 +169,7 @@ class Node extends Component {
                   children={node.children}
                   id={node.id}
                   checkState={this.checkState}
+                  deleteNode={this.deleteNode}
                 />
               );
             })}
