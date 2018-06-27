@@ -5,7 +5,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import firebase from 'firebase';
 import config from './firebaseConfig';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from './history.js';
 require('firebase/firestore');
 const firebaseui = require('firebaseui');
 
@@ -46,9 +47,9 @@ export const uiConfig = {
 };
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Router history={history}>
     <App />
-  </BrowserRouter>,
+  </Router>,
   document.getElementById('root')
 );
 registerServiceWorker();

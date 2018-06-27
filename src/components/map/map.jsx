@@ -11,12 +11,13 @@ export default class MapView extends Component {
       project: {},
     };
   }
+
   componentDidMount() {
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
-      docRef.onSnapshot(doc => {
+      this.unsubscribe = docRef.onSnapshot(doc => {
         const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
         this.setState({
@@ -24,6 +25,10 @@ export default class MapView extends Component {
         });
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   checkState = async mapState => {
@@ -60,6 +65,8 @@ export default class MapView extends Component {
   };
 
   render() {
+    console.log('rerender');
+    console.log(this.state.project);
     const maps = this.state.project.maps;
     return !maps ? (
       <div>

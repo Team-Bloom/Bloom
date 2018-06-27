@@ -3,8 +3,9 @@ import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 import { db } from '../../index.js';
-import { displayForm, removeForm, checkUnique } from './functions.js'
-import UserIsLoggedIn from './UserIsLoggedIn.jsx'
+import { displayForm, removeForm, checkUnique } from './functions.js';
+import UserIsLoggedIn from './UserIsLoggedIn.jsx';
+import history from '../../history.js';
 
 class Navbar extends Component {
   constructor() {
@@ -29,7 +30,7 @@ class Navbar extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('found user')
+        console.log('found user');
         this.setState({
           userName: user.displayName,
           userEmail: user.email,
@@ -56,79 +57,84 @@ class Navbar extends Component {
           console.error('Sign Out Error', error);
         }
       );
+    history.push('/login');
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
-
   }
 
   async handleSubmit(event) {
     event.preventDefault();
     if (event.target.name === 'collab-btn') {
+      // check to see if collaborator exists in the system
 
-        // check to see if collaborator exists in the system
-
-        const userData = await db
+      const userData = await db
         .collection('Users')
-        .doc(this.state.recipientEmail).get()
-        const foundUser = userData.data()
-        console.log(foundUser)
+        .doc(this.state.recipientEmail)
+        .get();
+      const foundUser = userData.data();
+      console.log(foundUser);
 
-        if (!foundUser) {
-          this.setState({
-            nonExistentCollaboratorsEmail: this.state.recipientEmail
-          })
-        }
-
-        console.log(this.state.nonExistentCollaboratorsEmail)
-
-
-      console.log(this.props)
-
-        if (!this.state.nonExistentCollaboratorsEmail) {
-
-
-      const projectData = await db
-      .collection('Projects')
-      .doc(this.props.projectId).get()
-      const metadata = projectData.data().metadata
-      const collaborators = metadata.collaborators
-
-      const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail, this.state.userEmail).length
-
-      if (!alreadyAddedUser) {
-      const docRef = await db
-      .collection('Projects')
-      .doc(this.props.projectId).update({
-       'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
-      })
-
-      window.open(
-        `mailto:${
-          this.state.recipientEmail
-        }?subject=Invite to collaborate on a Bloom project&body=${
-          this.state.userName
-        } has invited you to collaborate on a project`
-      );
-
+      if (!foundUser) {
+        this.setState({
+          nonExistentCollaboratorsEmail: this.state.recipientEmail,
+        });
       }
-    }
-  // } else if (event.target.name === 'save-btn') {
 
+      console.log(this.state.nonExistentCollaboratorsEmail);
 
+      console.log(this.props);
+
+      if (!this.state.nonExistentCollaboratorsEmail) {
+        const projectData = await db
+          .collection('Projects')
+          .doc(this.props.projectId)
+          .get();
+        const metadata = projectData.data().metadata;
+        const collaborators = metadata.collaborators;
+
+        const alreadyAddedUser = checkUnique(
+          collaborators,
+          this.state.recipientEmail,
+          this.state.userEmail
+        ).length;
+
+        if (!alreadyAddedUser) {
+          const docRef = await db
+            .collection('Projects')
+            .doc(this.props.projectId)
+            .update({
+              'metadata.collaborators': [
+                ...collaborators,
+                {
+                  name: this.state.recipientName,
+                  email: this.state.recipientEmail,
+                },
+              ],
+            });
+
+          window.open(
+            `mailto:${
+              this.state.recipientEmail
+            }?subject=Invite to collaborate on a Bloom project&body=${
+              this.state.userName
+            } has invited you to collaborate on a project`
+          );
+        }
+      }
+      // } else if (event.target.name === 'save-btn') {
     }
   }
 
-
   hideForm() {
-    removeForm()
+    removeForm();
   }
 
   showForm(action) {
-    displayForm(action)
+    displayForm(action);
   }
 
   render() {

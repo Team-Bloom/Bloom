@@ -23,6 +23,16 @@ class Node extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { left, top, text, children } = nextProps;
+    this.setState({
+      left,
+      top,
+      text,
+      children,
+    });
+  }
+
   handleChange = ev => {
     this.setState({
       ...this.state,
