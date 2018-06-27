@@ -10,6 +10,7 @@ import {
   updateUserProjects,
 } from './functions.js';
 import UserIsLoggedIn from './UserIsLoggedIn.jsx';
+import history from '../../history.js';
 
 class Navbar extends Component {
   constructor() {
