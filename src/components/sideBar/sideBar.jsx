@@ -17,6 +17,7 @@ export default class SideBar extends Component {
   }
 
   render() {
+    const { projectId } = this.props;
     return (
       <div className="sideBar">
         <OffCanvas
@@ -32,7 +33,7 @@ export default class SideBar extends Component {
           </OffCanvasBody>
           <OffCanvasMenu className="menuClass">
             <div>
-              <ChatRoom />
+              <ChatRoom projectId={projectId} />
             </div>
           </OffCanvasMenu>
         </OffCanvas>

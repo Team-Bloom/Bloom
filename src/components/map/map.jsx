@@ -22,25 +22,28 @@ export default class MapView extends Component {
       });
     }
   }
-  checkState = (mapState) => {
-      //DANGER ZONE, we are about to change the data to be sent
-      //this probably should only happen in a file that only does that
-      //to make it clear as possible that our database is being changed and sent
-      console.log("incomingState", mapState)
-      if(this.state.project.maps){
-          this.setState({
-              project: {
-                  maps: [mapState]
-              }
-          })
-      } else {
-          this.setState({project: {
-              maps: [mapState]
-          }})
-      }
+  checkState = mapState => {
+    //DANGER ZONE, we are about to change the data to be sent
+    //this probably should only happen in a file that only does that
+    //to make it clear as possible that our database is being changed and sent
+    console.log('incomingState', mapState);
+    if (this.state.project.maps) {
+      this.setState({
+        project: {
+          maps: [mapState],
+        },
+      });
+    } else {
+      this.setState({
+        project: {
+          maps: [mapState],
+        },
+      });
+    }
   };
 
   render() {
+    const { projectId } = this.props.match.params;
     const maps = this.state.project.maps;
     return !maps ? (
       <div>
@@ -50,7 +53,7 @@ export default class MapView extends Component {
     ) : (
       <div>
         <div>
-          <Navbar projectId={this.props.match.params.projectId}/>
+          <Navbar projectId={this.props.match.params.projectId} />
           {maps.map(map => {
             return (
               <Node
@@ -62,7 +65,7 @@ export default class MapView extends Component {
               />
             );
           })}
-            <SideBar projectId={this.props.match.params.projectId} />
+          <SideBar projectId={projectId}/>
         </div>
       </div>
     );

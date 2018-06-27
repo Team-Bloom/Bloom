@@ -80,100 +80,90 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import "./ChatRoom.css";
-
+import './ChatRoom.css';
+import firebase from 'firebase';
 import Message from '../message/Message.jsx';
+import { db } from '../../index.js';
 
 class ChatRoom extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            chats: [{
-                username: "Kevin Hsu",
-                content: <p>Hello World!</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }, {
-                username: "Alice Chen",
-                content: <p>Love it! :heart:</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }, {
-                username: "Kevin Hsu",
-                content: <p>Check out my Github at https://github.com/WigoHunter</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }, {
-                username: "KevHs",
-                content: <p>Lorem ipsum dolor sit amet, nibh ipsum. Cum class sem inceptos incidunt sed sed. Tempus wisi enim id, arcu sed lectus aliquam, nulla vitae est bibendum molestie elit risus.</p>,
-                img: "http://i.imgur.com/ARbQZix.jpg",
-            }, {
-                username: "Kevin Hsu",
-                content: <p>So</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }, {
-                username: "Kevin Hsu",
-                content: <p>Chilltime is going to be an app for you to view videos with friends</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }, {
-                username: "Kevin Hsu",
-                content: <p>You can sign-up now to try out our private beta!</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }, {
-                username: "Alice Chen",
-                content: <p>Definitely! Sounds great!</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }]
-        };
+    this.state = {
+      chats: [],
+      user: '',
+      photoURL: '',
+    };
 
-        this.submitMessage = this.submitMessage.bind(this);
-    }
+    this.submitMessage = this.submitMessage.bind(this);
+  }
 
-    componentDidMount() {
-        this.scrollToBot();
-    }
+  async componentDidMount() {
+    console.log(typeof this.props.projectId);
+    this.scrollToBot();
+    const { displayName, photoURL } = await firebase.auth().currentUser;
 
-    componentDidUpdate() {
-        this.scrollToBot();
-    }
+    const projectData = await db
+      .collection('Projects')
+      .doc(this.props.projectId)
+      .get();
+    //get the messages from the specific Project
+    const { messages } = projectData.data();
+    //load them into state to populate the chatbox YEAAHHH!!
+    this.setState({
+      user: displayName,
+      chats: messages,
+      photoURL: photoURL,
+    });
+  }
 
-    scrollToBot() {
-        ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(this.refs.chats).scrollHeight;
-    }
+  componentDidUpdate() {
+    this.scrollToBot();
+  }
 
-    submitMessage(e) {
-        e.preventDefault();
+  scrollToBot() {
+    ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(
+      this.refs.chats
+    ).scrollHeight;
+  }
 
-        this.setState({
-            chats: this.state.chats.concat([{
-                username: "Kevin Hsu",
-                content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
-                img: "http://i.imgur.com/Tj5DGiO.jpg",
-            }])
-        }, () => {
-            ReactDOM.findDOMNode(this.refs.msg).value = "";
-        });
-    }
+  submitMessage(e) {
+    e.preventDefault();
 
-    render() {
-        const username = "Kevin Hsu";
-        const { chats } = this.state;
+    this.setState(
+      {
+        chats: this.state.chats.concat([
+          {
+            username: this.state.user,
+            content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+            img: this.state.photoURL || 'http://i.imgur.com/Tj5DGiO.jpg',
+          },
+        ]),
+      },
+      () => {
+        ReactDOM.findDOMNode(this.refs.msg).value = '';
+      }
+    );
+  }
 
-        return (
-            <div className="chatroom">
-                <h3>BloomTime</h3>
-                <ul className="chats" ref="chats">
-                    {
-                        chats.map((chat) =>
-                            <Message chat={chat} user={username} />
-                        )
-                    }
-                </ul>
-                <form className="input" onSubmit={(e) => this.submitMessage(e)}>
-                    <input type="text" ref="msg" />
-                    <input type="submit" value="Submit" />
-                </form>
-            </div>
-        );
-    }
+  render() {
+    const { chats, user, photoURL } = this.state;
+
+    return (
+      <div className="chatroom">
+        <h3>BloomTime</h3>
+        <ul className="chats" ref="chats">
+          {chats.map(chat => (
+            <Message chat={chat} user={user}/>
+          ))}
+        </ul>
+        <form className="input" onSubmit={e => this.submitMessage(e)}>
+          <input type="text" ref="msg" />
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    );
+  }
 }
 
 export default ChatRoom;
