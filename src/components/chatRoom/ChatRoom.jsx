@@ -50,13 +50,12 @@ class ChatRoom extends React.Component {
   };
 
   render() {
-    const { messages, user } = this.state;
     return (
       <div className="chatroom">
         <h3>BloomTime</h3>
         <ul className="chats" ref="chats">
-          {this.props.messages.map(message => (
-            <Message message={message} user={this.props.user} />
+          {this.props.messages.map((message, index) => (
+            <Message key={index} message={message} user={this.props.user} />
           ))}
         </ul>
         <form className="input" onSubmit={e => this.submitMessage(e)}>
