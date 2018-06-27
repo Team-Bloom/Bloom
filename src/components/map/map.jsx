@@ -87,10 +87,7 @@ export default class MapView extends Component {
             return (
               <Node
                 key={index}
-                left={map.left}
-                top={map.top}
-                text={map.text}
-                children={map.children}
+                node={map}
                 checkState={this.checkState}
               />
             );
