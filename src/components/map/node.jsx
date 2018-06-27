@@ -6,6 +6,7 @@ import hashCode from '../../utilities/hash';
 
 class Node extends Component {
   constructor(props) {
+      console.log('IM CONSTRUCTING')
     super(props);
     this.dragger = React.createRef();
     this.state = {
@@ -131,9 +132,9 @@ class Node extends Component {
             text={this.state.text}
             checkState={this.checkState}
           />
-          {this.state &&
-            this.state.children &&
-            this.state.children.map(node => {
+          {this.props &&
+            this.props.children &&
+            this.props.children.map(node => {
               return (
                 <Node
                   key={node.id}
