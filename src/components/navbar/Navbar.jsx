@@ -3,8 +3,9 @@ import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 import { db } from '../../index.js';
-import { displayForm, removeForm, checkUnique } from './functions.js'
-import UserIsLoggedIn from './UserIsLoggedIn.jsx'
+import { displayForm, removeForm, checkUnique } from './functions.js';
+import UserIsLoggedIn from './UserIsLoggedIn.jsx';
+import history from '../../history.js';
 
 class Navbar extends Component {
   constructor() {
@@ -29,7 +30,7 @@ class Navbar extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('found user')
+        console.log('found user');
         this.setState({
           userName: user.displayName,
           userEmail: user.email,
@@ -56,108 +57,160 @@ class Navbar extends Component {
           console.error('Sign Out Error', error);
         }
       );
+    history.push('/login');
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
-      nonExistentCollaboratorsEmail: ''
+      nonExistentCollaboratorsEmail: '',
     });
-
   }
 
   async handleSubmit(event) {
     event.preventDefault();
     if (event.target.name === 'collab-btn') {
+      // check to see if collaborator exists in the system
 
-        // check to see if collaborator exists in the system
+      // check to see if collaborator exists in the system
 
-
-        const userData = await db
+      const userData = await db
         .collection('Users')
-        .doc(this.state.recipientEmail).get()
-        const foundUser = userData.data()
+        .doc(this.state.recipientEmail)
+        .get();
+      const foundUser = userData.data();
 
+      if (!foundUser) {
+        this.setState({
+          nonExistentCollaboratorsEmail: this.state.recipientEmail,
+        });
+      }
 
-        if (!foundUser) {
-          this.setState({
-            nonExistentCollaboratorsEmail: this.state.recipientEmail
-          })
+      if (!this.state.nonExistentCollaboratorsEmail) {
+        const projectData = await db
+          .collection('Projects')
+          .doc(this.props.projectId)
+          .get();
+        const metadata = projectData.data().metadata;
+        const collaborators = metadata.collaborators;
+
+        const alreadyAddedUser = checkUnique(
+          collaborators,
+          this.state.recipientEmail,
+          this.state.userEmail
+        ).length;
+
+        if (!alreadyAddedUser) {
+          const docRef = await db
+            .collection('Projects')
+            .doc(this.props.projectId)
+            .update({
+              'metadata.collaborators': [
+                ...collaborators,
+                {
+                  name: this.state.recipientName,
+                  email: this.state.recipientEmail,
+                },
+              ],
+            });
+
+          const projectId = this.props.projectId;
+          const allCollaborators = [
+            ...collaborators,
+            { email: this.state.recipientEmail },
+          ];
+
+          allCollaborators.forEach(async collaborator => {
+            const indiUser = await db
+              .collection('Users')
+              .doc(collaborator.email)
+              .get();
+            const gotUser = indiUser.data();
+
+            console.log(gotUser.projects);
+
+            await db
+              .collection('Users')
+              .doc(collaborator.email)
+              .update({
+                projects: {
+                  ...gotUser.projects,
+                  [projectId]: {
+                    collaborators: [
+                      {
+                        name: this.state.recipientName,
+                        email: this.state.recipientEmail,
+                      },
+                      ...collaborators,
+                    ],
+                    owner: this.state.userEmail,
+                    projectId: this.props.projectId,
+                    title: projectData.data().metadata.title,
+                  },
+                },
+              });
+          });
+
+          //   window.open(
+          //     `mailto:${
+          //       this.state.recipientEmail
+          //     }?subject=Invite to collaborate on a Bloom project&body=${
+          //       this.state.userName
+          //     } has invited you to collaborate on a project`
+          //   );
         }
 
+        console.log(this.state.nonExistentCollaboratorsEmail);
 
+        console.log(this.props);
 
         if (!this.state.nonExistentCollaboratorsEmail) {
+          const projectData = await db
+            .collection('Projects')
+            .doc(this.props.projectId)
+            .get();
+          const metadata = projectData.data().metadata;
+          const collaborators = metadata.collaborators;
 
+          const alreadyAddedUser = checkUnique(
+            collaborators,
+            this.state.recipientEmail,
+            this.state.userEmail
+          ).length;
 
-      const projectData = await db
-      .collection('Projects')
-      .doc(this.props.projectId).get()
-      const metadata = projectData.data().metadata
-      const collaborators = metadata.collaborators
+          if (!alreadyAddedUser) {
+            const docRef = await db
+              .collection('Projects')
+              .doc(this.props.projectId)
+              .update({
+                'metadata.collaborators': [
+                  ...collaborators,
+                  {
+                    name: this.state.recipientName,
+                    email: this.state.recipientEmail,
+                  },
+                ],
+              });
 
-      const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail, this.state.userEmail).length
-
-      if (!alreadyAddedUser) {
-      const docRef = await db
-      .collection('Projects')
-      .doc(this.props.projectId).update({
-       'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
-      })
-
-
-      const projectId = this.props.projectId
-      const allCollaborators = [...collaborators, {email: this.state.recipientEmail}]
-
-      allCollaborators.forEach(async collaborator => {
-
-        const indiUser = await db
-        .collection('Users')
-        .doc(collaborator.email).get()
-        const gotUser = indiUser.data()
-
-
-          console.log(gotUser.projects)
-
-         await db
-        .collection('Users')
-        .doc(collaborator.email).update({
-          'projects': {...gotUser.projects, [projectId]: {
-            'collaborators': [{name: this.state.recipientName, email: this.state.recipientEmail}, ...collaborators],
-            'owner': this.state.userEmail,
-            'projectId': this.props.projectId,
-            'title': projectData.data().metadata.title
+            window.open(
+              `mailto:${
+                this.state.recipientEmail
+              }?subject=Invite to collaborate on a Bloom project&body=${
+                this.state.userName
+              } has invited you to collaborate on a project`
+            );
           }
-          }
-        })
-
-
-      })
-
-
-
-    //   window.open(
-    //     `mailto:${
-    //       this.state.recipientEmail
-    //     }?subject=Invite to collaborate on a Bloom project&body=${
-    //       this.state.userName
-    //     } has invited you to collaborate on a project`
-    //   );
+        }
+        // } else if (event.target.name === 'save-btn') {
       }
     }
-  // } else if (event.target.name === 'save-btn') {
-
-
-    }
   }
-
-
   hideForm() {
-    removeForm()
+    removeForm();
   }
 
   showForm(action) {
-    displayForm(action)
+    displayForm(action);
   }
 
   render() {
