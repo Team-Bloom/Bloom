@@ -63,15 +63,22 @@ class Navbar extends Component {
       [event.target.name]: event.target.value,
       nonExistentCollaboratorsEmail: ''
     });
-
   }
+
 
   async handleSubmit(event) {
     event.preventDefault();
+    event.persist()
+
+    const projectId = this.props.projectId
+    const projectData = await db
+    .collection('Projects')
+    .doc(this.props.projectId).get()
+    const metadata = projectData.data().metadata
+    const collaborators = metadata.collaborators
+
+
     if (event.target.name === 'collab-btn') {
-
-        // check to see if collaborator exists in the system
-
 
         const userData = await db
         .collection('Users')
@@ -85,16 +92,8 @@ class Navbar extends Component {
           })
         }
 
-
-
         if (!this.state.nonExistentCollaboratorsEmail) {
 
-
-      const projectData = await db
-      .collection('Projects')
-      .doc(this.props.projectId).get()
-      const metadata = projectData.data().metadata
-      const collaborators = metadata.collaborators
 
       const alreadyAddedUser = checkUnique(collaborators, this.state.recipientEmail, this.state.userEmail).length
 
@@ -106,7 +105,7 @@ class Navbar extends Component {
       })
 
 
-      const projectId = this.props.projectId
+
       const allCollaborators = [...collaborators, {email: this.state.recipientEmail}]
 
       allCollaborators.forEach(async collaborator => {
@@ -115,9 +114,6 @@ class Navbar extends Component {
         .collection('Users')
         .doc(collaborator.email).get()
         const gotUser = indiUser.data()
-
-
-          console.log(gotUser.projects)
 
          await db
         .collection('Users')
@@ -130,26 +126,51 @@ class Navbar extends Component {
           }
           }
         })
-
-
       })
 
-
-
-    //   window.open(
-    //     `mailto:${
-    //       this.state.recipientEmail
-    //     }?subject=Invite to collaborate on a Bloom project&body=${
-    //       this.state.userName
-    //     } has invited you to collaborate on a project`
-    //   );
+      // window.open(
+      //   `mailto:${
+      //     this.state.recipientEmail
+      //   }?subject=Invite to collaborate on a Bloom project&body=${
+      //     this.state.userName
+      //   } has invited you to collaborate on a project`
+      // );
       }
+      this.setState({
+        [event.target.value]: ''
+      })
     }
-  // } else if (event.target.name === 'save-btn') {
+  }  else if (event.target.name === 'save-btn') {
+      await db
+      .collection('Projects')
+      .doc(this.props.projectId).update({
+        title: this.state.projectName
+      })
 
+      collaborators.forEach(async collaborator => {
+        const changeTitleForUser = await db
+        .collection('Users')
+        .doc(collaborator.email).get()
+        const projectCollaborator = changeTitleForUser.data()
 
-    }
+        await db
+        .collection('Users')
+        .doc(collaborator.email).update({
+          'projects': {...projectCollaborator.projects, [projectId]: {
+            'collaborators': collaborators,
+            'owner': this.state.userEmail,
+            'projectId': this.props.projectId,
+            'title': this.state.projectName
+          }
+          }
+        })
+      })
+      // this.setState({
+      //   [event.target.value]: ''
+      // })
   }
+    }
+
 
 
   hideForm() {
