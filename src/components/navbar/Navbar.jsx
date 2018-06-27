@@ -125,17 +125,6 @@ class Navbar extends Component {
 
       })
 
-      // const updateCollaborator = await db
-      // .collection('Users')
-      // .doc(this.state.recipientEmail).update({
-      //   'projects': {...foundUser.projects, [projectId]: {
-      //     'collaborators': [{name: this.state.recipientName, email: this.state.recipientEmail}, ...collaborators],
-      //     'owner': this.state.userEmail,
-      //     'projectId': this.props.projectId,
-      //     'title': projectData.data().metadata.title
-      //   }
-      //   }
-      // })
 
 
     //   window.open(
