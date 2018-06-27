@@ -61,6 +61,7 @@ class Navbar extends Component {
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
+      nonExistentCollaboratorsEmail: ''
     });
 
   }
@@ -71,11 +72,12 @@ class Navbar extends Component {
 
         // check to see if collaborator exists in the system
 
+
         const userData = await db
         .collection('Users')
         .doc(this.state.recipientEmail).get()
         const foundUser = userData.data()
-        console.log(foundUser)
+
 
         if (!foundUser) {
           this.setState({
@@ -83,10 +85,7 @@ class Navbar extends Component {
           })
         }
 
-        console.log(this.state.nonExistentCollaboratorsEmail)
 
-
-      console.log(this.props)
 
         if (!this.state.nonExistentCollaboratorsEmail) {
 
@@ -106,14 +105,35 @@ class Navbar extends Component {
        'metadata.collaborators': [...collaborators, {name: this.state.recipientName, email: this.state.recipientEmail}]
       })
 
-      window.open(
-        `mailto:${
-          this.state.recipientEmail
-        }?subject=Invite to collaborate on a Bloom project&body=${
-          this.state.userName
-        } has invited you to collaborate on a project`
-      );
 
+      const projectId = this.props.projectId
+      const allCollaborators = [...collaborators, {email: this.state.recipientEmail}]
+
+      allCollaborators.forEach(async collaborator => {
+         await db
+        .collection('Users')
+        .doc(collaborator.email).update({
+          'projects': {...foundUser.projects, [projectId]: {
+            'collaborators': [{name: this.state.recipientName, email: this.state.recipientEmail}, ...collaborators],
+            'owner': this.state.userEmail,
+            'projectId': this.props.projectId,
+            'title': projectData.data().metadata.title
+          }
+          }
+        })
+
+
+      })
+
+
+
+    //   window.open(
+    //     `mailto:${
+    //       this.state.recipientEmail
+    //     }?subject=Invite to collaborate on a Bloom project&body=${
+    //       this.state.userName
+    //     } has invited you to collaborate on a project`
+    //   );
       }
     }
   // } else if (event.target.name === 'save-btn') {
