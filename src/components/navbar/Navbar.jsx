@@ -61,6 +61,7 @@ class Navbar extends Component {
           console.error('Sign Out Error', error);
         }
       );
+    history.push('/login');
   }
 
   handleChange(event) {
