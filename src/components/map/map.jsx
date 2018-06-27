@@ -3,7 +3,7 @@ import { Node } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -16,7 +16,6 @@ export default class MapView extends Component {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
     if (this.props.match.params.projectId) {
-
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
@@ -61,7 +60,7 @@ export default class MapView extends Component {
 
     const obj = this.state.project;
     try {
-      let payload = {...this.state.project, maps: [mapState]}
+      let payload = { ...this.state.project, maps: [mapState] };
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
@@ -72,8 +71,8 @@ export default class MapView extends Component {
   };
 
   render() {
-
     let maps = this.state.project && this.state.project.maps;
+    if (!this.props.user.metadata) return <div>Loading...</div>;
     return !maps ? (
       <div>
         <Navbar />
@@ -95,7 +94,11 @@ export default class MapView extends Component {
               />
             );
           })}
-          <SideBar projectId={this.props.match.params.projectId} messages={this.state.project.messages} user={this.props.user}/>
+          <SideBar
+            projectId={this.props.match.params.projectId}
+            messages={this.state.project.messages}
+            user={this.props.user}
+          />
         </div>
       </div>
     );
