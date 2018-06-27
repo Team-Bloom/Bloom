@@ -33,3 +33,25 @@ export const checkUnique = (collaborators, collabEmail, userEmail) => {
     }
   })
 }
+
+export const updateUserProjects = (collaborators, db, projectId, owner, title) => {
+  collaborators.forEach(async collaborator => {
+    const user = await db
+    .collection('Users')
+    .doc(collaborator.email).get()
+    const userData = user.data()
+
+
+         await db
+        .collection('Users')
+        .doc(collaborator.email).update({
+          'projects': {...userData.projects, [projectId]: {
+            'collaborators': [...collaborators],
+            'owner': owner,
+            'projectId': projectId,
+            'title': title
+          }
+          }
+        })
+      })
+}

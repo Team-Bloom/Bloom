@@ -3,7 +3,12 @@ import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 import { db } from '../../index.js';
-import { displayForm, removeForm, checkUnique } from './functions.js';
+import {
+  displayForm,
+  removeForm,
+  checkUnique,
+  updateUserProjects,
+} from './functions.js';
 import UserIsLoggedIn from './UserIsLoggedIn.jsx';
 import history from '../../history.js';
 
@@ -67,13 +72,20 @@ class Navbar extends Component {
     });
   }
 
+
   async handleSubmit(event) {
     event.preventDefault();
+    event.persist();
+
+    const projectId = this.props.projectId;
+    const projectData = await db
+      .collection('Projects')
+      .doc(this.props.projectId)
+      .get();
+    const metadata = projectData.data().metadata;
+    const collaborators = metadata.collaborators;
+
     if (event.target.name === 'collab-btn') {
-      // check to see if collaborator exists in the system
-
-      // check to see if collaborator exists in the system
-
       const userData = await db
         .collection('Users')
         .doc(this.state.recipientEmail)
@@ -87,13 +99,6 @@ class Navbar extends Component {
       }
 
       if (!this.state.nonExistentCollaboratorsEmail) {
-        const projectData = await db
-          .collection('Projects')
-          .doc(this.props.projectId)
-          .get();
-        const metadata = projectData.data().metadata;
-        const collaborators = metadata.collaborators;
-
         const alreadyAddedUser = checkUnique(
           collaborators,
           this.state.recipientEmail,
@@ -114,97 +119,57 @@ class Navbar extends Component {
               ],
             });
 
-          const projectId = this.props.projectId;
           const allCollaborators = [
             ...collaborators,
-            { email: this.state.recipientEmail },
+            {
+              name: this.state.recipientName,
+              email: this.state.recipientEmail,
+            },
           ];
+          const projectTitle = metadata.title;
 
-          allCollaborators.forEach(async collaborator => {
-            const indiUser = await db
-              .collection('Users')
-              .doc(collaborator.email)
-              .get();
-            const gotUser = indiUser.data();
+          updateUserProjects(
+            allCollaborators,
+            db,
+            projectId,
+            this.state.userEmail,
+            projectTitle
+          );
 
-            console.log(gotUser.projects);
-
-            await db
-              .collection('Users')
-              .doc(collaborator.email)
-              .update({
-                projects: {
-                  ...gotUser.projects,
-                  [projectId]: {
-                    collaborators: [
-                      {
-                        name: this.state.recipientName,
-                        email: this.state.recipientEmail,
-                      },
-                      ...collaborators,
-                    ],
-                    owner: this.state.userEmail,
-                    projectId: this.props.projectId,
-                    title: projectData.data().metadata.title,
-                  },
-                },
-              });
-          });
-
-          //   window.open(
-          //     `mailto:${
-          //       this.state.recipientEmail
-          //     }?subject=Invite to collaborate on a Bloom project&body=${
-          //       this.state.userName
-          //     } has invited you to collaborate on a project`
-          //   );
+          // window.open(
+          //   `mailto:${
+          //     this.state.recipientEmail
+          //   }?subject=Invite to collaborate on a Bloom project&body=${
+          //     this.state.userName
+          //   } has invited you to collaborate on a project`
+          // );
         }
-
-        console.log(this.state.nonExistentCollaboratorsEmail);
-
-        console.log(this.props);
-
-        if (!this.state.nonExistentCollaboratorsEmail) {
-          const projectData = await db
-            .collection('Projects')
-            .doc(this.props.projectId)
-            .get();
-          const metadata = projectData.data().metadata;
-          const collaborators = metadata.collaborators;
-
-          const alreadyAddedUser = checkUnique(
-            collaborators,
-            this.state.recipientEmail,
-            this.state.userEmail
-          ).length;
-
-          if (!alreadyAddedUser) {
-            const docRef = await db
-              .collection('Projects')
-              .doc(this.props.projectId)
-              .update({
-                'metadata.collaborators': [
-                  ...collaborators,
-                  {
-                    name: this.state.recipientName,
-                    email: this.state.recipientEmail,
-                  },
-                ],
-              });
-
-            window.open(
-              `mailto:${
-                this.state.recipientEmail
-              }?subject=Invite to collaborate on a Bloom project&body=${
-                this.state.userName
-              } has invited you to collaborate on a project`
-            );
-          }
-        }
-        // } else if (event.target.name === 'save-btn') {
+        this.setState({
+          [event.target.value]: '',
+        });
       }
+    } else if (event.target.name === 'save-btn') {
+      await db
+        .collection('Projects')
+        .doc(this.props.projectId)
+        .update({
+          ['metadata.title']: this.state.projectName,
+        });
+
+      updateUserProjects(
+        collaborators,
+        db,
+        projectId,
+        this.state.userEmail,
+        this.state.projectName
+      );
+
+      this.setState({
+        [event.target.value]: '',
+      });
     }
   }
+
   hideForm() {
     removeForm();
   }
