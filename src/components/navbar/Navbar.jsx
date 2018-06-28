@@ -147,6 +147,7 @@ class Navbar extends Component {
         this.setState({
           [event.target.value]: '',
         });
+        removeForm();
       }
     } else if (event.target.name === 'save-btn') {
       await db
@@ -167,6 +168,7 @@ class Navbar extends Component {
       this.setState({
         [event.target.value]: '',
       });
+      removeForm();
     }
   }
 
