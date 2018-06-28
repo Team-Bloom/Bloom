@@ -25,10 +25,16 @@ const ProjectCard = props => {
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography className={classes.title}>{props.project.title}</Typography>
-          <Typography component="p" color="textSecondary">
-            Authors
+          <Typography className={classes.title}>
+            {props.project.title}
           </Typography>
+          {props.project.collaborators.map((el, index) => {
+            return (
+              <Typography key={index} color="textSecondary">
+                {el.name}
+              </Typography>
+            );
+          })}
         </CardContent>
       </Card>
     </div>

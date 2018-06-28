@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './node.css';
 import { NodeObject } from './';
 import { db } from './';
-import hashCode from '../../utilities/hash';
-import makeDraggable from '../../utilities/draggable';
+import {makeHashCode, makeDraggable} from '../../utilities/';
 
 class Node extends Component {
   constructor(props) {
@@ -42,7 +41,7 @@ class Node extends Component {
     const newNode = {
       left: '200',
       top: `${this.state.node.children.length * 100 - 100}`,
-      id: hashCode(),
+      id: makeHashCode(),
       text: 'Nodename',
       children: [],
     };
@@ -119,7 +118,6 @@ class Node extends Component {
                   deleteNode={this.deleteNode}
                   node={node}
                   count={this.props.count}
-                  setLocal={this.props.setLocal}
                 />
               );
             })

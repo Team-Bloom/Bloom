@@ -15,7 +15,7 @@ export default class MapView extends Component {
       source: ''
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
     count = 0;
@@ -86,22 +86,18 @@ export default class MapView extends Component {
     if (!this.props.user.metadata) return <div>Loading...</div>;
     return !maps ? (
       <div>
-        <Navbar />
         <Node checkState={this.checkState} />
       </div>
     ) : (
       <div>
         <div>
-          <Navbar projectId={this.props.match.params.projectId} />
           {maps.map((map, index) => {
             return (
               <Node
                 key={index}
                 node={map}
                 checkState={this.checkState}
-                source={this.state.source}
                 count={this.state.count}
-                setLocal={this.setLocal}
               />
             );
           })}

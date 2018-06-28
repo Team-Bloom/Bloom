@@ -7,12 +7,18 @@ import {
   searchForUser,
   addNewProject,
 } from './components/Users/function.js';
+import MainNav from './components/navbar/MainNav.jsx';
 
 class App extends React.Component {
   state = {
     user: {},
+    currentMap: '',
   };
-
+  selectMap = map => {
+    this.setState({
+      currentMap: map,
+    });
+  };
   componentDidMount() {
     firebase.auth().onAuthStateChanged(async user => {
       if (user) {
@@ -23,25 +29,33 @@ class App extends React.Component {
             user.email
           );
         }
-        const userObj = await db
+        this.unsubscribe = db
           .collection('Users')
           .doc(user.email)
-          .get();
-        const data = userObj.data();
-        this.setState({
-          user: data,
-        });
+          .onSnapshot(doc => {
+            const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+            return this.setState({
+              user: doc.data(),
+            });
+          });
       } else {
         console.log('no one signed in');
       }
     });
+  }
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {
     return (
       <div id="app">
         <div>
-          <Routes user={this.state.user} />
+          <MainNav currentMap={this.state.currentMap} />
+          <Routes
+            user={this.state.user}
+            selectMap={map => this.selectMap(map)}
+          />
         </div>
       </div>
     );
