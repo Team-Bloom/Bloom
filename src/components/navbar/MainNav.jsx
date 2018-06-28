@@ -10,7 +10,7 @@ const styles = {
     'justify-content': 'space-between',
     'padding-left': '1%',
     'padding-right': '1%',
-    height: '7vh',
+    height: '5vh',
     'align-items': 'center',
   },
   left: {
