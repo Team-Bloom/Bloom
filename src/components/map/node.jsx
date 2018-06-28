@@ -81,10 +81,10 @@ class Node extends Component {
   render() {
     return (
       <div className="nodeWrap">
-        <svg
+        {this.state.node && (<div><svg
           className="line"
-          height={Math.abs(this.state.node.top) + 2 + 'px'}
-          width={Math.abs(this.state.node.left) + 2 + 'px'}
+          height={this.state.node && this.state.node.top && Math.abs(this.state.node.top) + 2 + 'px'}
+          width={this.state.node && this.state.node.left && Math.abs(this.state.node.left) + 2 + 'px'}
         >
           <line
             x1="0"
@@ -122,7 +122,7 @@ class Node extends Component {
               );
             })
           }
-        </div>
+        </div></div>)}
       </div>
     );
   }
