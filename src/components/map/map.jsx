@@ -4,29 +4,34 @@ import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
+var source;
 
 export default class MapView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       project: {},
+      source: ''
     };
   }
   async componentDidMount() {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
+    let count = 0;
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
 
       this.unsubscribe = docRef.onSnapshot(doc => {
-        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+        source = doc.metadata.hasPendingWrites || count === 0 ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
         const proj = doc.data();
         console.log('proj data!!!!', proj);
+        count += 1
         return this.setState({
           project: doc.data(),
+          source: source
         });
       });
     }
@@ -34,6 +39,10 @@ export default class MapView extends Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  setLocal = () => {
+      source = 'Local'
   }
 
   checkState = async mapState => {
@@ -88,6 +97,8 @@ export default class MapView extends Component {
                 key={index}
                 node={map}
                 checkState={this.checkState}
+                source={this.state.source}
+                setLocal={this.setLocal}
               />
             );
           })}

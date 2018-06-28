@@ -15,32 +15,31 @@ class Node extends Component {
       pos3: 0,
       pos4: 0,
       shouldEdit: true,
-      node: this.props.node || {}
+      node: this.props.node || {},
     };
   }
 
   // static getDerivedStateFromProps = (props, state) => {
   //     console.log('checking')
-  //     if(props.node && props.node.text !== state.node.text){
-  //         console.log('gotime', props.node, state.node)
+  //     if(props.source === 'Server'){
+  //         console.log("updating")
   //         return {
-  //             node: {
-  //                 ...state.node
-  //             }
+  //             node: props.node,
+  //             checked: true
   //         }
   //     }
-  //     console.log("RUNNING NEW", props, state)
-  //     //this.setState({node: props.node})
-  //     return {
-  //         //...props
+  //     if(props.source === 'Local'){
+  //         console.log('resetting')
+  //         return {
+  //             checked: false
+  //         }
   //     }
-  //}
+  // }
 
   componentWillReceiveProps = (nextProps, prevProps) => {
       if(!prevProps || !prevProps.node || nextProps.node.text !== prevProps.node.text || nextProps.node.left === prevProps.node.left || nextProps.node.top === prevProps.node.top ){
           this.setState({node: nextProps.node})
       }
-
   }
 
   handleChange = ev => {
@@ -173,18 +172,21 @@ class Node extends Component {
             deleteNode={this.deleteNode}
             id={this.state.node && this.state.node.id}
           />
-          {this.props &&
-            this.props.node &&
-            this.props.node.children &&
-            this.props.node.children.map(node => {
+          {this.state &&
+            this.state.node &&
+            this.state.node.children &&
+            this.state.node.children.map(node => {
               return (
                 <Node
                   checkState={this.checkState}
                   deleteNode={this.deleteNode}
                   node={node}
+                  source={this.props.source}
+                  setLocal={this.props.setLocal}
                 />
               );
-            })}
+            })
+          }
         </div>
       </div>
     );
