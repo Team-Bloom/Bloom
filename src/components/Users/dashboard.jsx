@@ -41,7 +41,6 @@ class Dashboard extends React.Component {
       nameInput: event.target.value
     })
 
-    console.log(this.state)
   }
 
   async handleSubmit(event) {
@@ -49,8 +48,7 @@ class Dashboard extends React.Component {
 
    if (event.target.name === 'delete-btn') {
 
-
-    if (this.state.projectName === this.state.projectInput) {
+    if (this.state.projectName === this.state.nameInput) {
 
     const projectId = this.state.project.projectId
     const collaborators = this.state.project.collaborators
@@ -66,9 +64,6 @@ class Dashboard extends React.Component {
       })
 
       })
-
-
-
 
     }
   }
@@ -88,8 +83,13 @@ class Dashboard extends React.Component {
         <div className="projSet">
           {keys.map(project => {
             return (
-              <div key={projects[project].projectId} className="project-card-container">
-                <Link to={`/map/${projects[project].projectId}`}>
+              <div key={projects[project].projectId}>
+                <Link
+                  onClick={() =>
+                    this.props.selectMap(projects[project].projectId)
+                  }
+                  to={`/map/${projects[project].projectId}`}
+                >
                   <ProjectCard project={projects[project]} />
                 </Link>
 

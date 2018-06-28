@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Login from './Login.jsx';
 import Dashboard from './components/Users/dashboard.jsx';
 import MapView from './components/map/map.jsx';
+import MainNav from './components/navbar/MainNav.jsx';
 
 class Routes extends Component {
   render() {
@@ -23,8 +24,8 @@ class Routes extends Component {
           render={props => (
             <Dashboard
               {...props}
-              getuser={this.getuser}
               user={this.props.user}
+              selectMap={map => this.props.selectMap(map)}
             />
           )}
         />

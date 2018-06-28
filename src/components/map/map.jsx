@@ -12,7 +12,7 @@ export default class MapView extends Component {
       project: {},
     };
   }
-  async componentDidMount() {
+  componentDidMount() {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
     if (this.props.match.params.projectId) {
@@ -75,21 +75,13 @@ export default class MapView extends Component {
     if (!this.props.user.metadata) return <div>Loading...</div>;
     return !maps ? (
       <div>
-        <Navbar />
         <Node checkState={this.checkState} />
       </div>
     ) : (
       <div>
         <div>
-          <Navbar projectId={this.props.match.params.projectId} />
           {maps.map((map, index) => {
-            return (
-              <Node
-                key={index}
-                node={map}
-                checkState={this.checkState}
-              />
-            );
+            return <Node key={index} node={map} checkState={this.checkState} />;
           })}
           <SideBar
             projectId={this.props.match.params.projectId}

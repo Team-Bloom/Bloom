@@ -19,7 +19,6 @@ class Navbar extends Component {
     this.state = {
       userName: '',
       userEmail: '',
-      recipientName: '',
       recipientEmail: '',
       projectName: '',
       nonExistentCollaboratorsEmail: '',
@@ -72,7 +71,6 @@ class Navbar extends Component {
     });
   }
 
-
   async handleSubmit(event) {
     event.preventDefault();
     event.persist();
@@ -91,6 +89,7 @@ class Navbar extends Component {
         .doc(this.state.recipientEmail)
         .get();
       const foundUser = userData.data();
+      console.log('user', foundUser);
 
       if (!foundUser) {
         this.setState({
@@ -113,7 +112,7 @@ class Navbar extends Component {
               'metadata.collaborators': [
                 ...collaborators,
                 {
-                  name: this.state.recipientName,
+                  name: foundUser.metadata.name,
                   email: this.state.recipientEmail,
                 },
               ],
@@ -122,7 +121,7 @@ class Navbar extends Component {
           const allCollaborators = [
             ...collaborators,
             {
-              name: this.state.recipientName,
+              name: foundUser.metadata.name,
               email: this.state.recipientEmail,
             },
           ];
@@ -187,7 +186,6 @@ class Navbar extends Component {
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
         projectName={this.state.projectName}
-        recipientName={this.state.recipientName}
         recipientEmail={this.state.recipientEmail}
         hideForm={this.hideForm}
         collabName={this.state.nonExistentCollaboratorsEmail}
