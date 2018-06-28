@@ -5,6 +5,7 @@ import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
 var source;
+var count;
 
 export default class MapView extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class MapView extends Component {
   async componentDidMount() {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
-    let count = 0;
+    count = 0;
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
@@ -31,7 +32,8 @@ export default class MapView extends Component {
         count += 1
         return this.setState({
           project: doc.data(),
-          source: source
+          source: source,
+          count: count,
         });
       });
     }
@@ -98,6 +100,7 @@ export default class MapView extends Component {
                 node={map}
                 checkState={this.checkState}
                 source={this.state.source}
+                count={this.state.count}
                 setLocal={this.setLocal}
               />
             );

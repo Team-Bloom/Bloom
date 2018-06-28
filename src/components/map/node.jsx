@@ -16,31 +16,31 @@ class Node extends Component {
       pos4: 0,
       shouldEdit: true,
       node: this.props.node || {},
+      count: this.props.count || 0
     };
   }
 
-  // static getDerivedStateFromProps = (props, state) => {
-  //     console.log('checking')
-  //     if(props.source === 'Server'){
-  //         console.log("updating")
-  //         return {
-  //             node: props.node,
-  //             checked: true
-  //         }
-  //     }
-  //     if(props.source === 'Local'){
-  //         console.log('resetting')
-  //         return {
-  //             checked: false
-  //         }
-  //     }
-  // }
-
-  componentWillReceiveProps = (nextProps, prevProps) => {
-      if(!prevProps || !prevProps.node || nextProps.node.text !== prevProps.node.text || nextProps.node.left === prevProps.node.left || nextProps.node.top === prevProps.node.top ){
-          this.setState({node: nextProps.node})
+  static getDerivedStateFromProps = (props, state) => {
+      console.log('checking', state)
+      console.log('PheckingP', props)
+      if(props.count !== state.count){
+          console.log("updating")
+          return {
+              node: props.node,
+              count: props.count
+          }
+      } else {
+          // return {
+          //   upwards: false
+          // }
       }
   }
+
+  // componentWillReceiveProps = (nextProps, prevProps) => {
+  //     if(!prevProps || !prevProps.node || nextProps.node.text !== prevProps.node.text || nextProps.node.left === prevProps.node.left || nextProps.node.top === prevProps.node.top ){
+  //         this.setState({node: nextProps.node})
+  //     }
+  // }
 
   handleChange = ev => {
       console.log('running')
@@ -139,6 +139,7 @@ class Node extends Component {
       //   }
       // }
     }
+    this.state.upwards = true;
     this.props.checkState(this.state.node);
   };
 
@@ -182,6 +183,7 @@ class Node extends Component {
                   deleteNode={this.deleteNode}
                   node={node}
                   source={this.props.source}
+                  count={this.props.count}
                   setLocal={this.props.setLocal}
                 />
               );
