@@ -44,14 +44,39 @@ class Dashboard extends React.Component {
     console.log(this.state)
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
 
    if (event.target.name === 'delete-btn') {
-    console.log(event.target.name)
+
 
     // if (this.state.projectName === this.state.projectInput) {
-      console.log(this.state.project.projectId)
+
+    const projectId = this.state.project.projectId
+    const collaborators = this.state.project.collaborators
+
+    // await db.collection('Projects').doc(projectId).delete()
+
+    collaborators.forEach(async collaborator => {
+
+      const userRef = await db.collection('Users').doc(collaborator.email).get()
+      const userData = userRef.data()
+
+
+
+
+      await db
+      .collection('Users')
+      .doc(collaborator.email).update({
+        ['projects.' + projectId]: firebase.firestore.FieldValue.delete()
+      })
+
+
+
+      // })
+
+
+    })
 
 
     }
