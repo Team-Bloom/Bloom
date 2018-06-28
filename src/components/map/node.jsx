@@ -3,6 +3,7 @@ import './node.css';
 import { NodeObject } from './';
 import { db } from './';
 import hashCode from '../../utilities/hash';
+import makeDraggable from '../../utilities/draggable';
 
 class Node extends Component {
   constructor(props) {
@@ -21,70 +22,19 @@ class Node extends Component {
   }
 
   static getDerivedStateFromProps = (props, state) => {
-      console.log('checking', state)
-      console.log('PheckingP', props)
       if(props.count !== state.count){
-          console.log("updating")
           return {
               node: props.node,
               count: props.count
           }
-      } else {
-          // return {
-          //   upwards: false
-          // }
       }
   }
 
-  // componentWillReceiveProps = (nextProps, prevProps) => {
-  //     if(!prevProps || !prevProps.node || nextProps.node.text !== prevProps.node.text || nextProps.node.left === prevProps.node.left || nextProps.node.top === prevProps.node.top ){
-  //         this.setState({node: nextProps.node})
-  //     }
-  // }
-
   handleChange = ev => {
-      console.log('running')
     this.setState({node: {
         ...this.state.node,
         text: ev.target.value
     }})
-  };
-
-  drag = ev => {
-    //the should edit for child nodes is being attached to the root node
-    ev.stopPropagation();
-    this.setState({
-      ...this.state,
-      pos1: this.state.pos3 - ev.clientX,
-      pos2: this.state.pos4 - ev.clientY,
-      pos3: ev.clientX,
-      pos4: ev.clientY,
-      node: {
-          ...this.state.node,
-          top: this.dragger.current.offsetTop - this.state.pos2,
-          left: this.dragger.current.offsetLeft - this.state.pos1,
-      },
-      shouldEdit: false,
-    });
-  };
-
-  startDrag = ev => {
-    ev.stopPropagation();
-    this.setState({
-      ...this.state,
-      pos3: ev.clientX,
-      pos4: ev.clientY,
-    });
-    document.onmousemove = this.drag;
-    document.onmouseup = this.stopDrag;
-  };
-
-  stopDrag = ev => {
-    ev.stopPropagation();
-    document.onmousemove = null;
-    if(!this.state.shouldEdit){
-        this.checkState();
-    }
   };
 
   addNode = async ev => {
@@ -116,7 +66,6 @@ class Node extends Component {
       for (let i = 0; i < this.state.node.children.length; i++) {
         if (this.state.node.children[i].id === childState.id) {
           if(childState.delete){
-              // console.log('in here')
               const childrenBefore = this.state.node.children.slice(0, i)
               const childrenAfter = this.state.node.children[i + 1] ? this.state.node.children.slice(i + 1) : []
               this.state.node.children = [...childrenBefore, ...childrenAfter]
@@ -126,20 +75,7 @@ class Node extends Component {
           }
         }
       }
-      // if (childState && childState.children && childState.children.length > 0) {
-      //   for (let i = 0; i < this.state.children.length; i++) {
-      //     //compare children names or maybe react ids
-      //     //names aren't yet on the children state
-      //     //need to be added and then checked
-      //     //id will be fine,
-      //     //every add will have to instantly bubble up
-      //     //and then the api will respond with entire json object
-      //     //then maybe we compare or maybe we just refill out form
-      //     //probably depends on speed test
-      //   }
-      // }
     }
-    this.state.upwards = true;
     this.props.checkState(this.state.node);
   };
 
@@ -161,7 +97,7 @@ class Node extends Component {
         </svg>
         <div
           className="dragger"
-          onMouseDown={this.startDrag}
+          onMouseDown={(ev) => {makeDraggable(ev, this)}}
           ref={this.dragger}
           style={{ left: this.state.node.left + 'px', top: this.state.node.top + 'px' }}
         >
@@ -182,7 +118,6 @@ class Node extends Component {
                   checkState={this.checkState}
                   deleteNode={this.deleteNode}
                   node={node}
-                  source={this.props.source}
                   count={this.props.count}
                   setLocal={this.props.setLocal}
                 />
