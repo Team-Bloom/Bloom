@@ -22,12 +22,6 @@ const styles = {
     color: 'white',
     'font-size': '1.3em',
     cursor: 'pointer',
-    padding: '4px',
-  },
-  activeStyle: {
-    'background-color': 'white',
-    'border-radius': '4px',
-    color: 'black',
   },
 };
 
@@ -50,18 +44,10 @@ class MainNav extends React.Component {
     return (
       <div id="nav-container" style={styles.container}>
         <div id="nav-left" style={styles.left}>
-          <NavLink
-            style={styles.link}
-            activeStyle={styles.activeStyle}
-            to="/home"
-          >
+          <NavLink style={styles.link} to="/home">
             Dashboard
           </NavLink>
-          <NavLink
-            style={styles.link}
-            activeStyle={styles.activeStyle}
-            to={`/map/${this.props.currentMap}`}
-          >
+          <NavLink style={styles.link} to={`/map/${this.props.currentMap}`}>
             Map
           </NavLink>
         </div>
