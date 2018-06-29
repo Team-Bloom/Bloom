@@ -12,7 +12,8 @@ export default class MapView extends Component {
     this.state = {
       project: {},
       source: '',
-      count: 0
+      currentCut: {},
+      count: 0,
     };
   }
 
@@ -35,12 +36,19 @@ export default class MapView extends Component {
     this.unsubscribe();
   }
 
+  currentCut = node => {
+    console.log('running');
+    this.setState({
+      currentCut: node,
+    });
+  };
+
   checkState = async mapState => {
     await this.setState({
-        project: {
-          ...this.state.project,
-          maps: [mapState],
-        },
+      project: {
+        ...this.state.project,
+        maps: [mapState],
+      },
     });
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
@@ -69,6 +77,8 @@ export default class MapView extends Component {
         count={this.state.count}
         projectId={this.props.match.params.projectId}
         user={this.props.user}
+        currentCut={this.currentCut}
+        pasteOption={this.state.currentCut}
       />
     );
   }

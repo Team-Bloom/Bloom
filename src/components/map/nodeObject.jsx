@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {NodeObjectTmpl} from './'
+import { NodeObjectTmpl } from './';
 import './node.css';
 
 class NodeObject extends Component {
@@ -21,21 +21,29 @@ class NodeObject extends Component {
     }
   };
 
-  deleteNode = (ev) => {
-      ev.stopPropagation()
-      this.props.deleteNode(this.props.id)
-  }
+  deleteNode = ev => {
+    ev.stopPropagation();
+    this.props.deleteNode(this.props.id);
+  };
+
+  cutNode = ev => {
+    ev.stopPropagation();
+    this.props.cutNode(this.props.id);
+  };
 
   render() {
     return (
-        <NodeObjectTmpl
-            toggleEdit={this.toggleEdit}
-            text={this.props.text}
-            handleChange={this.props.handleChange}
-            addNode={this.props.addNode}
-            deleteNode={this.deleteNode}
-            isEdit={this.state.isEdit}
-        />
+      <NodeObjectTmpl
+        toggleEdit={this.toggleEdit}
+        text={this.props.text}
+        handleChange={this.props.handleChange}
+        addNode={this.props.addNode}
+        pasteNode={this.props.pasteNode}
+        deleteNode={this.deleteNode}
+        cutNode={this.cutNode}
+        currentCut={this.props.currentCut}
+        isEdit={this.state.isEdit}
+      />
     );
   }
 }
