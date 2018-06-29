@@ -80,7 +80,6 @@ class Node extends Component {
 
   render() {
     return (
-        //don't need this anymore!!!!!
       <NodeTmpl node={this.state.node}
         dragger={this.dragger}
         func={(ev) => {makeDraggable(ev, this)}}

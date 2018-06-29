@@ -6,19 +6,19 @@ import {makeHashCode, makeDraggable} from '../../utilities/'
 function NodeTmpl(props) {
     return (
         <div className="nodeWrap">
-          {props.node && (<div><svg
-            className="line"
-            height={props.node && props.node.top && Math.abs(props.node.top) + 2 + 'px'}
-            width={props.node && props.node.left && Math.abs(props.node.left) + 2 + 'px'}
-          >
-            <line
-              x1="0"
-              y1="0"
-              x2={props.node.left + 'px'}
-              y2={props.node.top + 'px'}
-              style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
-            />
-          </svg>
+          {props.node && (<div>
+            <svg
+                className="line"
+                height={props.node && props.node.top && Math.abs(props.node.top) + 2 + 'px'}
+                width={props.node && props.node.left && Math.abs(props.node.left) + 2 + 'px'} >
+                <line
+                    x1="0"
+                    y1="0"
+                    x2={props.node.left + 'px'}
+                    y2={props.node.top + 'px'}
+                    style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
+                />
+            </svg>
           <div
             className="dragger"
             onMouseDown={props.func}
@@ -39,9 +39,9 @@ function NodeTmpl(props) {
                 return (
                   <Node
                     checkState={props.checkState}
-                    deleteNode={props.that.deleteNode}
+                    deleteNode={props.deleteNode}
                     node={node}
-                    count={props.that.props.count}
+                    count={props.count}
                   />
                 );
               })
