@@ -31,39 +31,6 @@ class Navbar extends Component {
     this.logOutUser = this.logOutUser.bind(this);
   }
 
-  // componentDidMount() {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       console.log('found user');
-  //       this.setState({
-  //         userName: user.displayName,
-  //         userEmail: user.email,
-  //       });
-  //     } else {
-  //       console.log('no user');
-  //     }
-  //   });
-  // }
-
-  // logOutUser() {
-  //   firebase
-  //     .auth()
-  //     .signOut()
-  //     .then(
-  //       () => {
-  //         console.log('Signed Out');
-  //         this.setState({
-  //           userName: '',
-  //           userEmail: '',
-  //         });
-  //       },
-  //       function(error) {
-  //         console.error('Sign Out Error', error);
-  //       }
-  //     );
-  //   history.push('/login');
-  // }
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -134,14 +101,6 @@ class Navbar extends Component {
             this.state.userEmail,
             projectTitle
           );
-
-          // window.open(
-          //   `mailto:${
-          //     this.state.recipientEmail
-          //   }?subject=Invite to collaborate on a Bloom project&body=${
-          //     this.state.userName
-          //   } has invited you to collaborate on a project`
-          // );
         }
         this.setState({
           [event.target.value]: '',
