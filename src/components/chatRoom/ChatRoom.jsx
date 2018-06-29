@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './ChatRoom.css';
-import firebase from 'firebase';
 import Message from '../message/Message.jsx';
 import { db } from '../../index.js';
 
@@ -10,8 +9,6 @@ class ChatRoom extends React.Component {
     super(props);
 
     this.state = {
-      messages: [],
-      user: {},
       newMsg: '',
     };
   }
@@ -32,8 +29,8 @@ class ChatRoom extends React.Component {
     });
   };
 
-  submitMessage = e => {
-    e.preventDefault();
+  submitMessage = evt => {
+    evt.preventDefault();
 
     const newMsg = {
       username: this.props.user.metadata.name,
@@ -52,7 +49,7 @@ class ChatRoom extends React.Component {
   render() {
     return (
       <div className="chatroom">
-        <h3>BloomTime</h3>
+        <h3>Bloom Chat</h3>
         <ul className="chats" ref="chats">
           {this.props.messages && this.props.messages.map((message, index) => (
             <Message key={index} message={message} user={this.props.user} />
