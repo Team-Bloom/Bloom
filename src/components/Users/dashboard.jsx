@@ -100,6 +100,7 @@ class Dashboard extends React.Component {
               </div>
             );
           })}
+
         </div>
         { this.state.projectName.length ?
                 <DeleteProjectPanel handleChange={this.handleChange} handleSubmit={this.handleSubmit} nameInput={this.state.nameInput} /> :
@@ -114,7 +115,7 @@ class Dashboard extends React.Component {
           </button>
         </div>
         <div>
-          <UserPage />
+          <UserPage user={this.props.user} />
         </div>
       </div>
     );
