@@ -3,8 +3,17 @@ import React from 'react';
 const AddCollaboratorForm = props => {
   return (
     <div className="popup" onClick={() => props.showForm('addCollaborator')}>
-      <span>Add collaborator</span>
-      <form className="popuptext" id="collab-form" autoComplete="off">
+      <img
+        // style={styles.icon}
+        src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/24/add-icon.png"
+        alt="add-collab"
+      />{' '}
+      <form
+        onClick={event => event.stopPropagation()}
+        className="popuptext"
+        id="collab-form"
+        autoComplete="off"
+      >
         <label htmlFor="recipientEmail">Email</label>
         <input
           className="recipientEmail"
@@ -20,6 +29,15 @@ const AddCollaboratorForm = props => {
           onClick={props.handleSubmit}
         >
           Share
+        </button>
+        <button
+          type="button"
+          className="email-form-btn"
+          onClick={() =>
+            document.getElementById('collab-form').classList.toggle('show')
+          }
+        >
+          Close
         </button>
         <div>
           {props.collabName ? (

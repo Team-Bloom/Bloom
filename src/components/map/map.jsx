@@ -4,6 +4,7 @@ import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
+import Toolbar from './Toolbar.jsx';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class MapView extends Component {
   componentDidMount() {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
+    console.log('here?', this.props.match.params.projectId);
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
@@ -25,7 +27,7 @@ export default class MapView extends Component {
         console.log(source, ' data: ', doc.data());
         const proj = doc.data();
         console.log('proj data!!!!', proj);
-        return this.setState({
+        this.setState({
           project: doc.data(),
         });
       });
@@ -71,24 +73,26 @@ export default class MapView extends Component {
   };
 
   render() {
+    console.log('state', this.state.project);
     let maps = this.state.project && this.state.project.maps;
+    const projectId = this.props.match.params.projectId;
     if (!this.props.user.metadata) return <div>Loading...</div>;
     return !maps ? (
       <div>
+        <Toolbar />
         <Node checkState={this.checkState} />
       </div>
     ) : (
       <div>
-        <div>
-          {maps.map((map, index) => {
-            return <Node key={index} node={map} checkState={this.checkState} />;
-          })}
-          <SideBar
-            projectId={this.props.match.params.projectId}
-            messages={this.state.project.messages}
-            user={this.props.user}
-          />
-        </div>
+        <Toolbar project={this.state.project} projectId={projectId} />
+        {maps.map((map, index) => {
+          return <Node key={index} node={map} checkState={this.checkState} />;
+        })}
+        <SideBar
+          projectId={projectId}
+          messages={this.state.project.messages}
+          user={this.props.user}
+        />
       </div>
     );
   }

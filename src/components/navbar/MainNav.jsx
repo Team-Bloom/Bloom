@@ -35,6 +35,9 @@ const styles = {
   map: {
     'margin-left': '3px',
   },
+  logo: {
+    'margin-right': '7px',
+  },
 };
 
 class MainNav extends React.Component {
@@ -54,8 +57,20 @@ class MainNav extends React.Component {
   }
   render() {
     return (
-      <div id="nav-container" style={styles.container}>
+      <div
+        id="nav-container"
+        style={{
+          ...styles.container,
+          position: 'fixed',
+          width: '100%',
+          top: '0',
+        }}
+      >
         <div id="nav-left" style={styles.left}>
+          <span style={{ ...styles.link, cursor: 'default', ...styles.logo }}>
+            Bloom:
+          </span>
+
           <NavLink
             style={{ ...styles.link, ...styles.dash }}
             activeStyle={styles.activeStyle}

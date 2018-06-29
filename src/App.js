@@ -51,7 +51,10 @@ class App extends React.Component {
     return (
       <div id="app">
         <div>
-          <MainNav currentMap={this.state.currentMap} />
+          <MainNav
+            style={{ position: 'fixed' }}
+            currentMap={this.state.currentMap}
+          />
           <Routes
             user={this.state.user}
             selectMap={map => this.selectMap(map)}
