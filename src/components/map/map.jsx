@@ -88,25 +88,6 @@ export default class MapView extends Component {
     let maps = this.state.project && this.state.project.maps;
     const projectId = this.props.match.params.projectId;
     if (!this.props.user.metadata) return <div>Loading...</div>;
-<<<<<<< HEAD
-    return !maps ? (
-      <div>
-        <Node checkState={this.checkState} />
-      </div>
-    ) : (
-      <div>
-        <div>
-          {maps.map((map, index) => {
-            return <Node key={index} node={map} checkState={this.checkState} />;
-          })}
-          <SideBar
-            projectId={this.props.match.params.projectId}
-            messages={this.state.project.messages}
-            user={this.props.user}
-          />
-        </div>
-      </div>
-=======
     return (
       <MapTmpl
         project={this.state.project}
@@ -116,7 +97,6 @@ export default class MapView extends Component {
         projectId={this.props.match.params.projectId}
         user={this.props.user}
       />
->>>>>>> f4362faa4af1d3c36e392887d2ad08601f553bf1
     );
   }
 }
