@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './node.css';
 import { NodeTmpl } from './';
-import { db } from './';
 import {makeHashCode, makeDraggable} from '../../utilities/';
 
 class Node extends Component {
