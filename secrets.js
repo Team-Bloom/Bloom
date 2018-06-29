@@ -1,0 +1,5 @@
+export default = {
+  ACCOUNT_SID: 'ACa9730f81ec823979ee855d6e3ce5f089',
+  API_KEY_SID: 'SKe447d69bb4f9fea6adb6be4f3e490461',
+  API_KEY_SECRET: 'ax24P7kTawYrshG8gM0BxYn6A32EiSEp'
+}
