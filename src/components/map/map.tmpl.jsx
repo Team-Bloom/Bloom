@@ -1,10 +1,11 @@
 import React from 'react';
 import { Node } from './';
 import SideBar from '../sideBar/sideBar.jsx';
+import Toolbar from './Toolbar'
 //makeDraggable should be configured in the parent and pass teh whole thing in and then wouldn't need the whole this in here
 
 function MapTmpl(props) {
-  if (!this.props.project) return <div>Loading...</div>;
+  if (!props.project) return <div>Loading...</div>;
   return !props.maps ? (
     <div>
       <Toolbar />
@@ -27,7 +28,7 @@ function MapTmpl(props) {
         })}
         <SideBar
           projectId={props.projectId}
-          messages={props.messages}
+          messages={props.project.messages}
           user={props.user}
         />
       </div>

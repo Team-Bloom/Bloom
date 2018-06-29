@@ -47,6 +47,7 @@ class ChatRoom extends React.Component {
   };
 
   render() {
+    console.log("line 50 in ChatRoom", this.props)
     return (
       <div className="chatroom">
         <h3>Bloom Chat</h3>
