@@ -51,7 +51,6 @@ class App extends React.Component {
       <div id="app">
         <div>
           <MainNav
-            style={{ position: 'fixed' }}
             currentMap={this.state.currentMap}
           />
           <Routes
