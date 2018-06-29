@@ -14,6 +14,7 @@ export default class MapView extends Component {
     this.state = {
       project: {},
       source: '',
+      currentCut: {},
     };
   }
   componentDidMount() {
@@ -47,6 +48,13 @@ export default class MapView extends Component {
 
   setLocal = () => {
     source = 'Local';
+  };
+
+  currentCut = node => {
+    console.log('running');
+    this.setState({
+      currentCut: node,
+    });
   };
 
   checkState = async mapState => {
@@ -84,7 +92,8 @@ export default class MapView extends Component {
   };
 
   render() {
-    console.log('state', this.state.project);
+    console.log('cut', this.state.currentCut);
+    console.log('state', this.state);
     let maps = this.state.project && this.state.project.maps;
     const projectId = this.props.match.params.projectId;
     if (!this.props.user.metadata) return <div>Loading...</div>;
@@ -96,6 +105,8 @@ export default class MapView extends Component {
         count={this.state.count}
         projectId={this.props.match.params.projectId}
         user={this.props.user}
+        currentCut={this.currentCut}
+        pasteOption={this.state.currentCut}
       />
     );
   }

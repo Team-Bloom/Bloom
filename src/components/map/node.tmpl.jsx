@@ -1,15 +1,25 @@
-import React, { Component } from 'react'
-import { NodeObject, Node } from './'
-import {makeHashCode, makeDraggable} from '../../utilities/'
+import React, { Component } from 'react';
+import { NodeObject, Node } from './';
+import { makeHashCode, makeDraggable } from '../../utilities/';
 //makeDraggable should be configured in the parent and pass teh whole thing in and then wouldn't need the whole this in here
 
 function NodeTmpl(props) {
-    return (
-        <div className="nodeWrap">
-          {props.that.state.node && (<div><svg
+  return (
+    <div className="nodeWrap">
+      {props.that.state.node && (
+        <div>
+          <svg
             className="line"
-            height={props.that.state.node && props.that.state.node.top && Math.abs(props.that.state.node.top) + 2 + 'px'}
-            width={props.that.state.node && props.that.state.node.left && Math.abs(props.that.state.node.left) + 2 + 'px'}
+            height={
+              props.that.state.node &&
+              props.that.state.node.top &&
+              Math.abs(props.that.state.node.top) + 2 + 'px'
+            }
+            width={
+              props.that.state.node &&
+              props.that.state.node.left &&
+              Math.abs(props.that.state.node.left) + 2 + 'px'
+            }
           >
             <line
               x1="0"
@@ -21,9 +31,14 @@ function NodeTmpl(props) {
           </svg>
           <div
             className="dragger"
-            onMouseDown={(ev) => {makeDraggable(ev, props.that)}}
+            onMouseDown={ev => {
+              makeDraggable(ev, props.that);
+            }}
             ref={props.that.dragger}
-            style={{ left: props.that.state.node.left + 'px', top: props.that.state.node.top + 'px' }}
+            style={{
+              left: props.that.state.node.left + 'px',
+              top: props.that.state.node.top + 'px',
+            }}
           >
             <NodeObject
               addNode={props.that.addNode}
@@ -31,26 +46,33 @@ function NodeTmpl(props) {
               text={props.that.state.node && props.that.state.node.text}
               checkState={props.that.checkState}
               deleteNode={props.that.deleteNode}
+              cutNode={props.that.cutNode}
+              currentCut={props.currentCut}
               id={props.that.state.node && props.that.state.node.id}
+              pasteNode={props.that.pasteNode}
             />
             {props.that.state &&
               props.that.state.node &&
               props.that.state.node.children &&
               props.that.state.node.children.map(node => {
+                console.log(props);
                 return (
                   <Node
                     checkState={props.that.checkState}
                     deleteNode={props.that.deleteNode}
                     node={node}
                     count={props.that.props.count}
+                    cutNode={props.that.cutNode}
+                    currentCut={props.currentCut}
+                    pasteOption={props.pasteOption}
                   />
                 );
-              })
-            }
+              })}
           </div>
-          </div>)}
         </div>
-    )
+      )}
+    </div>
+  );
 }
 
-export default NodeTmpl
+export default NodeTmpl;
