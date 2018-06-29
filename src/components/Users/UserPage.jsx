@@ -1,3 +1,5 @@
+import React, { Component } from 'react'
+
 
 class UserPage extends Component {
   constructor() {
@@ -10,16 +12,14 @@ class UserPage extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({
-          userName: user.displayName,
-          userEmail: user.email,
-        });
-      } else {
-        console.log('no user');
-      }
-    });
+
+        // this.setState({
+        //   userName: this.props.user.displayName,
+        //   userEmail: this.props.user.email,
+        // });
+
+        console.log(this.props.user)
+
   }
 
 

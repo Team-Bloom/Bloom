@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { db } from '../../index.js';
 import history from '../../history';
 import DeleteProjectPanel from './DeleteProjectPanel.jsx'
+import UserPage from './UserPage.jsx'
 
 class Dashboard extends React.Component {
   constructor() {
@@ -111,6 +112,9 @@ class Dashboard extends React.Component {
           >
             Add new project
           </button>
+        </div>
+        <div>
+          <UserPage />
         </div>
       </div>
     );
