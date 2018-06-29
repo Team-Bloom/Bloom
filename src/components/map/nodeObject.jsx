@@ -22,7 +22,6 @@ class NodeObject extends Component {
   };
 
   deleteNode = (ev) => {
-      console.log('we in here!!!!!!!!!!!!')
       ev.stopPropagation()
       this.props.deleteNode(this.props.id)
   }
