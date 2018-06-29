@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.2.3",
+    "faker": "^4.1.0",
+    "material-ui": "^0.20.0",
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
     "firebase": "^5.1.0",
     "firebaseui": "^3.0.0",
     "react": "^16.4.1",
@@ -11,6 +15,8 @@
     "react-offcanvas": "^0.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "twilio": "^3.17.4",
+    "twilio-video": "^1.10.0",
     "yargs": "^11.0.0"
   },
   "scripts": {
