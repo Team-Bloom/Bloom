@@ -90,10 +90,8 @@ class Node extends Component {
               : [];
             this.state.node.children = [...childrenBefore, ...childrenAfter];
           } else if (childState.cut) {
-            console.log('cutting');
             const arrayCopy = this.state.node.children.slice();
             const cutOut = arrayCopy.splice(i, 1)[0];
-            console.log(cutOut, this.props);
             this.state.node.children = arrayCopy;
             this.props.currentCut(cutOut);
           } else {
@@ -107,12 +105,22 @@ class Node extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <NodeTmpl
-        that={this}
+        node={this.state.node}
+        dragger={this.dragger}
+        func={ev => {
+          makeDraggable(ev, this);
+        }}
+        addNode={this.addNode}
+        handleChange={this.handleChange}
+        checkState={this.checkState}
+        deleteNode={this.deleteNode}
+        count={this.props.count}
         currentCut={this.props.currentCut}
         pasteOption={this.props.pasteOption}
+        cutNode={this.cutNode}
+        pasteNode={this.pasteNode}
       />
     );
   }
