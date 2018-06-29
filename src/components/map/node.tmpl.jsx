@@ -6,43 +6,42 @@ import {makeHashCode, makeDraggable} from '../../utilities/'
 function NodeTmpl(props) {
     return (
         <div className="nodeWrap">
-          {props.that.state.node && (<div><svg
-            className="line"
-            height={props.that.state.node && props.that.state.node.top && Math.abs(props.that.state.node.top) + 2 + 'px'}
-            width={props.that.state.node && props.that.state.node.left && Math.abs(props.that.state.node.left) + 2 + 'px'}
-          >
-            <line
-              x1="0"
-              y1="0"
-              x2={props.that.state.node.left + 'px'}
-              y2={props.that.state.node.top + 'px'}
-              style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
-            />
-          </svg>
+          {props.node && (<div>
+            <svg
+                className="line"
+                height={props.node && props.node.top && Math.abs(props.node.top) + 2 + 'px'}
+                width={props.node && props.node.left && Math.abs(props.node.left) + 2 + 'px'} >
+                <line
+                    x1="0"
+                    y1="0"
+                    x2={props.node.left + 'px'}
+                    y2={props.node.top + 'px'}
+                    style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
+                />
+            </svg>
           <div
             className="dragger"
-            onMouseDown={(ev) => {makeDraggable(ev, props.that)}}
-            ref={props.that.dragger}
-            style={{ left: props.that.state.node.left + 'px', top: props.that.state.node.top + 'px' }}
+            onMouseDown={props.func}
+            ref={props.dragger}
+            style={{ left: props.node.left + 'px', top: props.node.top + 'px' }}
           >
             <NodeObject
-              addNode={props.that.addNode}
-              handleChange={props.that.handleChange}
-              text={props.that.state.node && props.that.state.node.text}
-              checkState={props.that.checkState}
-              deleteNode={props.that.deleteNode}
-              id={props.that.state.node && props.that.state.node.id}
+              addNode={props.addNode}
+              handleChange={props.handleChange}
+              text={props.node && props.node.text}
+              checkState={props.checkState}
+              deleteNode={props.deleteNode}
+              id={props.node && props.node.id}
             />
-            {props.that.state &&
-              props.that.state.node &&
-              props.that.state.node.children &&
-              props.that.state.node.children.map(node => {
+            { props.node &&
+              props.node.children &&
+              props.node.children.map(node => {
                 return (
                   <Node
-                    checkState={props.that.checkState}
-                    deleteNode={props.that.deleteNode}
+                    checkState={props.checkState}
+                    deleteNode={props.deleteNode}
                     node={node}
-                    count={props.that.props.count}
+                    count={props.count}
                   />
                 );
               })

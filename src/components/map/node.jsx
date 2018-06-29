@@ -80,7 +80,15 @@ class Node extends Component {
 
   render() {
     return (
-      <NodeTmpl that={this} />
+      <NodeTmpl node={this.state.node}
+        dragger={this.dragger}
+        func={(ev) => {makeDraggable(ev, this)}}
+        addNode={this.addNode}
+        handleChange={this.handleChange}
+        checkState={this.checkState}
+        deleteNode={this.deleteNode}
+        count={this.props.count}
+        />
     );
   }
 }
