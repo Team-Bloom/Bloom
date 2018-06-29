@@ -45,11 +45,11 @@ export const updateUserProjects = (collaborators, db, projectId, owner, title) =
          await db
         .collection('Users')
         .doc(collaborator.email).update({
-          'projects': {...userData.projects, [projectId]: {
-            'collaborators': [...collaborators],
-            'owner': owner,
-            'projectId': projectId,
-            'title': title
+          projects: {...userData.projects, [projectId]: {
+            collaborators: [...collaborators],
+            owner: owner,
+            projectId: projectId,
+            title: title
           }
           }
         })

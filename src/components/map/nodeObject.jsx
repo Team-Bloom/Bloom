@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {NodeObjectTmpl} from './'
 import './node.css';
 
 class NodeObject extends Component {
@@ -27,40 +28,14 @@ class NodeObject extends Component {
 
   render() {
     return (
-      <div className="node" onClick={this.toggleEdit}>
-        {this.state.isEdit ? (
-          <input
-            type="text"
-            name="text"
-            value={this.props.text}
-            onChange={this.props.handleChange}
-            onClick={ev => {
-              ev.stopPropagation();
-            }}
-          />
-        ) : (
-          <span>{this.props.text}</span>
-        )}
-        <svg
-          className="nodeIcon"
-          width="100%"
-          viewBox="0 0 32 32"
-          aria-labelledby="title"
-        >
-          <title id="title">{this.props.text}</title>
-          <rect
-            width="100%"
-            height="50%"
-            style={{
-              fill: 'rgb(255,255,255)',
-              strokeWidth: '0.01em',
-              stroke: 'rgb(0,0,0)',
-            }}
-          />
-        </svg>
-        <button onClick={this.props.addNode}>Add </button>
-        <button onClick={this.deleteNode}>Delete </button>
-      </div>
+        <NodeObjectTmpl
+            toggleEdit={this.toggleEdit}
+            text={this.props.text}
+            handleChange={this.props.handleChange}
+            addNode={this.props.addNode}
+            deleteNode={this.deleteNode}
+            isEdit={this.state.isEdit}
+        />
     );
   }
 }

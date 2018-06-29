@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Node } from './index';
+import { Node, MapTmpl } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
@@ -84,30 +84,12 @@ export default class MapView extends Component {
   render() {
     let maps = this.state.project && this.state.project.maps;
     if (!this.props.user.metadata) return <div>Loading...</div>;
-    return !maps ? (
-      <div>
-        <Node checkState={this.checkState} />
-      </div>
-    ) : (
-      <div>
-        <div>
-          {maps.map((map, index) => {
-            return (
-              <Node
-                key={index}
-                node={map}
-                checkState={this.checkState}
-                count={this.state.count}
-              />
-            );
-          })}
-          <SideBar
-            projectId={this.props.match.params.projectId}
-            messages={this.state.project.messages}
-            user={this.props.user}
-          />
-        </div>
-      </div>
-    );
+    return (<MapTmpl
+        maps={maps}
+        checkState={this.checkState}
+        count={this.state.count}
+        projectId={this.props.match.params.projectId}
+        user={this.props.user}
+    />)
   }
 }

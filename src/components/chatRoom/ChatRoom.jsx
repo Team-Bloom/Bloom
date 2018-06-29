@@ -54,7 +54,7 @@ class ChatRoom extends React.Component {
       <div className="chatroom">
         <h3>BloomTime</h3>
         <ul className="chats" ref="chats">
-          {this.props.messages.map((message, index) => (
+          {this.props.messages && this.props.messages.map((message, index) => (
             <Message key={index} message={message} user={this.props.user} />
           ))}
         </ul>

@@ -5,7 +5,6 @@ import { db } from './index.js';
 import {
   addNewUser,
   searchForUser,
-  addNewProject,
 } from './components/Users/function.js';
 import MainNav from './components/navbar/MainNav.jsx';
 
@@ -33,7 +32,7 @@ class App extends React.Component {
           .collection('Users')
           .doc(user.email)
           .onSnapshot(doc => {
-            const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+            //const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
             return this.setState({
               user: doc.data(),
             });

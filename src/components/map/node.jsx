@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './node.css';
-import { NodeObject } from './';
-import { db } from './';
+import { NodeTmpl } from './';
 import {makeHashCode, makeDraggable} from '../../utilities/';
 
 class Node extends Component {
@@ -27,6 +26,7 @@ class Node extends Component {
               count: props.count
           }
       }
+      return null
   }
 
   handleChange = ev => {
@@ -80,50 +80,7 @@ class Node extends Component {
 
   render() {
     return (
-      <div className="nodeWrap">
-        {this.state.node && (<div><svg
-          className="line"
-          height={this.state.node && this.state.node.top && Math.abs(this.state.node.top) + 2 + 'px'}
-          width={this.state.node && this.state.node.left && Math.abs(this.state.node.left) + 2 + 'px'}
-        >
-          <line
-            x1="0"
-            y1="0"
-            x2={this.state.node.left + 'px'}
-            y2={this.state.node.top + 'px'}
-            style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
-          />
-        </svg>
-        <div
-          className="dragger"
-          onMouseDown={(ev) => {makeDraggable(ev, this)}}
-          ref={this.dragger}
-          style={{ left: this.state.node.left + 'px', top: this.state.node.top + 'px' }}
-        >
-          <NodeObject
-            addNode={this.addNode}
-            handleChange={this.handleChange}
-            text={this.state.node && this.state.node.text}
-            checkState={this.checkState}
-            deleteNode={this.deleteNode}
-            id={this.state.node && this.state.node.id}
-          />
-          {this.state &&
-            this.state.node &&
-            this.state.node.children &&
-            this.state.node.children.map(node => {
-              return (
-                <Node
-                  checkState={this.checkState}
-                  deleteNode={this.deleteNode}
-                  node={node}
-                  count={this.props.count}
-                />
-              );
-            })
-          }
-        </div></div>)}
-      </div>
+      <NodeTmpl that={this} />
     );
   }
 }
