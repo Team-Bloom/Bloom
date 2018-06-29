@@ -1,18 +1,46 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { Link } from 'react-router-dom';
-import './navbar.css';
+import { NavLink } from 'react-router-dom';
+import history from '../../history.js';
+import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
+import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
 import { db } from '../../index.js';
 import {
   displayForm,
   removeForm,
   checkUnique,
   updateUserProjects,
-} from './functions.js';
-import UserIsLoggedIn from './UserIsLoggedIn.jsx';
-import history from '../../history.js';
+} from '../navbar/functions.js';
 
-class Navbar extends Component {
+const styles = {
+  container: {
+    display: 'flex',
+    'background-color': 'gray',
+    'justify-content': 'space-between',
+    'padding-left': '1%',
+    'padding-right': '1%',
+    height: '5vh',
+    'align-items': 'center',
+  },
+  left: {
+    display: 'flex',
+    'justify-content': 'space-between',
+    // width: '9%',
+  },
+  link: {
+    color: 'white',
+    'font-size': '1.3em',
+    cursor: 'pointer',
+  },
+  title: {
+    'margin-right': '10px',
+  },
+  icon: {
+    margin: '5px',
+  },
+};
+
+class Toolbar extends React.Component {
   constructor() {
     super();
 
@@ -28,7 +56,6 @@ class Navbar extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
-    this.logOutUser = this.logOutUser.bind(this);
   }
 
   handleChange(event) {
@@ -70,7 +97,9 @@ class Navbar extends Component {
           this.state.recipientEmail,
           this.state.userEmail
         ).length;
-
+        if (alreadyAddedUser) {
+          document.getElementById('collab-form').classList.toggle('show');
+        }
         if (!alreadyAddedUser) {
           const docRef = await db
             .collection('Projects')
@@ -101,11 +130,19 @@ class Navbar extends Component {
             this.state.userEmail,
             projectTitle
           );
+
+          // window.open(
+          //   `mailto:${
+          //     this.state.recipientEmail
+          //   }?subject=Invite to collaborate on a Bloom project&body=${
+          //     this.state.userName
+          //   } has invited you to collaborate on a project`
+          // );
+          document.getElementById('collab-form').classList.toggle('show');
         }
         this.setState({
           [event.target.value]: '',
         });
-        removeForm();
       }
     } else if (event.target.name === 'save-btn') {
       await db
@@ -126,7 +163,7 @@ class Navbar extends Component {
       this.setState({
         [event.target.value]: '',
       });
-      removeForm();
+      document.getElementById('save-form').classList.toggle('show');
     }
   }
 
@@ -137,32 +174,44 @@ class Navbar extends Component {
   showForm(action) {
     displayForm(action);
   }
-
   render() {
-    return this.state.userName ? (
-      <UserIsLoggedIn
-        showForm={this.showForm}
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-        projectName={this.state.projectName}
-        recipientEmail={this.state.recipientEmail}
-        hideForm={this.hideForm}
-        collabName={this.state.nonExistentCollaboratorsEmail}
-        logOutUser={this.logOutUser}
-      />
-    ) : (
-      <ul className="navbar-container">
-        <li>
-          <Link to="/login">
-            <span className="logged-out">Sign-in</span>
-          </Link>
-        </li>
-        <li>
-          <span className="logged-out">New project</span>
-        </li>
-      </ul>
+    console.log('runningtool');
+    if (!this.props.project) return <div>Loding...</div>;
+    return (
+      <div
+        id="tool-container"
+        style={{
+          ...styles.container,
+          position: 'fixed',
+          width: '100%',
+          top: '5vh',
+        }}
+      >
+        <div id="tool-left" style={styles.left}>
+          <span id="title" style={{ ...styles.link, ...styles.title }}>
+            {this.props.project.metadata.title}
+          </span>
+          <SaveProjectForm
+            showForm={this.showForm}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            projectName={this.state.projectName}
+          />
+          <AddCollaboratorForm
+            showForm={this.showForm}
+            handleChange={this.handleChange}
+            recipientName={this.state.recipientName}
+            recipientEmail={this.state.recipientEmail}
+            handleSubmit={this.handleSubmit}
+            collabName={this.state.nonExistentCollaboratorsEmail}
+          />
+        </div>
+        <div id="tool-right">
+          <span>Space</span>
+        </div>
+      </div>
     );
   }
 }
 
-export default Navbar;
+export default Toolbar;

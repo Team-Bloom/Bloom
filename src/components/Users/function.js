@@ -15,8 +15,8 @@ export const addNewUser = async (userObj, email) => {
           [metadata.projectId]: metadata,
         },
       });
-  } catch (e) {
-    console.error(e);
+  } catch (ee) {
+    console.error(ee);
   }
 };
 
