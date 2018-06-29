@@ -32,11 +32,7 @@ class App extends React.Component {
           .collection('Users')
           .doc(user.email)
           .onSnapshot(doc => {
-<<<<<<< HEAD
-            const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
-=======
             //const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
->>>>>>> f4362faa4af1d3c36e392887d2ad08601f553bf1
             return this.setState({
               user: doc.data(),
             });
@@ -54,13 +50,9 @@ class App extends React.Component {
     return (
       <div id="app">
         <div>
-<<<<<<< HEAD
-          <MainNav currentMap={this.state.currentMap} />
-=======
           <MainNav
             currentMap={this.state.currentMap}
           />
->>>>>>> f4362faa4af1d3c36e392887d2ad08601f553bf1
           <Routes
             user={this.state.user}
             selectMap={map => this.selectMap(map)}
