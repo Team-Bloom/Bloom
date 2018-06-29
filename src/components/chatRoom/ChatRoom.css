@@ -78,7 +78,7 @@
   height: 3.5vh;
   width: 30vh;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .chatroom .input input[type='submit'] {
