@@ -1,34 +1,41 @@
 import React, { Component } from 'react';
-import { Node } from './index';
+import { Node, MapTmpl } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
 import Toolbar from './Toolbar.jsx';
+var source;
+var count;
 
 export default class MapView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       project: {},
+      source: '',
     };
   }
   componentDidMount() {
     // const test = await firebase.auth().currentUser;
     // console.log(test)
-    console.log('here?', this.props.match.params.projectId);
+    count = 0;
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
         .doc(this.props.match.params.projectId);
 
       this.unsubscribe = docRef.onSnapshot(doc => {
-        const source = doc.metadata.hasPendingWrites ? 'Local' : 'Server';
+        source =
+          doc.metadata.hasPendingWrites || count === 0 ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
         const proj = doc.data();
         console.log('proj data!!!!', proj);
+        count += 1;
         this.setState({
           project: doc.data(),
+          source: source,
+          count: count,
         });
       });
     }
@@ -37,6 +44,10 @@ export default class MapView extends Component {
   componentWillUnmount() {
     this.unsubscribe();
   }
+
+  setLocal = () => {
+    source = 'Local';
+  };
 
   checkState = async mapState => {
     //DANGER ZONE, we are about to change the data to be sent
@@ -77,23 +88,15 @@ export default class MapView extends Component {
     let maps = this.state.project && this.state.project.maps;
     const projectId = this.props.match.params.projectId;
     if (!this.props.user.metadata) return <div>Loading...</div>;
-    return !maps ? (
-      <div>
-        <Toolbar />
-        <Node checkState={this.checkState} />
-      </div>
-    ) : (
-      <div>
-        <Toolbar project={this.state.project} projectId={projectId} />
-        {maps.map((map, index) => {
-          return <Node key={index} node={map} checkState={this.checkState} />;
-        })}
-        <SideBar
-          projectId={projectId}
-          messages={this.state.project.messages}
-          user={this.props.user}
-        />
-      </div>
+    return (
+      <MapTmpl
+        project={this.state.project}
+        maps={maps}
+        checkState={this.checkState}
+        count={this.state.count}
+        projectId={this.props.match.params.projectId}
+        user={this.props.user}
+      />
     );
   }
 }
