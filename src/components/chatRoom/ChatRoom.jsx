@@ -9,8 +9,6 @@ class ChatRoom extends React.Component {
     super(props);
 
     this.state = {
-      messages: [],
-      user: {},
       newMsg: '',
     };
   }
@@ -31,8 +29,8 @@ class ChatRoom extends React.Component {
     });
   };
 
-  submitMessage = e => {
-    e.preventDefault();
+  submitMessage = evt => {
+    evt.preventDefault();
 
     const newMsg = {
       username: this.props.user.metadata.name,
