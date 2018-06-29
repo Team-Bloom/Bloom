@@ -4,6 +4,7 @@ import SideBar from '../sideBar/sideBar.jsx';
 import { db } from '../../index.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
+import Toolbar from './Toolbar.jsx';
 var source;
 var count;
 
@@ -12,7 +13,7 @@ export default class MapView extends Component {
     super(props);
     this.state = {
       project: {},
-      source: ''
+      source: '',
     };
   }
   componentDidMount() {
@@ -25,12 +26,13 @@ export default class MapView extends Component {
         .doc(this.props.match.params.projectId);
 
       this.unsubscribe = docRef.onSnapshot(doc => {
-        source = doc.metadata.hasPendingWrites || count === 0 ? 'Local' : 'Server';
+        source =
+          doc.metadata.hasPendingWrites || count === 0 ? 'Local' : 'Server';
         console.log(source, ' data: ', doc.data());
         const proj = doc.data();
         console.log('proj data!!!!', proj);
-        count += 1
-        return this.setState({
+        count += 1;
+        this.setState({
           project: doc.data(),
           source: source,
           count: count,
@@ -44,8 +46,8 @@ export default class MapView extends Component {
   }
 
   setLocal = () => {
-      source = 'Local'
-  }
+    source = 'Local';
+  };
 
   checkState = async mapState => {
     //DANGER ZONE, we are about to change the data to be sent
@@ -82,14 +84,19 @@ export default class MapView extends Component {
   };
 
   render() {
+    console.log('state', this.state.project);
     let maps = this.state.project && this.state.project.maps;
+    const projectId = this.props.match.params.projectId;
     if (!this.props.user.metadata) return <div>Loading...</div>;
-    return (<MapTmpl
+    return (
+      <MapTmpl
+        project={this.state.project}
         maps={maps}
         checkState={this.checkState}
         count={this.state.count}
         projectId={this.props.match.params.projectId}
         user={this.props.user}
-    />)
+      />
+    );
   }
 }

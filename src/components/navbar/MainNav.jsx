@@ -22,6 +22,21 @@ const styles = {
     color: 'white',
     'font-size': '1.3em',
     cursor: 'pointer',
+    padding: '4px',
+  },
+  activeStyle: {
+    'background-color': 'white',
+    'border-radius': '4px',
+    color: 'black',
+  },
+  dash: {
+    'margin-right': '3px',
+  },
+  map: {
+    'margin-left': '3px',
+  },
+  logo: {
+    'margin-right': '7px',
   },
 };
 
@@ -42,12 +57,32 @@ class MainNav extends React.Component {
   }
   render() {
     return (
-      <div id="nav-container" style={styles.container}>
+      <div
+        id="nav-container"
+        style={{
+          ...styles.container,
+          position: 'fixed',
+          width: '100%',
+          top: '0',
+        }}
+      >
         <div id="nav-left" style={styles.left}>
-          <NavLink style={styles.link} to="/home">
+          <span style={{ ...styles.link, cursor: 'default', ...styles.logo }}>
+            Bloom:
+          </span>
+
+          <NavLink
+            style={{ ...styles.link, ...styles.dash }}
+            activeStyle={styles.activeStyle}
+            to="/home"
+          >
             Dashboard
           </NavLink>
-          <NavLink style={styles.link} to={`/map/${this.props.currentMap}`}>
+          <NavLink
+            style={{ ...styles.link, ...styles.map }}
+            activeStyle={styles.activeStyle}
+            to={`/map/${this.props.currentMap}`}
+          >
             Map
           </NavLink>
         </div>
