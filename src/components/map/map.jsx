@@ -52,6 +52,7 @@ export default class MapView extends Component {
 
   goBack = async () => {
     const previous = this.state.history[this.state.index - 1];
+    console.log(previous, 'previous');
     await this.setState({ index: this.state.index - 1 });
     try {
       let payload = {
@@ -84,9 +85,11 @@ export default class MapView extends Component {
         ...this.state.project,
         maps: [mapState],
       };
-      this.setState({
-        history: this.state.history.slice(0, this.state.index).push(payload),
-      });
+      // const newArr = this.state.history.slice(0, this.state.index);
+      // newArr.push(payload);
+      // await this.setState({
+      //   history: newArr,
+      // });
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
