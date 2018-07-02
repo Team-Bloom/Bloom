@@ -6,6 +6,7 @@ const myFirstProject = (userObj, email, title) => ({
     lastUpdated: '',
   },
   messages: [],
+  // history: [],
   maps: [
     {
       text: 'first node',

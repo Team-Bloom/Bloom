@@ -174,6 +174,7 @@ class Toolbar extends React.Component {
   showForm(action) {
     displayForm(action);
   }
+
   render() {
     console.log(this.props.project, 'sssssssss');
     if (!this.props.project) return <div>Loding...</div>;
@@ -205,6 +206,12 @@ class Toolbar extends React.Component {
             handleSubmit={this.handleSubmit}
             collabName={this.state.nonExistentCollaboratorsEmail}
           />
+        </div>
+        <div>
+          <button type="button" onClick={this.props.goBack}>
+            Back
+          </button>
+          <button type="button">Forward</button>
         </div>
         <div id="tool-right">
           <span

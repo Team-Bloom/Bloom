@@ -14,7 +14,11 @@ function MapTmpl(props) {
   ) : (
     <div>
       <div>
-        <Toolbar project={props.project} projectId={props.projectId} />
+        <Toolbar
+          project={props.project}
+          projectId={props.projectId}
+          goBack={props.goBack}
+        />
         {props.maps.map((map, index) => {
           return (
             <Node

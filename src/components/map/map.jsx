@@ -14,6 +14,10 @@ export default class MapView extends Component {
       source: '',
       currentCut: {},
       count: 0,
+      forward: {},
+      back: true,
+      history: [],
+      index: -1,
     };
   }
 
@@ -24,9 +28,13 @@ export default class MapView extends Component {
         .doc(this.props.match.params.projectId);
 
       this.unsubscribe = docRef.onSnapshot(doc => {
+        console.log('snapshot', this.state.history);
         this.setState({
           project: doc.data(),
           count: this.state.count + 1,
+          back: true,
+          history: [...this.state.history, { version: doc.data().maps }],
+          index: this.state.index + 1,
         });
       });
     }
@@ -37,10 +45,26 @@ export default class MapView extends Component {
   }
 
   currentCut = node => {
-    console.log('running');
     this.setState({
       currentCut: node,
     });
+  };
+
+  goBack = async () => {
+    const previous = this.state.history[this.state.index - 1];
+    await this.setState({ index: this.state.index - 1 });
+    try {
+      let payload = {
+        ...this.state.project,
+        maps: previous.version,
+      };
+      const docRef = await db
+        .collection('Projects')
+        .doc(this.props.match.params.projectId)
+        .set(payload);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   checkState = async mapState => {
@@ -56,7 +80,13 @@ export default class MapView extends Component {
 
     const obj = this.state.project;
     try {
-      let payload = { ...this.state.project, maps: [mapState] };
+      let payload = {
+        ...this.state.project,
+        maps: [mapState],
+      };
+      this.setState({
+        history: this.state.history.slice(0, this.state.index).push(payload),
+      });
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
@@ -67,11 +97,13 @@ export default class MapView extends Component {
   };
 
   render() {
+    console.log('STATE', this.state);
     let maps = this.state.project && this.state.project.maps;
     if (!this.props.user.metadata) return <div>Loading...</div>;
     return (
       <MapTmpl
         project={this.state.project}
+        goBack={this.goBack}
         maps={maps}
         checkState={this.checkState}
         count={this.state.count}
