@@ -92,11 +92,8 @@ class Dashboard extends React.Component {
                   }
                   to={`/map/${projects[project].projectId}`}
                 >
-                  <ProjectCard project={projects[project]} />
+                  <ProjectCard project={projects[project]} areYouSure={this.areYouSure} />
                 </Link>
-
-                <button type="submit" className="delete-btn" onClick={() => this.areYouSure(projects[project])}>Delete project
-                </button>
               </div>
             );
           })}

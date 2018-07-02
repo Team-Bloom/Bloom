@@ -36,6 +36,13 @@ const ProjectCard = props => {
             );
           })}
         </CardContent>
+        <button
+          type="submit"
+          className="delete-btn"
+          onClick={() => props.areYouSure(props.project)}
+        >
+          Delete project
+        </button>
       </Card>
     </div>
   );
