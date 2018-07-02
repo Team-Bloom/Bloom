@@ -6,37 +6,37 @@ import history from '../../history.js';
 const styles = {
   container: {
     display: 'flex',
-    'background-color': '#333',
-    'justify-content': 'space-between',
-    'padding-left': '1%',
-    'padding-right': '1%',
+    backgroundColor: '#333',
+    justifyContent: 'space-between',
+    paddingLeft: '1%',
+    paddingRight: '1%',
     height: '5vh',
-    'align-items': 'center',
+    alignItems: 'center',
   },
   left: {
     display: 'flex',
-    'justify-content': 'space-between',
+    justifyContent: 'space-between',
     width: '9%',
   },
   link: {
     color: 'white',
-    'font-size': '1.3em',
+    fontSize: '1.3em',
     cursor: 'pointer',
     padding: '4px',
   },
   activeStyle: {
-    'background-color': 'white',
-    'border-radius': '4px',
+    backgroundColor: 'white',
+    borderRadius: '4px',
     color: 'black',
   },
   dash: {
-    'margin-right': '3px',
+    marginRight: '3px',
   },
   map: {
-    'margin-left': '3px',
+    marginLeft: '3px',
   },
   logo: {
-    'margin-right': '7px',
+    marginRight: '7px',
   },
 };
 

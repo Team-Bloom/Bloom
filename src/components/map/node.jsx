@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './node.css';
 import { NodeTmpl } from './';
-import {makeHashCode, makeDraggable} from '../../utilities/';
+import { makeHashCode, makeDraggable } from '../../utilities/';
 
 class Node extends Component {
   constructor(props) {
@@ -15,25 +15,27 @@ class Node extends Component {
       pos4: 0,
       shouldEdit: true,
       node: this.props.node || {},
-      count: this.props.count || 0
+      count: this.props.count || 0,
     };
   }
 
   static getDerivedStateFromProps = (props, state) => {
-      if(props.count !== state.count){
-          return {
-              node: props.node,
-              count: props.count
-          }
-      }
-      return null
-  }
+    if (props.count !== state.count) {
+      return {
+        node: props.node,
+        count: props.count,
+      };
+    }
+    return null;
+  };
 
   handleChange = ev => {
-    this.setState({node: {
+    this.setState({
+      node: {
         ...this.state.node,
-        text: ev.target.value
-    }})
+        text: ev.target.value,
+      },
+    });
   };
 
   addNode = async ev => {
@@ -48,15 +50,32 @@ class Node extends Component {
     await this.setState({
       ...this.state,
       node: {
-          ...this.state.node,
-          children: [...this.state.node.children, newNode]
+        ...this.state.node,
+        children: [...this.state.node.children, newNode],
+      },
+    });
+    this.checkState();
+  };
+
+  pasteNode = async ev => {
+    console.log(this.props);
+    ev.stopPropagation();
+    await this.setState({
+      ...this.state,
+      node: {
+        ...this.state.node,
+        children: [...this.state.node.children, this.props.pasteOption],
       },
     });
     this.checkState();
   };
 
   deleteNode = id => {
-    this.props.checkState({delete: true, id: id});
+    this.props.checkState({ delete: true, id: id });
+  };
+
+  cutNode = id => {
+    this.props.checkState({ cut: true, id: id });
   };
 
   checkState = childState => {
@@ -64,13 +83,20 @@ class Node extends Component {
     if (childState) {
       for (let i = 0; i < this.state.node.children.length; i++) {
         if (this.state.node.children[i].id === childState.id) {
-          if(childState.delete){
-              const childrenBefore = this.state.node.children.slice(0, i)
-              const childrenAfter = this.state.node.children[i + 1] ? this.state.node.children.slice(i + 1) : []
-              this.state.node.children = [...childrenBefore, ...childrenAfter]
+          if (childState.delete) {
+            const childrenBefore = this.state.node.children.slice(0, i);
+            const childrenAfter = this.state.node.children[i + 1]
+              ? this.state.node.children.slice(i + 1)
+              : [];
+            this.state.node.children = [...childrenBefore, ...childrenAfter];
+          } else if (childState.cut) {
+            const arrayCopy = this.state.node.children.slice();
+            const cutOut = arrayCopy.splice(i, 1)[0];
+            this.state.node.children = arrayCopy;
+            this.props.currentCut(cutOut);
           } else {
-              //TODO: change this to not mutate data and use the setState method
-              this.state.node.children[i] = childState
+            //TODO: change this to not mutate data and use the setState method
+            this.state.node.children[i] = childState;
           }
         }
       }
@@ -80,7 +106,22 @@ class Node extends Component {
 
   render() {
     return (
-      <NodeTmpl that={this} />
+      <NodeTmpl
+        node={this.state.node}
+        dragger={this.dragger}
+        func={ev => {
+          makeDraggable(ev, this);
+        }}
+        addNode={this.addNode}
+        handleChange={this.handleChange}
+        checkState={this.checkState}
+        deleteNode={this.deleteNode}
+        count={this.props.count}
+        currentCut={this.props.currentCut}
+        pasteOption={this.props.pasteOption}
+        cutNode={this.cutNode}
+        pasteNode={this.pasteNode}
+      />
     );
   }
 }

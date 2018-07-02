@@ -1,7 +1,6 @@
 import React from 'react';
-import { Node } from './';
+import { Node, Toolbar } from './';
 import SideBar from '../sideBar/sideBar.jsx';
-import Toolbar from './Toolbar'
 //makeDraggable should be configured in the parent and pass teh whole thing in and then wouldn't need the whole this in here
 
 function MapTmpl(props) {
@@ -23,6 +22,8 @@ function MapTmpl(props) {
               node={map}
               checkState={props.checkState}
               count={props.count}
+              currentCut={props.currentCut}
+              pasteOption={props.pasteOption}
             />
           );
         })}
