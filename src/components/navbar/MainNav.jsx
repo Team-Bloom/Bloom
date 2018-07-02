@@ -40,7 +40,7 @@ const styles = {
   },
 };
 
-class MainNav extends React.Component {
+class MainNav extends Component {
   logOutUser() {
     firebase
       .auth()

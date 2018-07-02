@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.2.3",
+    "chai": "^4.1.2",
+    "enzyme-adapter-react-16": "^1.1.1",
     "firebase": "^5.1.0",
     "firebaseui": "^3.0.0",
     "react": "^16.4.1",

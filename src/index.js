@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import config from './firebaseConfig';
 import { Router } from 'react-router-dom';
 import history from './history.js';
 
