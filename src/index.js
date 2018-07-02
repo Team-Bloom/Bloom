@@ -8,9 +8,11 @@ import config from './firebaseConfig';
 import { Router } from 'react-router-dom';
 import history from './history.js';
 require('firebase/firestore');
+require('firebase/functions')
 const firebaseui = require('firebaseui');
 
 firebase.initializeApp(config);
+export const functions = firebase.functions();
 export const test = firebase.auth;
 export const db = firebase.firestore();
 const settings = { /* your settings... */ timestampsInSnapshots: true };

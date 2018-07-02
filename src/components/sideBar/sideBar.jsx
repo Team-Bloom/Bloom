@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ChatRoom from '../chatRoom/ChatRoom.jsx';
+import VideoComponent from '../videoChat/videoChat.jsx'
 import { OffCanvas, OffCanvasMenu, OffCanvasBody } from 'react-offcanvas';
 import './sideBar.css';
 
 export default class SideBar extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // sets the initial state
     this.setState({
       isMenuOpened: false,
@@ -17,7 +18,6 @@ export default class SideBar extends Component {
   }
 
   render() {
-    console.log("this.props.user at line 20", this.props)
     const { projectId, messages } = this.props;
     return (
       <div className="sideBar">
@@ -34,6 +34,9 @@ export default class SideBar extends Component {
           </OffCanvasBody>
           <OffCanvasMenu className="menuClass">
             <div>
+              <div>
+                <VideoComponent identity={this.props.user} roomName={projectId}/>
+              </div>
               <ChatRoom user={this.props.user} projectId={projectId} messages={messages} />
             </div>
           </OffCanvasMenu>
