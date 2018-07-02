@@ -114,9 +114,7 @@ class Dashboard extends React.Component {
             Add new project
           </button>
         </div>
-        <div>
           <UserPage user={this.props.user} />
-        </div>
       </div>
     );
   }

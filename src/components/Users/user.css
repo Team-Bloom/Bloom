@@ -112,6 +112,7 @@
   background-color: white;
   font-size: 16px;
   margin-top: 10px;
+  margin-left: 26%;
 }
 .edit-user-btn:hover {
   background-color: rgb(147, 18, 151);
@@ -119,6 +120,27 @@
 }
 
 .edit-user-form {
-  margin-top: 40px
+  width: 90%;
+  margin-left: 5%;
 }
 
+.row {
+  float: right;
+  width: 50%
+}
+
+.row .col {
+  float: right;
+}
+
+
+.card-indent {
+  display: inline-block;
+  width: 120px;
+  margin-right: 10px;
+  text-decoration: underline
+}
+
+.toggle-edit-form {
+  padding-top: 25px
+}

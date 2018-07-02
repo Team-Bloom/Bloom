@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import EditUserForm from './EditUserForm.jsx'
 import firebase from 'firebase'
 import { db } from '../../index.js';
+import './user.css'
+import { numberOfProjects } from './function'
 
 class UserPage extends Component {
   constructor() {
@@ -15,6 +17,7 @@ class UserPage extends Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.showForm = this.showForm.bind(this)
   }
 
   componentDidMount() {
@@ -28,7 +31,6 @@ class UserPage extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-
   }
 
   async handleSubmit(event) {
@@ -41,14 +43,47 @@ class UserPage extends Component {
     } })
     }
 
+    showForm() {
+      this.setState({
+        editUserName: true
+      })
+
+       console.log(this.state)
+    }
+
 
   render() {
     return (
       <div>
-      {/* { this.editUserName ? */}
+  <div className="row">
+    <div className="col s12 m6">
+      <div className="card blue-grey darken-1">
+        <div className="card-content white-text">
+          <span className="card-title">User Details</span>
+          <div>
+            <span className="card-indent">User name: </span>
+            <span>{this.state.userName}</span>
+          </div>
+          <div>
+            <span className="card-indent">Email address: </span>
+            <span>{this.state.userEmail}</span>
+          </div>
+          <div>
+             <span className="card-indent active-projects">Active projects:</span>
+            <span>{numberOfProjects(this.props.user.projects)}</span>
+          </div>
+          <div className="toggle-edit-form">
+          { this.state.editUserName ?
       <EditUserForm userName={this.state.userName} userEmail={this.state.userEmail}
-      handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
-      {/* : <div />} */}
+      handleChange={this.handleChange} handleSubmit={this.handleSubmit} className="edit-user-form" /> :
+      <button className="edit-user-btn" type="submit" onClick={this.showForm} >Edit user details</button>
+      }
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
       </div >
 
     );
