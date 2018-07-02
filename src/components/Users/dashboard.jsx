@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import { addNewUser, searchForUser, addNewProject } from './function.js';
 import ProjectCard from './projectCard';
 import './user.css'
-import { Link } from 'react-router-dom';
+
 import { db } from '../../exports.js';
 import history from '../../history';
 import DeleteProjectPanel from './DeleteProjectPanel.jsx'
@@ -35,6 +35,7 @@ class Dashboard extends React.Component {
       projectName: project.title,
       project: project
     })
+
   }
 
   handleChange(event) {
@@ -89,14 +90,8 @@ class Dashboard extends React.Component {
           {keys.map(project => {
             return (
               <div key={projects[project].projectId}>
-                <Link
-                  onClick={() =>
-                    this.props.selectMap(projects[project].projectId)
-                  }
-                  to={`/map/${projects[project].projectId}`}
-                >
-                  <ProjectCard project={projects[project]} areYouSure={this.areYouSure} />
-                </Link>
+                  <ProjectCard selectMap={this.props.selectMap}project={projects[project]} areYouSure={this.areYouSure} />
+
               </div>
             );
           })}

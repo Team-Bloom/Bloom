@@ -1,5 +1,6 @@
 import { Card, CardContent, Typography, withStyles } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const styles = {
   card: {
@@ -24,21 +25,26 @@ const ProjectCard = props => {
   return (
     <div>
       <Card className={classes.card}>
-        <CardContent>
-          <Typography className={classes.title}>
-            {props.project.title}
-          </Typography>
-          {props.project.collaborators.map((el, index) => {
-            return (
-              <Typography key={index} color="textSecondary">
-                {el.name}
-              </Typography>
-            );
-          })}
-        </CardContent>
+        <Link
+          onClick={() => props.selectMap(props.project.projectId)}
+          to={`/map/${props.project.projectId}`}
+        >
+          <CardContent>
+            <Typography className={classes.title}>
+              {props.project.title}
+            </Typography>
+            {props.project.collaborators.map((el, index) => {
+              return (
+                <Typography key={index} color="textSecondary">
+                  {el.name}
+                </Typography>
+              );
+            })}
+          </CardContent>
+        </Link>
         <button
           type="submit"
-          className="delete-btn"
+          className="delete-project-btn"
           onClick={() => props.areYouSure(props.project)}
         >
           Delete project
