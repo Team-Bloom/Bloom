@@ -36,6 +36,8 @@ export default class VideoComponent extends Component {
     console.log("Joining room '" + this.state.roomName + "'...");
     let connectOptions = {
       name: this.state.roomName,
+      audio: true,
+      video: { width: 300}
     };
     if (this.state.previewTracks) {
       connectOptions.tracks = this.state.previewTracks;
@@ -132,7 +134,6 @@ export default class VideoComponent extends Component {
         const { identity, token } = results.data;
         this.setState({ identity, token });
       });
-    // this.setState({ roomName: 'Test' });
     this.joinRoom();
   };
   leaveRoom() {
