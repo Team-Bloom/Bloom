@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import EditUserForm from './EditUserForm.jsx'
 import firebase from 'firebase'
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 import './user.css'
 import { numberOfProjects } from './function'
 

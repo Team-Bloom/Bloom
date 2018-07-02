@@ -4,7 +4,7 @@ import { addNewUser, searchForUser, addNewProject } from './function.js';
 import ProjectCard from './projectCard';
 import './user.css'
 import { Link } from 'react-router-dom';
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 import history from '../../history';
 import DeleteProjectPanel from './DeleteProjectPanel.jsx'
 import UserPage from './UserPage.jsx'
@@ -82,6 +82,9 @@ class Dashboard extends React.Component {
     const keys = Object.keys(projects);
     return (
       <div id="flexCol">
+        <div className="user-page-container">
+              <UserPage user={this.props.user} />
+        </div>
         <div className="projSet">
           {keys.map(project => {
             return (
@@ -111,7 +114,6 @@ class Dashboard extends React.Component {
             Add new project
           </button>
         </div>
-          <UserPage user={this.props.user} />
       </div>
     );
   }

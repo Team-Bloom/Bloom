@@ -104,3 +104,19 @@
 .toggle-edit-form {
   padding-top: 25px;
 }
+
+.card .card-content {
+  height: 100%;
+}
+
+.blue-grey.darken-1 {
+  background-color: darkolivegreen !important;
+}
+
+.row {
+  margin-top: 3%;
+  margin-left: auto;
+  margin-right: 1.5%;
+  margin-bottom: 20px;
+  width: 50%;
+}
