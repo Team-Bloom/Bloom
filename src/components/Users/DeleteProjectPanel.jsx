@@ -2,8 +2,8 @@ import React from 'react';
 
 const DeleteProjectPanel = props => {
   return (
-    <div>
-      <div className="delete-project-container">
+    <div className="delete-project-container">
+      <div>
         To delete your project, type the name of your project in the box below
       </div>
       <form>
