@@ -140,9 +140,6 @@ class Toolbar extends React.Component {
           // );
           document.getElementById('collab-form').classList.toggle('show');
         }
-        this.setState({
-          [event.target.value]: '',
-        });
       }
     } else if (event.target.name === 'save-btn') {
       await db
@@ -159,10 +156,6 @@ class Toolbar extends React.Component {
         this.state.userEmail,
         this.state.projectName
       );
-
-      this.setState({
-        [event.target.value]: '',
-      });
       document.getElementById('save-form').classList.toggle('show');
     }
   }
@@ -172,6 +165,10 @@ class Toolbar extends React.Component {
   }
 
   showForm(action) {
+    this.setState({
+      recipientEmail: '',
+      projectName: ''
+    })
     displayForm(action);
   }
   render() {
