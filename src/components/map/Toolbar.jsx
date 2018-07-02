@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import history from '../../history.js';
 import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
 import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 import {
   displayForm,
   removeForm,

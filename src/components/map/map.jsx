@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Node, MapTmpl } from './index';
 import SideBar from '../sideBar/sideBar.jsx';
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
 import Toolbar from './Toolbar.jsx';
