@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Node, MapTmpl } from './index';
-import SideBar from '../sideBar/sideBar.jsx';
+import { MapTmpl } from './index';
 import { db } from '../../exports.js';
-import Navbar from '../navbar/Navbar';
-import firebase from 'firebase';
-import Toolbar from './Toolbar.jsx';
+import '../navbar/navbar.css';
 
 export default class MapView extends Component {
   constructor(props) {
@@ -37,7 +34,6 @@ export default class MapView extends Component {
   }
 
   currentCut = node => {
-    console.log('running');
     this.setState({
       currentCut: node,
     });
@@ -53,11 +49,9 @@ export default class MapView extends Component {
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
-
-    const obj = this.state.project;
     try {
       let payload = { ...this.state.project, maps: [mapState] };
-      const docRef = await db
+      await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
         .set(payload);

@@ -1,7 +1,7 @@
 import {expect} from 'chai'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import renderer from 'react-test-renderer'
+//import renderer from 'react-test-renderer'
 import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import NodeObjectTmpl from './nodeObject.tmpl.jsx'
@@ -12,8 +12,9 @@ enzyme.configure({adapter})
 describe('NodeObjectTmpl', () => {
     let nodeObjectTmpl
     beforeEach(() => {
-        nodeObjectTmpl = shallow(<NodeObjectTmpl toggleEdit={_ => {}}
-        text={'text'}
+        nodeObjectTmpl = shallow(<NodeObjectTmpl
+        toggleEdit={_ => {}}
+        text="text"
         handleChange={_ => {}}
         addNode={_ => {}}
         pasteNode={_ => {}}

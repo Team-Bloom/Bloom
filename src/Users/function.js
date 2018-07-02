@@ -1,27 +1,25 @@
-import { db } from "../index.js";
-
+import { db } from '../exports.js'
 export const addNewUser = async (userObj, uid) => {
   try {
-    const newUser = await db
-      .collection("Users")
+    await db
+      .collection('Users')
       .doc(uid)
       .set({
         metadata: userObj
       });
 
     const { id, path } = await db
-      .collection("Users")
+      .collection('Users')
       .doc(uid)
-      .collection("projects")
-      .add({ name: "test" });
-    console.log(id);
-    console.log(path);
+      .collection('projects')
+      .add({ name: 'test' });
+
     await db
-      .collection("Projects")
+      .collection('Projects')
       .doc(id)
-      .set({ name: "test" });
+      .set({ name: 'test' });
     return { id, path };
-  } catch (e) {
-    console.error(e);
+} catch (err) {
+    console.error(err);
   }
 };

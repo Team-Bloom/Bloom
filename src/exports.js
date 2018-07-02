@@ -13,7 +13,7 @@ export const ui = new firebaseui.auth.AuthUI(firebase.auth());
 
 export const uiConfig = {
   callbacks: {
-    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+    signInSuccessWithAuthResult: function(authResult) {
       console.log(authResult);
       // User successfully signed in.
       // Return type determines whether we continue the redirect automatically
