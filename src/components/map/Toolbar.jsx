@@ -175,7 +175,7 @@ class Toolbar extends React.Component {
     displayForm(action);
   }
   render() {
-    console.log('runningtool');
+    console.log(this.props.project, 'sssssssss');
     if (!this.props.project) return <div>Loding...</div>;
     return (
       <div
@@ -207,7 +207,13 @@ class Toolbar extends React.Component {
           />
         </div>
         <div id="tool-right">
-          <span>Space</span>
+          <span
+          >{`Collaborators: ${this.props.project.metadata.collaborators.reduce(
+            (acc, el) => {
+              return acc + el.name + ' | ';
+            },
+            ''
+          )}`}</span>
         </div>
       </div>
     );
