@@ -1,4 +1,4 @@
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 import myFirstProject, { firstProjMetaData } from './myFirstProject';
 
 export const addNewUser = async (userObj, email) => {
@@ -15,8 +15,8 @@ export const addNewUser = async (userObj, email) => {
           [metadata.projectId]: metadata,
         },
       });
-  } catch (e) {
-    console.error(e);
+  } catch (ee) {
+    console.error(ee);
   }
 };
 

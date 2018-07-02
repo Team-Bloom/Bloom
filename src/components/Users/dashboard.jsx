@@ -22,7 +22,12 @@ class Dashboard extends React.Component {
           {keys.map(project => {
             return (
               <div key={projects[project].projectId}>
-                <Link to={`/map/${projects[project].projectId}`}>
+                <Link
+                  onClick={() =>
+                    this.props.selectMap(projects[project].projectId)
+                  }
+                  to={`/map/${projects[project].projectId}`}
+                >
                   <ProjectCard project={projects[project]} />
                 </Link>
               </div>

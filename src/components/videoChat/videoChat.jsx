@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Video from 'twilio-video';
 // Initialize Cloud Functions through Firebase
-import { functions } from '../../index';
+// import { functions } from '../../index';
 
 export default class VideoComponent extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ export default class VideoComponent extends Component {
       );
     };
 
-    var token = functions.httpsCallable('token');
+    // var token = functions.httpsCallable('token');
 
     axios.get('http://localhost:5000/bloom-895e7/us-central1/token').then(results => {
       this.identity = results.data.identity;

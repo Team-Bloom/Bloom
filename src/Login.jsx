@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ui, uiConfig } from './index.js';
+import { ui, uiConfig } from './exports.js';
 
 class Login extends Component {
   componentDidMount() {

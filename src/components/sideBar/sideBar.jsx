@@ -3,6 +3,7 @@ import ChatRoom from '../chatRoom/ChatRoom.jsx';
 import VideoComponent from '../videoChat/videoChat.jsx'
 import { OffCanvas, OffCanvasMenu, OffCanvasBody } from 'react-offcanvas';
 import './sideBar.css';
+import image from './chat.png';
 
 export default class SideBar extends Component {
   UNSAFE_componentWillMount() {
@@ -23,13 +24,13 @@ export default class SideBar extends Component {
       <div className="sideBar">
         <OffCanvas
           width={300}
-          transitionDuration={300}
+          transitionDuration={500}
           isMenuOpened={this.state.isMenuOpened}
           position={'left'}
         >
-          <OffCanvasBody className="bodyClass" style={{ fontSize: '10px' }}>
+          <OffCanvasBody className="bodyClass">
             <a onClick={this.handleClick.bind(this)}>
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhR_7RvPsRur3UNNk9Nha472mfMu6cCq0e7Swy4co1tpzMsL31" />
+              <img src={image} />
             </a>
           </OffCanvasBody>
           <OffCanvasMenu className="menuClass">
