@@ -172,7 +172,6 @@ class Toolbar extends React.Component {
     displayForm(action);
   }
   render() {
-    console.log(this.props.project, 'sssssssss');
     if (!this.props.project) return <div>Loding...</div>;
     return (
       <div

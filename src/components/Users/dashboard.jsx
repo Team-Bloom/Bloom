@@ -102,12 +102,7 @@ class Dashboard extends React.Component {
                 <div />
                 }
         <div>
-          <button
-            onClick={() => this.addProject(this.props.user)}
-            className="add-btn"
-          >
-            Add new project
-          </button>
+        <a class="btn-floating btn-large waves-effect waves-light red"  onClick={() => this.addProject(this.props.user)}><i class="material-icons">+</i></a>
         </div>
       </div>
     );
