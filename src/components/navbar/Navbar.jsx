@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
 import './navbar.css';
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 import {
   displayForm,
   removeForm,

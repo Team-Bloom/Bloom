@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './ChatRoom.css';
 import Message from '../message/Message.jsx';
-import { db } from '../../index.js';
+import { db } from '../../exports.js';
 
 class ChatRoom extends React.Component {
   constructor(props) {

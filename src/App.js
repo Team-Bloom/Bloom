@@ -1,7 +1,7 @@
 import React from 'react';
 import Routes from './routes.jsx';
 import firebase from 'firebase';
-import { db } from './index.js';
+import { db } from './exports.js';
 import {
   addNewUser,
   searchForUser,
