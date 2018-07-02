@@ -17,7 +17,7 @@ export default class MapView extends Component {
       forward: {},
       back: true,
       history: [],
-      index: -1,
+      forward: [],
     };
   }
 
@@ -32,10 +32,15 @@ export default class MapView extends Component {
         this.setState({
           project: doc.data(),
           count: this.state.count + 1,
-          back: true,
-          history: [...this.state.history, { version: doc.data().maps }],
-          index: this.state.index + 1,
+          // back: true,
+          // history: [...this.state.history, { version: doc.data().maps }],
+          // index: this.state.index + 1,
         });
+        if (!this.state.history.length) {
+          this.setState({
+            history: [{ version: doc.data().maps }],
+          });
+        }
       });
     }
   }
@@ -51,13 +56,33 @@ export default class MapView extends Component {
   };
 
   goBack = async () => {
-    const previous = this.state.history[this.state.index - 1];
-    console.log(previous, 'previous');
-    await this.setState({ index: this.state.index - 1 });
+    const previous = this.state.history[this.state.history.length - 1];
+    await this.setState({
+      history: this.state.history.slice(0, this.state.history.length - 1),
+      forward: [...this.state.forward, previous],
+    });
+    const newMap = this.state.history[this.state.history.length - 1];
     try {
       let payload = {
         ...this.state.project,
-        maps: previous.version,
+        maps: newMap.version,
+      };
+      const docRef = await db
+        .collection('Projects')
+        .doc(this.props.match.params.projectId)
+        .set(payload);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  goForward = async () => {
+    const newMap = this.state.forward.pop();
+    await this.setState({ history: [...this.state.history, newMap] });
+    try {
+      let payload = {
+        ...this.state.project,
+        maps: newMap.version,
       };
       const docRef = await db
         .collection('Projects')
@@ -69,10 +94,13 @@ export default class MapView extends Component {
   };
 
   checkState = async mapState => {
-    await this.setState({
+    console.log('does check state run?');
+    this.setState({
       project: {
         ...this.state.project,
         maps: [mapState],
+        // history: [...this.state.history, { version: [mapState] }],
+        // forward: [],
       },
     });
     //DANGER ZONE, we are about to change the data to be sent
@@ -85,11 +113,11 @@ export default class MapView extends Component {
         ...this.state.project,
         maps: [mapState],
       };
-      // const newArr = this.state.history.slice(0, this.state.index);
-      // newArr.push(payload);
-      // await this.setState({
-      //   history: newArr,
-      // });
+
+      this.setState({
+        history: [...this.state.history, { version: [mapState] }],
+        forward: [],
+      });
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
@@ -106,7 +134,10 @@ export default class MapView extends Component {
     return (
       <MapTmpl
         project={this.state.project}
+        history={this.state.history}
+        forward={this.state.forward}
         goBack={this.goBack}
+        goForward={this.goForward}
         maps={maps}
         checkState={this.checkState}
         count={this.state.count}
