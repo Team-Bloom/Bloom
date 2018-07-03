@@ -78,36 +78,42 @@ class Node extends Component {
     this.props.checkState({ cut: true, id: id });
   };
 
-  checkState = async (childState) => {
+  checkState = async childState => {
     //this will need to recursively bubble up the state
     if (childState) {
       for (let i = 0; i < this.state.node.children.length; i++) {
         if (this.state.node.children[i].id === childState.id) {
           const childrenBefore = this.state.node.children.slice(0, i);
-          const childrenAfter = this.state.node.children[i + 1] ? this.state.node.children.slice(i + 1) : [];
+          const childrenAfter = this.state.node.children[i + 1]
+            ? this.state.node.children.slice(i + 1)
+            : [];
           if (childState.delete) {
             //delete child that matches
-            await this.setState({node: {
+            await this.setState({
+              node: {
                 ...this.state.node,
-                children: [...childrenBefore, ...childrenAfter]
-            }})
+                children: [...childrenBefore, ...childrenAfter],
+              },
+            });
           } else if (childState.cut) {
             //cut child that matches
             const arrayCopy = this.state.node.children.slice();
             const cutOut = arrayCopy.splice(i, 1)[0];
-            await this.setState({node: {
+            await this.setState({
+              node: {
                 ...this.state.node,
-                children: arrayCopy
-            }})
+                children: arrayCopy,
+              },
+            });
             this.props.currentCut(cutOut);
           } else {
             //update child that matches
             await this.setState({
               node: {
                 ...this.state.node,
-                children: [ ...childrenBefore, childState, ...childrenAfter]
-                }
-            })
+                children: [...childrenBefore, childState, ...childrenAfter],
+              },
+            });
           }
         }
       }

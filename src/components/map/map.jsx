@@ -45,7 +45,9 @@ export default class MapView extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    if (this.props.match.params.projectId) {
+      this.unsubscribe();
+    }
   }
 
   currentCut = node => {
@@ -104,7 +106,6 @@ export default class MapView extends Component {
   };
 
   checkState = async mapState => {
-    console.log('checking dat state');
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
