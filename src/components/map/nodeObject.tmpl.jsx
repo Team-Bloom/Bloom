@@ -33,10 +33,36 @@ function NodeObjectTmpl(props) {
           }}
         />
       </svg>
-      <button onClick={props.addNode}>Add </button>
-      <button onClick={props.deleteNode}>Delete </button>
-      <button onClick={props.cutNode}>Cut</button>
-      <button onClick={props.pasteNode}>Paste</button>
+
+      {/* {props.node.id === undefined ? (
+        <div>
+          <button onClick={props.addNode}>Add </button>
+          <button onClick={props.pasteNode}>Paste</button>
+        </div>
+      ) : (
+        <div> */}
+      <div>
+        <button onClick={props.addNode}>Add </button>
+
+        <button
+          onClick={props.deleteNode}
+          disabled={props.node.id === undefined}
+        >
+          Delete{' '}
+        </button>
+        <button onClick={props.cutNode} disabled={props.node.id === undefined}>
+          Cut
+        </button>
+
+        <button
+          onClick={props.pasteNode}
+          disabled={props.pasteOption.children === undefined}
+        >
+          Paste
+        </button>
+      </div>
+      {/* </div>
+      )} */}
     </div>
   );
 }
