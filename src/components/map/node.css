@@ -17,7 +17,7 @@
     left: 0;
 }
 .nodeWrap .nodeWrap{
-    top: -64px;
+    /*top: -64px;*/
 }
 .test{
     top: 20px;
@@ -39,8 +39,8 @@
 .line{
     position: absolute;
     z-index: -1;
-    top: 20px;
-    left: 150px;
+    top: 0px;
+    left: 0px;
     display: none;
     overflow: visible;
 }
