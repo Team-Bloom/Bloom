@@ -23,7 +23,7 @@ export default class SideBar extends Component {
     return (
       <div className="sideBar">
         <OffCanvas
-          width={600}
+          width={400}
           transitionDuration={500}
           isMenuOpened={this.state.isMenuOpened}
           position={'left'}

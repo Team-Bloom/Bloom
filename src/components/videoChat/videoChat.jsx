@@ -37,7 +37,7 @@ export default class VideoComponent extends Component {
     let connectOptions = {
       name: this.state.roomName,
       audio: true,
-      video: { width: 300}
+      video: { width: 170}
     };
     if (this.state.previewTracks) {
       connectOptions.tracks = this.state.previewTracks;
