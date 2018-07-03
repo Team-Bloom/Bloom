@@ -42,15 +42,14 @@ const styles = {
 
 class MainNav extends React.Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
-      user: true
-    }
+      user: true,
+    };
 
-    this.logOutUser = this.logOutUser.bind(this)
+    this.logOutUser = this.logOutUser.bind(this);
   }
-
 
   logOutUser() {
     firebase
@@ -65,15 +64,14 @@ class MainNav extends React.Component {
         }
       );
 
-      this.setState({
-        user: false
-      })
+    this.setState({
+      user: false,
+    });
 
     history.push('/login');
   }
 
   render() {
-
     return (
       <div
         id="nav-container"
@@ -88,13 +86,17 @@ class MainNav extends React.Component {
           <span style={{ ...styles.link, cursor: 'default', ...styles.logo }}>
             Bloom:
           </span>
-          <NavLink
-            style={{ ...styles.link, ...styles.dash }}
-            activeStyle={styles.activeStyle}
-            to="/home"
-          >
-            Dashboard
-          </NavLink>
+          {this.state.user && this.props.user.metadata ? (
+            <NavLink
+              style={{ ...styles.link, ...styles.dash }}
+              activeStyle={styles.activeStyle}
+              to="/home"
+            >
+              Dashboard
+            </NavLink>
+          ) : (
+            <div />
+          )}
           <NavLink
             style={{ ...styles.link, ...styles.map }}
             activeStyle={styles.activeStyle}
@@ -110,7 +112,7 @@ class MainNav extends React.Component {
             </span>
           ) : (
             <Link to="/login">
-            <span style={styles.link}>Sign in</span>
+              <span style={styles.link}>Sign in</span>
             </Link>
           )}
         </div>
