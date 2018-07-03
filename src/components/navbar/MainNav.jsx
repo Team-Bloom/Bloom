@@ -106,7 +106,7 @@ class MainNav extends React.Component {
           </NavLink>
         </div>
         <div id="nav-right">
-          {this.state.user && this.props.user.metadata ? (
+          {this.state.user && this.props.user ? (
             <span onClick={this.logOutUser} style={styles.link}>
               Sign out
             </span>

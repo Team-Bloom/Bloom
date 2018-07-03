@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
 import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
 import { db } from '../../exports.js';
+import { Link } from 'react-router-dom'
 import {
   displayForm,
   removeForm,
@@ -47,13 +48,23 @@ class Toolbar extends Component {
       recipientEmail: '',
       projectName: '',
       nonExistentCollaboratorsEmail: '',
+      userProjects: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
+    // this.showProject = this.showProject.bind(this)
+    // this.toggleProjects = this.toggleProject.bind(this)
   }
+
+
+
+
+
+
+
 
   handleChange(event) {
     this.setState({
@@ -61,6 +72,19 @@ class Toolbar extends Component {
       nonExistentCollaboratorsEmail: '',
     });
   }
+
+  showProjects() {
+    const projects = this.props.user.projects
+    const listOfUserProjectNames = []
+
+    for (let k in projects) {
+        listOfUserProjectNames.push({projectName: k, title: projects[k].title})
+
+    }
+    return listOfUserProjectNames
+}
+
+
 
   async handleSubmit(event) {
     event.preventDefault();
@@ -170,8 +194,9 @@ class Toolbar extends Component {
   }
 
   render() {
-    console.log(this.props.project);
-    if (!this.props.project) return <div>Loding...</div>;
+   console.log(this.props)
+
+    if (!this.props.project || !this.props.user.projects) return <div>Loding...</div>;
     return (
       <div
         id="tool-container"
@@ -216,6 +241,18 @@ class Toolbar extends Component {
           >
             Forward
           </button>
+        </div>
+        <div className="current-projects">
+          <span>Current projects: </span>
+        {
+          this.showProjects().map(projects => {
+            return (
+            <Link to={`/map/${projects.projectName}`} >
+            <div className="project-list">{projects.title}</div>
+            </Link >
+            )
+          })
+        }
         </div>
         <div id="tool-right">
           <span
