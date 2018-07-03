@@ -58,7 +58,6 @@ class Node extends Component {
   };
 
   pasteNode = async ev => {
-    console.log(this.props);
     ev.stopPropagation();
     await this.setState({
       ...this.state,
@@ -67,6 +66,7 @@ class Node extends Component {
         children: [...this.state.node.children, this.props.pasteOption],
       },
     });
+    await this.props.clearPaste();
     this.checkState();
   };
 
@@ -132,6 +132,7 @@ class Node extends Component {
         pasteOption={this.props.pasteOption}
         cutNode={this.cutNode}
         pasteNode={this.pasteNode}
+        clearPaste={this.props.clearPaste}
       />
     );
   }

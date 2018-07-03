@@ -44,6 +44,8 @@ function NodeTmpl(props) {
               cutNode={props.cutNode}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
+              node={props.node}
+              pasteOption={props.pasteOption}
             />
             {props.node &&
               props.node.children &&
@@ -58,6 +60,7 @@ function NodeTmpl(props) {
                     currentCut={props.currentCut}
                     pasteOption={props.pasteOption}
                     pasteNode={props.pasteNode}
+                    clearPaste={props.clearPaste}
                   />
                 );
               })}
