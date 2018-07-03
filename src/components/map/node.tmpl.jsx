@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NodeObject, Node } from './';
-import { makeHashCode, makeDraggable } from '../../utilities/';
 //makeDraggable should be configured in the parent and pass teh whole thing in and then wouldn't need the whole this in here
 
 function NodeTmpl(props) {
@@ -45,6 +44,8 @@ function NodeTmpl(props) {
               cutNode={props.cutNode}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
+              node={props.node}
+              pasteOption={props.pasteOption}
             />
             {props.node &&
               props.node.children &&
@@ -59,6 +60,7 @@ function NodeTmpl(props) {
                     currentCut={props.currentCut}
                     pasteOption={props.pasteOption}
                     pasteNode={props.pasteNode}
+                    clearPaste={props.clearPaste}
                   />
                 );
               })}

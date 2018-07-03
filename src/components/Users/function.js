@@ -51,3 +51,16 @@ export const addNewProject = async user => {
     console.error(error);
   }
 };
+
+
+export const numberOfProjects = user => {
+  let counter = 0
+
+  for (let k in user) {
+    if (user.hasOwnProperty(k)) {
+      counter += 1
+    }
+  }
+
+  return counter
+}

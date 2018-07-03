@@ -14,10 +14,16 @@ function MapTmpl(props) {
   ) : (
     <div>
       <div>
-        <Toolbar project={props.project} projectId={props.projectId} />
+        <Toolbar
+          project={props.project}
+          projectId={props.projectId}
+          goBack={props.goBack}
+          goForward={props.goForward}
+        />
         {props.maps.map((map, index) => {
           return (
             <Node
+              clearPaste={props.clearPaste}
               key={index}
               node={map}
               checkState={props.checkState}

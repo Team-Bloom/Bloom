@@ -1,4 +1,4 @@
-const makeDraggable = function(ev, that){
+const makeDraggable = (function(){
     let draggingThis
     const drag = (ev) => {
       //the should edit for child nodes is being attached to the root node
@@ -33,6 +33,6 @@ const makeDraggable = function(ev, that){
         document.onmousemove = drag
         document.onmouseup = stopDrag
     }
-}()
+})()
 
 export default makeDraggable

@@ -59,8 +59,10 @@ class AddCollaboratorForm extends React.Component {
             value={this.props.recipientEmail}
           />
           <button
+            id="add-collab-btn"
             name="collab-btn"
             type="submit"
+            disabled={!this.props.recipientEmail ? 'disabled' : null}
             className="email-form-btn"
             onClick={this.props.handleSubmit}
           >

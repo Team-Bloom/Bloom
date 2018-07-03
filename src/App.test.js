@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import renderer from 'react-test-renderer'
-import {shallow} from 'enzyme'
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+// import renderer from 'react-test-renderer'
+// import {shallow} from 'enzyme'
 // import App from './App.js'
 // import Routes from './routes.jsx'
 // import Login from './Login';
@@ -14,6 +14,6 @@ import {shallow} from 'enzyme'
 //     let tree = component.toJSON()
 //     expect(tree).toMatchSnapshot()
 // })
-test('test runs', () =>{
+test('test runs', () => {
     expect(true).toEqual(true)
 })

@@ -58,7 +58,6 @@ class Node extends Component {
   };
 
   pasteNode = async ev => {
-    console.log(this.props);
     ev.stopPropagation();
     await this.setState({
       ...this.state,
@@ -67,6 +66,7 @@ class Node extends Component {
         children: [...this.state.node.children, this.props.pasteOption],
       },
     });
+    await this.props.clearPaste();
     this.checkState();
   };
 
@@ -78,25 +78,36 @@ class Node extends Component {
     this.props.checkState({ cut: true, id: id });
   };
 
-  checkState = childState => {
+  checkState = async (childState) => {
     //this will need to recursively bubble up the state
     if (childState) {
       for (let i = 0; i < this.state.node.children.length; i++) {
         if (this.state.node.children[i].id === childState.id) {
+          const childrenBefore = this.state.node.children.slice(0, i);
+          const childrenAfter = this.state.node.children[i + 1] ? this.state.node.children.slice(i + 1) : [];
           if (childState.delete) {
-            const childrenBefore = this.state.node.children.slice(0, i);
-            const childrenAfter = this.state.node.children[i + 1]
-              ? this.state.node.children.slice(i + 1)
-              : [];
-            this.state.node.children = [...childrenBefore, ...childrenAfter];
+            //delete child that matches
+            await this.setState({node: {
+                ...this.state.node,
+                children: [...childrenBefore, ...childrenAfter]
+            }})
           } else if (childState.cut) {
+            //cut child that matches
             const arrayCopy = this.state.node.children.slice();
             const cutOut = arrayCopy.splice(i, 1)[0];
-            this.state.node.children = arrayCopy;
+            await this.setState({node: {
+                ...this.state.node,
+                children: arrayCopy
+            }})
             this.props.currentCut(cutOut);
           } else {
-            //TODO: change this to not mutate data and use the setState method
-            this.state.node.children[i] = childState;
+            //update child that matches
+            await this.setState({
+              node: {
+                ...this.state.node,
+                children: [ ...childrenBefore, childState, ...childrenAfter]
+                }
+            })
           }
         }
       }
@@ -121,6 +132,7 @@ class Node extends Component {
         pasteOption={this.props.pasteOption}
         cutNode={this.cutNode}
         pasteNode={this.pasteNode}
+        clearPaste={this.props.clearPaste}
       />
     );
   }

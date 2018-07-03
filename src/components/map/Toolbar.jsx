@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
-import { NavLink } from 'react-router-dom';
-import history from '../../history.js';
 import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
 import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
 import { db } from '../../exports.js';
@@ -15,32 +12,32 @@ import {
 const styles = {
   container: {
     display: 'flex',
-    'background-color': 'gray',
-    'justify-content': 'space-between',
-    'padding-left': '1%',
-    'padding-right': '1%',
+    backgroundColor: 'gray',
+    justifyContent: 'space-between',
+    paddingLeft: '1%',
+    paddingRight: '1%',
     height: '5vh',
-    'align-items': 'center',
+    alignItems: 'center',
   },
   left: {
     display: 'flex',
-    'justify-content': 'space-between',
+    justifyContent: 'space-between',
     // width: '9%',
   },
   link: {
     color: 'white',
-    'font-size': '1.3em',
+    fontSize: '1.3em',
     cursor: 'pointer',
   },
   title: {
-    'margin-right': '10px',
+    marginRight: '10px',
   },
   icon: {
     margin: '5px',
   },
 };
 
-class Toolbar extends React.Component {
+class Toolbar extends Component {
   constructor() {
     super();
 
@@ -101,7 +98,7 @@ class Toolbar extends React.Component {
           document.getElementById('collab-form').classList.toggle('show');
         }
         if (!alreadyAddedUser) {
-          const docRef = await db
+          await db
             .collection('Projects')
             .doc(this.props.projectId)
             .update({
@@ -140,9 +137,6 @@ class Toolbar extends React.Component {
           // );
           document.getElementById('collab-form').classList.toggle('show');
         }
-        this.setState({
-          [event.target.value]: '',
-        });
       }
     } else if (event.target.name === 'save-btn') {
       await db
@@ -159,10 +153,6 @@ class Toolbar extends React.Component {
         this.state.userEmail,
         this.state.projectName
       );
-
-      this.setState({
-        [event.target.value]: '',
-      });
       document.getElementById('save-form').classList.toggle('show');
     }
   }
@@ -172,10 +162,15 @@ class Toolbar extends React.Component {
   }
 
   showForm(action) {
+    this.setState({
+      recipientEmail: '',
+      projectName: ''
+    })
     displayForm(action);
   }
+
   render() {
-    console.log(this.props.project, 'sssssssss');
+    console.log(this.props.project);
     if (!this.props.project) return <div>Loding...</div>;
     return (
       <div
@@ -205,6 +200,22 @@ class Toolbar extends React.Component {
             handleSubmit={this.handleSubmit}
             collabName={this.state.nonExistentCollaboratorsEmail}
           />
+        </div>
+        <div>
+          <button
+            type="button"
+            onClick={this.props.goBack}
+            disabled={this.props.project.history.length < 2}
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            disabled={this.props.project.forward.length < 1}
+            onClick={this.props.goForward}
+          >
+            Forward
+          </button>
         </div>
         <div id="tool-right">
           <span
