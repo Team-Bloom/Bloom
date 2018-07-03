@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
-import { NavLink } from 'react-router-dom';
-import history from '../../history.js';
 import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
 import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
 import { db } from '../../exports.js';
@@ -40,7 +37,7 @@ const styles = {
   },
 };
 
-class Toolbar extends React.Component {
+class Toolbar extends Component {
   constructor() {
     super();
 
@@ -101,7 +98,7 @@ class Toolbar extends React.Component {
           document.getElementById('collab-form').classList.toggle('show');
         }
         if (!alreadyAddedUser) {
-          const docRef = await db
+          await db
             .collection('Projects')
             .doc(this.props.projectId)
             .update({
@@ -140,9 +137,6 @@ class Toolbar extends React.Component {
           // );
           document.getElementById('collab-form').classList.toggle('show');
         }
-        this.setState({
-          [event.target.value]: '',
-        });
       }
     } else if (event.target.name === 'save-btn') {
       await db
@@ -159,10 +153,6 @@ class Toolbar extends React.Component {
         this.state.userEmail,
         this.state.projectName
       );
-
-      this.setState({
-        [event.target.value]: '',
-      });
       document.getElementById('save-form').classList.toggle('show');
     }
   }
@@ -172,6 +162,10 @@ class Toolbar extends React.Component {
   }
 
   showForm(action) {
+    this.setState({
+      recipientEmail: '',
+      projectName: ''
+    })
     displayForm(action);
   }
 

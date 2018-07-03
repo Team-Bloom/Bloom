@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Node, MapTmpl } from './index';
-import SideBar from '../sideBar/sideBar.jsx';
+import { MapTmpl } from './index';
 import { db } from '../../exports.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
 import Toolbar from './Toolbar.jsx';
-const FieldValue = require('firebase-admin').firestore.FieldValue;
+import '../navbar/navbar.css';
 
 export default class MapView extends Component {
   constructor(props) {

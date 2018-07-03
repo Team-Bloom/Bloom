@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NodeObject, Node } from './';
-import { makeHashCode, makeDraggable } from '../../utilities/';
 //makeDraggable should be configured in the parent and pass teh whole thing in and then wouldn't need the whole this in here
 
 function NodeTmpl(props) {
