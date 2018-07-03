@@ -51,7 +51,7 @@ class App extends React.Component {
       <div id="app">
         <div>
           <MainNav
-            currentMap={this.state.currentMap}
+            currentMap={this.state.currentMap} user={this.state.user}
           />
           <Routes
             user={this.state.user}

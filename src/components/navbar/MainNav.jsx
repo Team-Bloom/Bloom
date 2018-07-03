@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import history from '../../history.js';
 
 const styles = {
@@ -41,6 +41,17 @@ const styles = {
 };
 
 class MainNav extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      user: true
+    }
+
+    this.logOutUser = this.logOutUser.bind(this)
+  }
+
+
   logOutUser() {
     firebase
       .auth()
@@ -53,9 +64,16 @@ class MainNav extends React.Component {
           console.error('Sign Out Error', error);
         }
       );
+
+      this.setState({
+        user: false
+      })
+
     history.push('/login');
   }
+
   render() {
+
     return (
       <div
         id="nav-container"
@@ -87,9 +105,15 @@ class MainNav extends React.Component {
           </NavLink>
         </div>
         <div id="nav-right">
-          <span onClick={this.logOutUser} style={styles.link}>
-            Sign out
-          </span>
+          {this.state.user && this.props.user ? (
+            <span onClick={this.logOutUser} style={styles.link}>
+              Sign out
+            </span>
+          ) : (
+            <Link to="/login">
+            <span style={styles.link}>Sign in</span>
+            </Link>
+          )}
         </div>
       </div>
     );
