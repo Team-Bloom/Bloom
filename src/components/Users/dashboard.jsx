@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import { addNewUser, searchForUser, addNewProject } from './function.js';
 import ProjectCard from './projectCard';
 import './user.css'
-import { Link } from 'react-router-dom';
+
 import { db } from '../../exports.js';
 import history from '../../history';
 import DeleteProjectPanel from './DeleteProjectPanel.jsx'
@@ -35,6 +35,7 @@ class Dashboard extends React.Component {
       projectName: project.title,
       project: project
     })
+
   }
 
   handleChange(event) {
@@ -88,15 +89,9 @@ class Dashboard extends React.Component {
         <div className="projSet">
           {keys.map(project => {
             return (
-              <div key={projects[project].projectId}>
-                <Link
-                  onClick={() =>
-                    this.props.selectMap(projects[project].projectId)
-                  }
-                  to={`/map/${projects[project].projectId}`}
-                >
-                  <ProjectCard project={projects[project]} areYouSure={this.areYouSure} />
-                </Link>
+              <div key={projects[project].projectId} className="project-cards">
+                  <ProjectCard selectMap={this.props.selectMap}project={projects[project]} areYouSure={this.areYouSure} />
+
               </div>
             );
           })}
@@ -107,12 +102,7 @@ class Dashboard extends React.Component {
                 <div />
                 }
         <div>
-          <button
-            onClick={() => this.addProject(this.props.user)}
-            className="add-btn"
-          >
-            Add new project
-          </button>
+        <a class="btn-floating btn-large waves-effect waves-light red"  onClick={() => this.addProject(this.props.user)}><i class="material-icons">+</i></a>
         </div>
       </div>
     );

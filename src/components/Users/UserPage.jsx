@@ -41,6 +41,10 @@ class UserPage extends Component {
     await db.collection('Users').doc(prevEmail).update({...prevUser, 'metadata': {
       name: this.state.userName, email: this.state.userEmail, uid: prevUser.metadata.uid
     } })
+
+    this.setState({
+      editUserName: false
+    })
     }
 
     showForm() {
