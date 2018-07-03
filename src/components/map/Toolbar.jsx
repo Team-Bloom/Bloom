@@ -9,6 +9,7 @@ import {
   checkUnique,
   updateUserProjects,
 } from '../navbar/functions.js';
+import { mostRecentlyUpdated } from '../Users/function'
 
 const styles = {
   container: {
@@ -75,11 +76,14 @@ class Toolbar extends Component {
 
   showProjects() {
     const projects = this.props.user.projects
-    const listOfUserProjectNames = []
+    let listOfUserProjectNames = []
 
     for (let k in projects) {
-        listOfUserProjectNames.push({projectName: k, title: projects[k].title})
+        listOfUserProjectNames.push({projectName: k, title: projects[k].title, lastUpdated: projects[k].lastUpdated})
+    }
 
+    if (listOfUserProjectNames.length >= 3) {
+      return mostRecentlyUpdated(listOfUserProjectNames)
     }
     return listOfUserProjectNames
 }
@@ -243,12 +247,12 @@ class Toolbar extends Component {
           </button>
         </div>
         <div className="current-projects">
-          <span>Current projects: </span>
+          <span className="current-projects-text">Recent projects: </span>
         {
           this.showProjects().map(projects => {
             return (
             <Link to={`/map/${projects.projectName}`} >
-            <div className="project-list">{projects.title}</div>
+            <span className="project-list">{projects.title}{' | '}</span>
             </Link >
             )
           })

@@ -56,3 +56,13 @@
 a {
     color: #1b1b1b;
 }
+
+#collab-form {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+#save-form {
+    padding-right: 5px;
+    padding-left: 5px;
+}
