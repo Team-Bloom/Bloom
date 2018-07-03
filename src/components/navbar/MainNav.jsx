@@ -88,7 +88,6 @@ class MainNav extends React.Component {
           <span style={{ ...styles.link, cursor: 'default', ...styles.logo }}>
             Bloom:
           </span>
-
           <NavLink
             style={{ ...styles.link, ...styles.dash }}
             activeStyle={styles.activeStyle}
@@ -105,7 +104,7 @@ class MainNav extends React.Component {
           </NavLink>
         </div>
         <div id="nav-right">
-          {this.state.user && this.props.user ? (
+          {this.state.user && this.props.user.metadata ? (
             <span onClick={this.logOutUser} style={styles.link}>
               Sign out
             </span>
