@@ -5,6 +5,7 @@ import { db } from '../../exports.js';
 import Navbar from '../navbar/Navbar';
 import firebase from 'firebase';
 import Toolbar from './Toolbar.jsx';
+const FieldValue = require('firebase-admin').firestore.FieldValue;
 
 export default class MapView extends Component {
   constructor(props) {
@@ -16,6 +17,18 @@ export default class MapView extends Component {
       count: 0,
     };
   }
+
+  updateTimestamp = () => {
+    const projectId = this.props.match.params.projectId;
+    this.state.project.metadata.collaborators.forEach(async el => {
+      const user = await db
+        .collection('Users')
+        .doc(el.email)
+        .update({
+          [`projects.${projectId}.lastUpdated`]: Date.now(),
+        });
+    });
+  };
 
   componentDidMount() {
     if (this.props.match.params.projectId) {
@@ -63,6 +76,8 @@ export default class MapView extends Component {
         .collection('Projects')
         .doc(this.props.match.params.projectId)
         .set(payload);
+
+      this.updateTimestamp();
     } catch (err) {
       console.error(err);
     }
@@ -82,28 +97,34 @@ export default class MapView extends Component {
         .collection('Projects')
         .doc(this.props.match.params.projectId)
         .set(payload);
+
+      this.updateTimestamp();
     } catch (err) {
       console.error(err);
     }
   };
 
   checkState = async mapState => {
+    console.log('checking dat state');
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
-
+    const projectId = this.props.match.params.projectId;
     try {
       let payload = {
         ...this.state.project,
         maps: [mapState],
         history: [...this.state.project.history, { version: [mapState] }],
         forward: [],
+        'metadata.lastUpdated': Date.now(),
       };
 
       const docRef = await db
         .collection('Projects')
-        .doc(this.props.match.params.projectId)
+        .doc(projectId)
         .set(payload);
+
+      this.updateTimestamp();
     } catch (error) {
       console.error(error);
     }
