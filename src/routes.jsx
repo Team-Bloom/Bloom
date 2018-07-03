@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import Login from './Login.jsx';
 import Dashboard from './components/Users/dashboard.jsx';
@@ -16,7 +16,13 @@ class Routes extends Component {
         <Route
           exact
           path="/"
-          render={props => <MapView {...props} user={this.props.user} />}
+          render={props =>
+            this.props.user.metadata ? (
+              <Redirect to="/home" />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
         />
         <Route
           path="/home"
