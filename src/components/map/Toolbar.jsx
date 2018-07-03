@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
-import { NavLink } from 'react-router-dom';
-import history from '../../history.js';
 import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
 import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
 import { db } from '../../exports.js';
@@ -40,7 +37,7 @@ const styles = {
   },
 };
 
-class Toolbar extends React.Component {
+class Toolbar extends Component {
   constructor() {
     super();
 
@@ -101,7 +98,7 @@ class Toolbar extends React.Component {
           document.getElementById('collab-form').classList.toggle('show');
         }
         if (!alreadyAddedUser) {
-          const docRef = await db
+          await db
             .collection('Projects')
             .doc(this.props.projectId)
             .update({
