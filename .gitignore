@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/
-functions/node_modules
+/functions/node_modules
 # testing
 /coverage
 
@@ -22,3 +22,4 @@ yarn-error.log*
 
 firebaseConfig.js
 secrets.js
+node_modules/
