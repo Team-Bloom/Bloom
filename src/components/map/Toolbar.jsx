@@ -176,6 +176,7 @@ class Toolbar extends React.Component {
   }
 
   render() {
+    console.log(this.props.project);
     if (!this.props.project) return <div>Loding...</div>;
     return (
       <div
@@ -210,13 +211,13 @@ class Toolbar extends React.Component {
           <button
             type="button"
             onClick={this.props.goBack}
-            disabled={this.props.history.length < 2}
+            disabled={this.props.project.history.length < 2}
           >
             Back
           </button>
           <button
             type="button"
-            disabled={this.props.forward.length < 1}
+            disabled={this.props.project.forward.length < 1}
             onClick={this.props.goForward}
           >
             Forward

@@ -6,7 +6,19 @@ const myFirstProject = (userObj, email, title) => ({
     lastUpdated: '',
   },
   messages: [],
-  // history: [],
+  history: [
+    {
+      version: [
+        {
+          text: 'first node',
+          left: 50,
+          top: 50,
+          children: [],
+        },
+      ],
+    },
+  ],
+  forward: [],
   maps: [
     {
       text: 'first node',

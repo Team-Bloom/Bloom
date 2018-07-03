@@ -19,12 +19,11 @@ function MapTmpl(props) {
           projectId={props.projectId}
           goBack={props.goBack}
           goForward={props.goForward}
-          history={props.history}
-          forward={props.forward}
         />
         {props.maps.map((map, index) => {
           return (
             <Node
+              clearPaste={props.clearPaste}
               key={index}
               node={map}
               checkState={props.checkState}

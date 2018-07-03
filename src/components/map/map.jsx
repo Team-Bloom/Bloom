@@ -14,10 +14,6 @@ export default class MapView extends Component {
       source: '',
       currentCut: {},
       count: 0,
-      forward: {},
-      back: true,
-      history: [],
-      forward: [],
     };
   }
 
@@ -28,19 +24,10 @@ export default class MapView extends Component {
         .doc(this.props.match.params.projectId);
 
       this.unsubscribe = docRef.onSnapshot(doc => {
-        console.log('snapshot', this.state.history);
         this.setState({
           project: doc.data(),
           count: this.state.count + 1,
-          // back: true,
-          // history: [...this.state.history, { version: doc.data().maps }],
-          // index: this.state.index + 1,
         });
-        if (!this.state.history.length) {
-          this.setState({
-            history: [{ version: doc.data().maps }],
-          });
-        }
       });
     }
   }
@@ -56,16 +43,21 @@ export default class MapView extends Component {
   };
 
   goBack = async () => {
-    const previous = this.state.history[this.state.history.length - 1];
-    await this.setState({
-      history: this.state.history.slice(0, this.state.history.length - 1),
-      forward: [...this.state.forward, previous],
-    });
-    const newMap = this.state.history[this.state.history.length - 1];
+    const previous = this.state.project.history[
+      this.state.project.history.length - 1
+    ];
+    const newHistory = this.state.project.history.slice(
+      0,
+      this.state.project.history.length - 1
+    );
+    const newForward = [...this.state.project.forward, previous];
+    const newMap = newHistory[newHistory.length - 1];
     try {
       let payload = {
         ...this.state.project,
         maps: newMap.version,
+        history: newHistory,
+        forward: newForward,
       };
       const docRef = await db
         .collection('Projects')
@@ -77,12 +69,14 @@ export default class MapView extends Component {
   };
 
   goForward = async () => {
-    const newMap = this.state.forward.pop();
-    await this.setState({ history: [...this.state.history, newMap] });
+    const newMap = this.state.project.forward.pop();
+    const newHistory = [...this.state.project.history, newMap];
     try {
       let payload = {
         ...this.state.project,
         maps: newMap.version,
+        history: newHistory,
+        forward: this.state.project.forward,
       };
       const docRef = await db
         .collection('Projects')
@@ -94,30 +88,18 @@ export default class MapView extends Component {
   };
 
   checkState = async mapState => {
-    console.log('does check state run?');
-    this.setState({
-      project: {
-        ...this.state.project,
-        maps: [mapState],
-        // history: [...this.state.history, { version: [mapState] }],
-        // forward: [],
-      },
-    });
     //DANGER ZONE, we are about to change the data to be sent
     //this probably should only happen in a file that only does that
     //to make it clear as possible that our database is being changed and sent
 
-    const obj = this.state.project;
     try {
       let payload = {
         ...this.state.project,
         maps: [mapState],
+        history: [...this.state.project.history, { version: [mapState] }],
+        forward: [],
       };
 
-      this.setState({
-        history: [...this.state.history, { version: [mapState] }],
-        forward: [],
-      });
       const docRef = await db
         .collection('Projects')
         .doc(this.props.match.params.projectId)
@@ -127,15 +109,20 @@ export default class MapView extends Component {
     }
   };
 
+  clearPaste = () => {
+    this.setState({
+      currentCut: {},
+    });
+  };
+
   render() {
     console.log('STATE', this.state);
     let maps = this.state.project && this.state.project.maps;
     if (!this.props.user.metadata) return <div>Loading...</div>;
     return (
       <MapTmpl
+        clearPaste={this.clearPaste}
         project={this.state.project}
-        history={this.state.history}
-        forward={this.state.forward}
         goBack={this.goBack}
         goForward={this.goForward}
         maps={maps}
