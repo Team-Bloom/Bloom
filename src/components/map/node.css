@@ -3,8 +3,59 @@
     display: inline-block;
     padding: 20px;
     z-index: 1;
-    bottom: -9px !important;
     left: -93px !important;
+    background-color: white;
+    border: 2px solid;
+    bottom: -40px !important;
+}
+
+.nodeWrap .nodeWrap .node{
+    border: 2px solid;
+    bottom: 11px !important;
+}
+
+.pointed.node:after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    margin-left: -6px;
+    height: 12px;
+    width: 13px;
+    border-radius: 50%;
+    background-color: #000;
+}
+
+.pointed.node:before{
+    content: '';
+    position: absolute;
+    border-top: 16px solid black;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    bottom: -15px;
+    left: 50%;
+    margin-left: -10px;
+}
+
+.pointed.node span:before{
+    content: '';
+    position: absolute;
+    border-top: 16px solid white;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    bottom: -11px;
+    left: 50%;
+    margin-left: -10px;
+}
+
+.pointed.node{
+    left: -51px !important;
+}
+
+.nodeWrap .nodeWrap .node:not(.pointed){
+    bottom: -9px !important;
+    border-width: 0;
+    background-color: transparent;
 }
 svg:not(:root):not(:root){
     overflow: visible;

@@ -17,10 +17,12 @@ function NodeTmpl(props) {
               addNode={props.addNode}
               handleChange={props.handleChange}
               text={props.node && props.node.text}
+              pointed={props.node && props.node.pointed}
               checkState={props.checkState}
               deleteNode={props.deleteNode}
               id={props.node && props.node.id}
               cutNode={props.cutNode}
+              point={props.point}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
             />
@@ -37,6 +39,7 @@ function NodeTmpl(props) {
                     currentCut={props.currentCut}
                     pasteOption={props.pasteOption}
                     pasteNode={props.pasteNode}
+                    clearPaste={props.clearPaste}
                   />
                 );
               })}

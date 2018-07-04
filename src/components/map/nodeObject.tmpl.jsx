@@ -2,7 +2,7 @@ import React from 'react';
 
 function NodeObjectTmpl(props) {
   return (
-    <div className="node" onClick={props.toggleEdit}>
+    <div className={`${props.pointed ? 'node pointed' : 'node'}`} onClick={props.toggleEdit}>
       {props.isEdit ? (
         <input
           type="text"
@@ -21,6 +21,7 @@ function NodeObjectTmpl(props) {
         <button onClick={props.deleteNode}>Delete </button>
         <button onClick={props.cutNode}>Cut</button>
         <button onClick={props.pasteNode}>Paste</button>
+        <button onClick={props.point}>Make Point</button>
       </div>
     </div>
   );
