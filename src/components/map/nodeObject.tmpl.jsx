@@ -43,7 +43,7 @@ function NodeObjectTmpl(props) {
         <button onClick={props.point}>Make Point</button>
         <button onClick={props.collapse}>Collapse</button>
       </div>
-      <div class="expander" onClick={props.collapse}></div>
+      <div className="expander" onClick={props.collapse}></div>
     </div>
   );
 }
