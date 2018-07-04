@@ -38,6 +38,19 @@ class Node extends Component {
     });
   };
 
+  point = ev => {
+      console.log("pointing this way")
+      console.log(this.state)
+      //this state isn't settig as expected
+      this.setState({
+          node: {
+              ...this.state.node,
+              pointed: true,
+          }
+      })
+      console.log(this.state)
+  }
+
   addNode = async ev => {
     ev.stopPropagation();
     const newNode = {
@@ -133,6 +146,7 @@ class Node extends Component {
         handleChange={this.handleChange}
         checkState={this.checkState}
         deleteNode={this.deleteNode}
+        point={this.point}
         count={this.props.count}
         currentCut={this.props.currentCut}
         pasteOption={this.props.pasteOption}

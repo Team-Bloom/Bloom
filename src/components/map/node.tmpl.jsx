@@ -21,6 +21,7 @@ function NodeTmpl(props) {
               deleteNode={props.deleteNode}
               id={props.node && props.node.id}
               cutNode={props.cutNode}
+              point={props.point}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
             />
