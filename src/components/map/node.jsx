@@ -38,17 +38,19 @@ class Node extends Component {
     });
   };
 
-  point = ev => {
-      console.log("pointing this way")
+  point = async ev => {
+      ev.stopPropagation();
+      console.log("pointing this way yo")
       console.log(this.state)
+      console.log("pointeders", this.state.pointed, !this.state.pointed)
       //this state isn't settig as expected
-      this.setState({
+      await this.setState({
           node: {
               ...this.state.node,
-              pointed: true,
+              pointed: !this.state.node.pointed,
           }
       })
-      console.log(this.state)
+      this.checkState()
   }
 
   addNode = async ev => {

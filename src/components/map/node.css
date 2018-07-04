@@ -9,7 +9,7 @@
     bottom: -40px !important;
 }
 
-.node{
+.nodeWrap .nodeWrap .node{
     border: 2px solid;
     bottom: 11px !important;
 }
@@ -46,6 +46,10 @@
     bottom: -11px;
     left: 50%;
     margin-left: -10px;
+}
+
+.pointed.node{
+    left: -51px !important;
 }
 
 .nodeWrap .nodeWrap .node:not(.pointed){

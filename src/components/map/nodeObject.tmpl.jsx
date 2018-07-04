@@ -2,7 +2,7 @@ import React from 'react';
 
 function NodeObjectTmpl(props) {
   return (
-    <div className={`${props.node && props.node.pointed ? 'node pointed' : 'node'}`} onClick={props.toggleEdit}>
+    <div className={`${props.pointed ? 'node pointed' : 'node'}`} onClick={props.toggleEdit}>
       {props.isEdit ? (
         <input
           type="text"
