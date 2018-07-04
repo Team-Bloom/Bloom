@@ -81,7 +81,7 @@ class MainNav extends Component {
           <NavLink
             style={{ ...styles.link, ...styles.map }}
             activeStyle={styles.activeStyle}
-            to={`/map/${this.props.currentMap}`}
+            to={`/map/${this.props.user.lastProject}`}
           >
             Map
           </NavLink>

@@ -34,6 +34,7 @@ class NodeObject extends Component {
   render() {
     return (
       <NodeObjectTmpl
+        pasteOption={this.props.pasteOption}
         toggleEdit={this.toggleEdit}
         text={this.props.text}
         handleChange={this.props.handleChange}
@@ -43,6 +44,7 @@ class NodeObject extends Component {
         cutNode={this.cutNode}
         currentCut={this.props.currentCut}
         isEdit={this.state.isEdit}
+        node={this.props.node}
       />
     );
   }

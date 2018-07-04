@@ -4,15 +4,22 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.2.3",
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "faker": "^4.1.0",
     "chai": "^4.1.2",
     "enzyme-adapter-react-16": "^1.1.1",
     "firebase": "^5.1.0",
+    "firebase-admin": "^5.12.1",
     "firebaseui": "^3.0.0",
+    "material-ui": "^0.20.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-offcanvas": "^0.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "twilio": "^3.17.4",
+    "twilio-video": "^1.10.0",
     "yargs": "^11.0.0"
   },
   "scripts": {

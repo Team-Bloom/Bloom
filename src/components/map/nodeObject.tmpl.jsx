@@ -17,10 +17,10 @@ function NodeObjectTmpl(props) {
         <span>{props.text}</span>
       )}
       <div className={`${props.isEdit ? 'functionButtons visible' : 'functionButtons'}`}>
-      <button onClick={props.addNode}>Add </button>
-      <button onClick={props.deleteNode}>Delete </button>
-      <button onClick={props.cutNode}>Cut</button>
-      <button onClick={props.pasteNode}>Paste</button>
+        <button onClick={props.addNode}>Add </button>
+        <button onClick={props.deleteNode}>Delete </button>
+        <button onClick={props.cutNode}>Cut</button>
+        <button onClick={props.pasteNode}>Paste</button>
       </div>
     </div>
   );

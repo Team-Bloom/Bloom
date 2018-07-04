@@ -14,6 +14,7 @@ export const addNewUser = async (userObj, email) => {
         projects: {
           [metadata.projectId]: metadata,
         },
+        lastProject: metadata.projectId,
       });
   } catch (ee) {
     console.error(ee);
@@ -50,4 +51,16 @@ export const addNewProject = async user => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const numberOfProjects = user => {
+  let counter = 0;
+
+  for (let k in user) {
+    if (user.hasOwnProperty(k)) {
+      counter += 1;
+    }
+  }
+
+  return counter;
 };
