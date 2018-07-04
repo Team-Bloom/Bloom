@@ -23,8 +23,6 @@ function NodeTmpl(props) {
               cutNode={props.cutNode}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
-              node={props.node}
-              pasteOption={props.pasteOption}
             />
             {props.node &&
               props.node.children &&
@@ -39,7 +37,6 @@ function NodeTmpl(props) {
                     currentCut={props.currentCut}
                     pasteOption={props.pasteOption}
                     pasteNode={props.pasteNode}
-                    clearPaste={props.clearPaste}
                   />
                 );
               })}
@@ -57,8 +54,8 @@ function NodeTmpl(props) {
               Math.abs(props.node.left) + 2 + 'px'
             }
           >
-            <path d={`M-20,0l10,0c100,0,${props.node.left - 50},${props.node.top},${props.node.left},${props.node.top},l100,0`}
-              style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2, fill: 'none'}}
+            <path d={`m-100,0l100,0c100,0,${props.node.left - 200},${props.node.top},${props.node.left - 89},${props.node.top},l100,0`}
+              style={{ stroke: 'rgb(0,0,0)', strokeWidth: 2, fill: 'none'}}
             />
           </svg>
         </div>
