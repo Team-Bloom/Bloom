@@ -7,27 +7,6 @@ function NodeTmpl(props) {
     <div className="nodeWrap">
       {props.node && (
         <div>
-          <svg
-            className="line"
-            height={
-              props.node &&
-              props.node.top &&
-              Math.abs(props.node.top) + 2 + 'px'
-            }
-            width={
-              props.node &&
-              props.node.left &&
-              Math.abs(props.node.left) + 2 + 'px'
-            }
-          >
-            <line
-              x1="0"
-              y1="0"
-              x2={props.node.left + 'px'}
-              y2={props.node.top + 'px'}
-              style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
-            />
-          </svg>
           <div
             className="dragger"
             onMouseDown={props.func}
@@ -44,8 +23,6 @@ function NodeTmpl(props) {
               cutNode={props.cutNode}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
-              node={props.node}
-              pasteOption={props.pasteOption}
             />
             {props.node &&
               props.node.children &&
@@ -60,11 +37,27 @@ function NodeTmpl(props) {
                     currentCut={props.currentCut}
                     pasteOption={props.pasteOption}
                     pasteNode={props.pasteNode}
-                    clearPaste={props.clearPaste}
                   />
                 );
               })}
           </div>
+          <svg
+            className="line"
+            height={
+              props.node &&
+              props.node.top &&
+              Math.abs(props.node.top) + 2 + 'px'
+            }
+            width={
+              props.node &&
+              props.node.left &&
+              Math.abs(props.node.left) + 2 + 'px'
+            }
+          >
+            <path d={`m-100,0l100,0c100,0,${props.node.left - 200},${props.node.top},${props.node.left - 89},${props.node.top},l100,0`}
+              style={{ stroke: 'rgb(0,0,0)', strokeWidth: 2, fill: 'none'}}
+            />
+          </svg>
         </div>
       )}
     </div>

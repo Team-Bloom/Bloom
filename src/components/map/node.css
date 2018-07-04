@@ -1,10 +1,13 @@
 .node{
-    position: relative;
+    position: absolute;
     display: inline-block;
     padding: 20px;
     z-index: 1;
-    top: 0 !important;
-    left: 0 !important;
+    bottom: -9px !important;
+    left: -93px !important;
+}
+svg:not(:root):not(:root){
+    overflow: visible;
 }
 .nodeIcon{
     position: absolute;
@@ -14,10 +17,10 @@
 }
 .nodeWrap{
     position: relative;
-    left: 0;
+    left: 10px;
 }
 .nodeWrap .nodeWrap{
-    top: -64px;
+    /*top: -64px;*/
 }
 .test{
     top: 20px;
@@ -39,12 +42,22 @@
 .line{
     position: absolute;
     z-index: -1;
-    top: 20px;
-    left: 150px;
+    top: 0px;
+    left: 0px;
     display: none;
     overflow: visible;
 }
 
 .dragger .line{
     display: block;
+}
+
+.functionButtons{
+    opacity: 0;
+    position: absolute;
+    right: -50px;
+}
+
+.functionButtons.visible, .functionButtons:hover{
+    opacity: 1;
 }
