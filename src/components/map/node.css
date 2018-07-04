@@ -112,3 +112,14 @@ svg:not(:root):not(:root){
 .functionButtons.visible, .functionButtons:hover{
     opacity: 1;
 }
+
+.collapsed .expander{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 3px solid black;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    cursor: pointer;
+}

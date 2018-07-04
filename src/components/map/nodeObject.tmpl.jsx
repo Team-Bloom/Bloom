@@ -22,7 +22,9 @@ function NodeObjectTmpl(props) {
         <button onClick={props.cutNode}>Cut</button>
         <button onClick={props.pasteNode}>Paste</button>
         <button onClick={props.point}>Make Point</button>
+        <button onClick={props.collapse}>Collapse</button>
       </div>
+      <div class="expander" onClick={props.collapse}></div>
     </div>
   );
 }

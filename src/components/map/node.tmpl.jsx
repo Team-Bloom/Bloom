@@ -8,7 +8,7 @@ function NodeTmpl(props) {
       {props.node && (
         <div>
           <div
-            className="dragger"
+            className={props.node.collapsed ? 'collapsed dragger' : 'dragger'}
             onMouseDown={props.func}
             ref={props.dragger}
             style={{ left: props.node.left + 'px', top: props.node.top + 'px' }}
@@ -25,8 +25,10 @@ function NodeTmpl(props) {
               point={props.point}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
+              collapse={props.collapse}
             />
             {props.node &&
+              !props.node.collapsed &&
               props.node.children &&
               props.node.children.map(node => {
                 return (
