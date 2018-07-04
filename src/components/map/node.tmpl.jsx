@@ -7,27 +7,6 @@ function NodeTmpl(props) {
     <div className="nodeWrap">
       {props.node && (
         <div>
-          <svg
-            className="line"
-            height={
-              props.node &&
-              props.node.top &&
-              Math.abs(props.node.top) + 2 + 'px'
-            }
-            width={
-              props.node &&
-              props.node.left &&
-              Math.abs(props.node.left) + 2 + 'px'
-            }
-          >
-            <line
-              x1="0"
-              y1="0"
-              x2={props.node.left + 'px'}
-              y2={props.node.top + 'px'}
-              style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2 }}
-            />
-          </svg>
           <div
             className="dragger"
             onMouseDown={props.func}
@@ -62,6 +41,23 @@ function NodeTmpl(props) {
                 );
               })}
           </div>
+          <svg
+            className="line"
+            height={
+              props.node &&
+              props.node.top &&
+              Math.abs(props.node.top) + 2 + 'px'
+            }
+            width={
+              props.node &&
+              props.node.left &&
+              Math.abs(props.node.left) + 2 + 'px'
+            }
+          >
+            <path d={`M-20,0l10,0c100,0,${props.node.left - 50},${props.node.top},${props.node.left},${props.node.top},l100,0`}
+              style={{ stroke: 'rgb(255,0,0)', strokeWidth: 2, fill: 'none'}}
+            />
+          </svg>
         </div>
       )}
     </div>
