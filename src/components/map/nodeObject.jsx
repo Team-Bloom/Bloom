@@ -46,6 +46,8 @@ class NodeObject extends Component {
         currentCut={this.props.currentCut}
         isEdit={this.state.isEdit}
         pointed={this.props.pointed}
+        pasteOption={this.props.pasteOption}
+        node={this.props.node}
         collapse={this.props.collapse}
       />
     );

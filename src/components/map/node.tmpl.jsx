@@ -25,6 +25,8 @@ function NodeTmpl(props) {
               point={props.point}
               currentCut={props.currentCut}
               pasteNode={props.pasteNode}
+              pasteOption={props.pasteOption}
+              node={props.node}
               collapse={props.collapse}
             />
             {props.node &&
@@ -59,8 +61,11 @@ function NodeTmpl(props) {
               Math.abs(props.node.left) + 2 + 'px'
             }
           >
-            <path d={`m-100,0l100,0c100,0,${props.node.left - 200},${props.node.top},${props.node.left - 89},${props.node.top},l100,0`}
-              style={{ stroke: 'rgb(0,0,0)', strokeWidth: 2, fill: 'none'}}
+            <path
+              d={`m-100,0l100,0c100,0,${props.node.left - 200},${
+                props.node.top
+              },${props.node.left - 89},${props.node.top},l100,0`}
+              style={{ stroke: 'rgb(0,0,0)', strokeWidth: 2, fill: 'none' }}
             />
           </svg>
         </div>
