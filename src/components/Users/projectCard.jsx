@@ -33,13 +33,13 @@ const ProjectCard = props => {
             <Typography className={classes.title}>
               {props.project.title}
             </Typography>
-            {props.project.collaborators.map((el, index) => {
+            {props.project && props.project.collaborators && props.project.collaborators.length ? props.project.collaborators.map((el, index) => {
               return (
                 <Typography key={index} color="textSecondary">
                   {el.name}
                 </Typography>
               );
-            })}
+            }) : null }
           </CardContent>
         </Link>
         <button
