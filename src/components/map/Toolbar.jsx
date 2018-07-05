@@ -273,7 +273,7 @@ class Toolbar extends Component {
                 }
             </div>
         </div>
-        <div className="collapser" onClick={this.collapse}>{(this.state.collapsed && 'expand' || 'collapse')}</div>
+        <div className={this.state.collapsed ? "collapser collapsed" : "collapser"} onClick={this.collapse}>{(this.state.collapsed && 'Expand Toolbar' || 'Collapse Toolbar')}</div>
       </div>
     );
   }
