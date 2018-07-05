@@ -41,9 +41,12 @@ class NodeObject extends Component {
         addNode={this.props.addNode}
         pasteNode={this.props.pasteNode}
         deleteNode={this.deleteNode}
+        point={this.props.point}
         cutNode={this.cutNode}
         currentCut={this.props.currentCut}
         isEdit={this.state.isEdit}
+        pointed={this.props.pointed}
+        pasteOption={this.props.pasteOption}
         node={this.props.node}
       />
     );

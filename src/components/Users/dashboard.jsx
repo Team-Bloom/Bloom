@@ -90,7 +90,7 @@ class Dashboard extends React.Component {
           {keys.map(project => {
             return (
               <div key={projects[project].projectId} className="project-cards">
-                  <ProjectCard selectMap={this.props.selectMap}project={projects[project]} areYouSure={this.areYouSure} keys={keys} />
+                  <ProjectCard selectMap={this.props.selectMap} project={projects[project]} areYouSure={this.areYouSure} keys={keys} />
 
               </div>
             );

@@ -47,15 +47,18 @@ class ChatRoom extends React.Component {
   };
 
   render() {
-    console.log("line 50 in ChatRoom", this.props)
+    console.log('line 50 in ChatRoom', this.props);
     return (
-      <div className="chatroom">
-        <h3>Bloom Chat</h3>
-        <ul className="chats" ref="chats">
-          {this.props.messages && this.props.messages.map((message, index) => (
-            <Message key={index} message={message} user={this.props.user} />
-          ))}
-        </ul>
+      <div>
+        <div className="chatroom">
+          <h3>Bloom Chat</h3>
+          <div>
+          <ul className="chats" ref="chats">
+            {this.props.messages &&
+              this.props.messages.map((message, index) => (
+                <Message key={index} message={message} user={this.props.user} />
+              ))}
+          </ul>
         <form className="input" onSubmit={e => this.submitMessage(e)}>
           <input
             onChange={this.handleChange}
@@ -66,6 +69,8 @@ class ChatRoom extends React.Component {
           />
           <input type="submit" value="Submit" />
         </form>
+          </div>
+        </div>
       </div>
     );
   }

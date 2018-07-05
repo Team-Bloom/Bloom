@@ -2,7 +2,10 @@ import React from 'react';
 
 function NodeObjectTmpl(props) {
   return (
-    <div className="node" onClick={props.toggleEdit}>
+    <div
+      className={`${props.pointed ? 'node pointed' : 'node'}`}
+      onClick={props.toggleEdit}
+    >
       {props.isEdit ? (
         <input
           type="text"
@@ -16,34 +19,12 @@ function NodeObjectTmpl(props) {
       ) : (
         <span>{props.text}</span>
       )}
-      <svg
-        className="nodeIcon"
-        width="100%"
-        viewBox="0 0 32 32"
-        aria-labelledby="title"
+      <div
+        className={`${
+          props.isEdit ? 'functionButtons visible' : 'functionButtons'
+        }`}
       >
-        <title id="title">{props.text}</title>
-        <rect
-          width="100%"
-          height="50%"
-          style={{
-            fill: 'rgb(255,255,255)',
-            strokeWidth: '0.01em',
-            stroke: 'rgb(0,0,0)',
-          }}
-        />
-      </svg>
-
-      {/* {props.node.id === undefined ? (
-        <div>
-          <button onClick={props.addNode}>Add </button>
-          <button onClick={props.pasteNode}>Paste</button>
-        </div>
-      ) : (
-        <div> */}
-      <div>
         <button onClick={props.addNode}>Add </button>
-
         <button
           onClick={props.deleteNode}
           disabled={props.node.id === undefined}
@@ -53,16 +34,14 @@ function NodeObjectTmpl(props) {
         <button onClick={props.cutNode} disabled={props.node.id === undefined}>
           Cut
         </button>
-
         <button
           onClick={props.pasteNode}
           disabled={props.pasteOption.children === undefined}
         >
           Paste
         </button>
+        <button onClick={props.point}>Make Point</button>
       </div>
-      {/* </div>
-      )} */}
     </div>
   );
 }
