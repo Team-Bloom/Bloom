@@ -4,11 +4,20 @@ body {
   font-family: sans-serif;
 }
 
-.projSet {
+#projSet {
+  width: 80vw;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 3vh;
+  /* flex-grow: 2; */
+}
+
+#flexRow {
   display: flex;
 }
 
-.flexCol {
-  display: flex;
-  flex-direction: column;
+#user-page-container {
+  width: 20vw;
+  /* flex-grow: 1; */
+  /* width: 100%; */
 }
