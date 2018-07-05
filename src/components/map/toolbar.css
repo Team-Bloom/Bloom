@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    background-color: gray;
+    justify-content: space-between;
+    padding-left: 1%;
+    padding-right: 1%;
+    height: 5vh;
+    align-items: center;
+}
+.left {
+    display: flex;
+    justify-content: space-between
+}
+.link {
+    color: white;
+    fontSize: 1.3em;
+    cursor: pointer;
+}
+.title {
+    margin-top: 10px;
+    line-height: 1em;
+    margin-bottom: 10px;
+}
+.icon {
+    margin: 5px;
+}
+.tool-container{
+    padding: 20px 10px 10px 20px;
+    position: relative;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 48px;
+    border-bottom: 2px solid;
+    position: fixed;
+    width: 100%;
+    background-color: rgba(210, 217, 224, 0.95);
+}
+.tool-container .title{
+    font-size: 2em;
+    margin-right: .25em;
+    display: inline;
+}
+.project-info{
+    margin-bottom: 10px;
+}
+.collaborators{
+    margin-right: 10px;
+}
+
+.button{
+    text-transform: uppercase;
+    padding: 12px 17px;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.75px;
+    font-weight: 300;
+    transition: 0.2s ease-in-out;
+    border: none;
+    line-height: 1.5em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+input:disabled, button:disabled{
+    opacity: 0.25;
+    display: none;
+}
+.button:hover{
+    background-color: rgba(255, 255, 255, 0.98)
+}
+.current-projects{
+    padding: 5px;
+}
+.current-projects-text{
+    margin: 0 0 10px 0;
+}
+h2{
+    font-size: 1.5em;
+}
+button{
+    cursor: pointer;
+}
