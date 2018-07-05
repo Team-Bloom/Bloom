@@ -75,6 +75,7 @@ class Toolbar extends Component {
   }
 
   showProjects() {
+
     const projects = this.props.user.projects
     let listOfUserProjectNames = []
 
@@ -82,9 +83,9 @@ class Toolbar extends Component {
         listOfUserProjectNames.push({projectName: k, title: projects[k].title, lastUpdated: projects[k].lastUpdated})
     }
 
-    if (listOfUserProjectNames.length >= 3) {
-      return mostRecentlyUpdated(listOfUserProjectNames)
-    }
+    // if (listOfUserProjectNames.length >= 3) {
+    //   return mostRecentlyUpdated(listOfUserProjectNames)
+    // }
     return listOfUserProjectNames
 }
 
