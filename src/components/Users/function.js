@@ -37,10 +37,10 @@ export const addNewProject = async user => {
     const newProj = myFirstProject(
       user.metadata,
       user.metadata.email,
-      'New Project'
+      'Untitled Project'
     );
     const { id } = await db.collection('Projects').add(newProj);
-    const metadata = firstProjMetaData(user.metadata, id, 'New Project');
+    const metadata = firstProjMetaData(user.metadata, id, 'Untitled Project');
     await db
       .collection('Users')
       .doc(user.metadata.email)
@@ -62,23 +62,23 @@ export const numberOfProjects = user => {
     }
   }
 
-  return counter
-}
+  return counter;
+};
 
 export const mostRecentlyUpdated = projects => {
-  let numberOfMoreRecentProjects = 0
-  const mostRecentProjects = []
+  let numberOfMoreRecentProjects = 0;
+  const mostRecentProjects = [];
 
   for (var i = 0; i < projects.length; i++) {
     for (var j = i + 1; j < projects.length; j++) {
-        if (projects.lastUpdated[j] > projects.lastUpdated[i]) {
-          numberOfMoreRecentProjects += 1
-        }
-  }
-  if (numberOfMoreRecentProjects < 3) {
-    mostRecentProjects.push(projects.lastUpdated[i])
-  }
+      if (projects.lastUpdated[j] > projects.lastUpdated[i]) {
+        numberOfMoreRecentProjects += 1;
+      }
+    }
+    if (numberOfMoreRecentProjects < 3) {
+      mostRecentProjects.push(projects.lastUpdated[i]);
+    }
 
-  if (mostRecentProjects.length === 3) return numberOfMoreRecentProjects
+    if (mostRecentProjects.length === 3) return numberOfMoreRecentProjects;
   }
-}
+};
