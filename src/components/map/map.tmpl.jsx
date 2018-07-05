@@ -19,6 +19,7 @@ function MapTmpl(props) {
           projectId={props.projectId}
           goBack={props.goBack}
           goForward={props.goForward}
+          user={props.user}
         />
         {props.maps.map((map, index) => {
           return (

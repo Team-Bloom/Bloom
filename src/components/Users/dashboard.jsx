@@ -90,7 +90,7 @@ class Dashboard extends React.Component {
           {keys.map(project => {
             return (
               <div key={projects[project].projectId} className="project-cards">
-                  <ProjectCard selectMap={this.props.selectMap}project={projects[project]} areYouSure={this.areYouSure} />
+                  <ProjectCard selectMap={this.props.selectMap} project={projects[project]} areYouSure={this.areYouSure} keys={keys} />
 
               </div>
             );
@@ -102,7 +102,7 @@ class Dashboard extends React.Component {
                 <div />
                 }
         <div>
-        <a class="btn-floating btn-large waves-effect waves-light red"  onClick={() => this.addProject(this.props.user)}><i class="material-icons">+</i></a>
+        <a className="btn-floating btn-large waves-effect waves-light red"  onClick={() => this.addProject(this.props.user)}><i className="material-icons">+</i></a>
         </div>
       </div>
     );

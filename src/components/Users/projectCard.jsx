@@ -43,6 +43,10 @@ const ProjectCard = props => {
           </CardContent>
         </Link>
         <button
+          disabled={
+            props.keys.length === 1 ? 'disabled' :
+            null
+          }
           type="submit"
           className="delete-project-btn"
           onClick={() => props.areYouSure(props.project)}

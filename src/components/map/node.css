@@ -116,6 +116,24 @@ svg:not(:root):not(:root){
     display: block;
 }
 
+.projectList {
+    color: black
+}
+
+a {
+    color: #1b1b1b;
+}
+
+#collab-form {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+#save-form {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
 .functionButtons{
     opacity: 0;
     position: absolute;

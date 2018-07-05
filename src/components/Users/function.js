@@ -62,5 +62,23 @@ export const numberOfProjects = user => {
     }
   }
 
-  return counter;
-};
+  return counter
+}
+
+export const mostRecentlyUpdated = projects => {
+  let numberOfMoreRecentProjects = 0
+  const mostRecentProjects = []
+
+  for (var i = 0; i < projects.length; i++) {
+    for (var j = i + 1; j < projects.length; j++) {
+        if (projects.lastUpdated[j] > projects.lastUpdated[i]) {
+          numberOfMoreRecentProjects += 1
+        }
+  }
+  if (numberOfMoreRecentProjects < 3) {
+    mostRecentProjects.push(projects.lastUpdated[i])
+  }
+
+  if (mostRecentProjects.length === 3) return numberOfMoreRecentProjects
+  }
+}
