@@ -64,7 +64,6 @@ text-decoration: none;
   position: relative;
   display: inline-block;
   cursor: pointer;
-  width: 100%;
 }
 
 
@@ -168,4 +167,3 @@ color: white;
     color: #0099CC;
     background-color: white
   }
-

@@ -32,14 +32,7 @@ class SaveProjectForm extends React.Component {
     }
     return (
       <div className="popup" onClick={() => this.props.showForm('save')}>
-        <img
-          // style={styles.icon}
-          onMouseEnter={this.toggleHover}
-          onMouseLeave={this.toggleHover}
-          name="save-btn"
-          src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/32/floppy-icon.png"
-          alt="save"
-        />
+        <div class="button">Change Name</div>
         <span style={{ ...styles.tooltiptext, ...hoverStyle }}>
           Save project as...
         </span>
