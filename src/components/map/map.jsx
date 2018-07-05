@@ -30,6 +30,7 @@ export default class MapView extends Component {
   };
 
   componentDidMount() {
+    console.log('component did mount bitchez');
     if (this.props.match.params.projectId) {
       const docRef = db
         .collection('Projects')
@@ -41,6 +42,22 @@ export default class MapView extends Component {
           count: this.state.count + 1,
         });
       });
+    }
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    console.log('running');
+    if (nextProps.currentMap) {
+      this.unsubscribe();
+      await db
+        .collection('Projects')
+        .doc(nextProps.currentMap)
+        .onSnapshot(doc =>
+          this.setState({
+            project: doc.data(),
+            count: this.state.count + 1,
+          })
+        );
     }
   }
 
@@ -153,6 +170,7 @@ export default class MapView extends Component {
         user={this.props.user}
         currentCut={this.currentCut}
         pasteOption={this.state.currentCut}
+        selectMap={this.props.selectMap}
       />
     );
   }

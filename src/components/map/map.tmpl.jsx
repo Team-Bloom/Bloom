@@ -8,7 +8,6 @@ function MapTmpl(props) {
   return !props.maps ? (
     <div>
       <Toolbar />
-
       <Node checkState={props.checkState} />
     </div>
   ) : (
@@ -20,6 +19,7 @@ function MapTmpl(props) {
           goBack={props.goBack}
           goForward={props.goForward}
           user={props.user}
+          selectMap={props.selectMap}
         />
         {props.maps.map((map, index) => {
           return (

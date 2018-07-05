@@ -11,6 +11,7 @@ class App extends React.Component {
     currentMap: '',
   };
   selectMap = async map => {
+    console.log('running hello hi hi hi');
     this.setState({
       currentMap: map,
     });
@@ -61,6 +62,7 @@ class App extends React.Component {
           <Routes
             user={this.state.user}
             selectMap={map => this.selectMap(map)}
+            currentMap={this.state.currentMap}
           />
         </div>
       </div>

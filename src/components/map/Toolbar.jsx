@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import SaveProjectForm from '../navbar/SaveProjectForm.jsx';
 import AddCollaboratorForm from '../navbar/AddCollaboratorForm.jsx';
 import { db } from '../../exports.js';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import {
   displayForm,
   removeForm,
   checkUnique,
   updateUserProjects,
 } from '../navbar/functions.js';
-import { mostRecentlyUpdated } from '../Users/function'
-import './toolbar.css'
+import { mostRecentlyUpdated } from '../Users/function';
+import './toolbar.css';
 
 const styles = {
   container: {
@@ -50,7 +50,8 @@ class Toolbar extends Component {
       recipientEmail: '',
       projectName: '',
       nonExistentCollaboratorsEmail: '',
-      userProjects: []
+      userProjects: [],
+      project: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -61,13 +62,6 @@ class Toolbar extends Component {
     // this.toggleProjects = this.toggleProject.bind(this)
   }
 
-
-
-
-
-
-
-
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -76,21 +70,22 @@ class Toolbar extends Component {
   }
 
   showProjects() {
-
-    const projects = this.props.user.projects
-    let listOfUserProjectNames = []
+    const projects = this.props.user.projects;
+    let listOfUserProjectNames = [];
 
     for (let k in projects) {
-        listOfUserProjectNames.push({projectName: k, title: projects[k].title, lastUpdated: projects[k].lastUpdated})
+      listOfUserProjectNames.push({
+        projectName: k,
+        title: projects[k].title,
+        lastUpdated: projects[k].lastUpdated,
+      });
     }
 
     // if (listOfUserProjectNames.length >= 3) {
     //   return mostRecentlyUpdated(listOfUserProjectNames)
     // }
-    return listOfUserProjectNames
-}
-
-
+    return listOfUserProjectNames;
+  }
 
   async handleSubmit(event) {
     event.preventDefault();
@@ -194,77 +189,82 @@ class Toolbar extends Component {
   showForm(action) {
     this.setState({
       recipientEmail: '',
-      projectName: ''
-    })
+      projectName: '',
+    });
     displayForm(action);
   }
 
   render() {
-   console.log(this.props)
+    console.log(this.props);
 
-    if (!this.props.project || !this.props.user.projects) return <div>Loding...</div>;
+    if (!this.props.project || !this.props.user.projects)
+      return <div>Loding...</div>;
+    let project = this.props.project;
+    if (this.state.project.metadata) {
+      project = this.state.project;
+    }
     return (
-      <div
-        id="tool-container" className="tool-container"
-      >
+      <div id="tool-container" className="tool-container">
         <div id="tool-left" className="tool-left" style={styles.left}>
-        <div className="project-info">
-          <h1 id="title" className="title">
-            {this.props.project.metadata.title} Mind Map
-          </h1>
-          <span className="collaborators">{`${this.props.project.metadata.collaborators.reduce(
+          <div className="project-info">
+            <h1 id="title" className="title">
+              {project.metadata.title} Mind Map
+            </h1>
+            <span className="collaborators">{`${project.metadata.collaborators.reduce(
               (acc, el) => {
-                  return acc + el.name;
+                return acc + el.name;
               },
               ' | '
-          )}`}</span>
-          <AddCollaboratorForm
+            )}`}</span>
+            <AddCollaboratorForm
               showForm={this.showForm}
               handleChange={this.handleChange}
               recipientName={this.state.recipientName}
               recipientEmail={this.state.recipientEmail}
               handleSubmit={this.handleSubmit}
               collabName={this.state.nonExistentCollaboratorsEmail}
-              />
-             </div>
+            />
+          </div>
           <div>
-          <SaveProjectForm
-            showForm={this.showForm}
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-            projectName={this.state.projectName}
-          />
-          <button
-            type="button"
-            className="button"
-            onClick={this.props.goBack}
-            disabled={this.props.project.history.length < 2}
-          >
-            Map Undo
-          </button>
-          <button
-            type="button"
-            className="button"
-            disabled={this.props.project.forward.length < 1}
-            onClick={this.props.goForward}
-          >
-            Map Redo
-          </button>
+            <SaveProjectForm
+              showForm={this.showForm}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              projectName={this.state.projectName}
+            />
+            <button
+              type="button"
+              className="button"
+              onClick={this.props.goBack}
+              disabled={this.props.project.history.length < 2}
+            >
+              Map Undo
+            </button>
+            <button
+              type="button"
+              className="button"
+              disabled={this.props.project.forward.length < 1}
+              onClick={this.props.goForward}
+            >
+              Map Redo
+            </button>
           </div>
         </div>
         <div id="tool-right" className="tool-right">
-            <div className="current-projects">
-                <h2 className="current-projects-text">Recent projects </h2>
-                {
-                    this.showProjects().map(projects => {
-                        return (
-                            <Link className="button" to={`/map/${projects.projectName}`} >
-                            <span className="project-list">{projects.title}</span>
-                            </Link >
-                        )
-                    })
-                }
-            </div>
+          <div className="current-projects">
+            <h2 className="current-projects-text">Recent projects </h2>
+            {this.showProjects().map(projects => {
+              return (
+                <Link
+                  className="button"
+                  to={`/map/${projects.projectName}`}
+                  onClick={() => this.props.selectMap(projects.projectName)}
+                >
+                  <span className="project-list">{projects.title}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     );

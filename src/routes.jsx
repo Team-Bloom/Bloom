@@ -11,7 +11,14 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route
           path="/map/:projectId"
-          render={props => <MapView {...props} user={this.props.user} />}
+          render={props => (
+            <MapView
+              {...props}
+              user={this.props.user}
+              selectMap={map => this.props.selectMap(map)}
+              currentMap={this.props.currentMap}
+            />
+          )}
         />
         <Route
           exact
