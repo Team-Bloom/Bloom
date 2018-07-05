@@ -8,6 +8,7 @@ import { db } from '../../exports.js';
 import history from '../../history';
 import DeleteProjectPanel from './DeleteProjectPanel.jsx';
 import UserPage from './UserPage.jsx';
+import AddProjectCard from './addProjectCard.jsx';
 
 class Dashboard extends React.Component {
   constructor() {
@@ -22,6 +23,7 @@ class Dashboard extends React.Component {
     this.areYouSure = this.areYouSure.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.addProject = this.addProject.bind(this);
   }
 
   async addProject(user) {
@@ -79,6 +81,7 @@ class Dashboard extends React.Component {
     return (
       <div id="flexRow">
         <div id="projSet">
+          <AddProjectCard addProject={this.addProject} user={this.props.user} />
           {keys.map(project => {
             return (
               <ProjectCard
@@ -103,14 +106,6 @@ class Dashboard extends React.Component {
         ) : (
           <div />
         )}
-        {/* <div>
-          <a
-            className="btn-floating btn-large waves-effect waves-light red"
-            onClick={() => this.addProject(this.props.user)}
-          >
-            <i className="material-icons">+</i>
-          </a>
-        </div> */}
       </div>
     );
   }

@@ -18,11 +18,12 @@
 }
 
 .row {
-  margin-top: 7%;
+  /* margin-top: 7%;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
-  width: 60%;
+  margin-bottom: 20px; */
+  margin: 0;
+  width: 100%;
 }
 
 .card {
@@ -136,13 +137,32 @@
   color: white;
 }
 
+.add-project-btn {
+  border: 2px solid rgb(147, 18, 151);
+  width: 170px;
+  height: 33px;
+  border-radius: 5px;
+  background-color: rgb(147, 18, 151);
+  font-size: 16px;
+  margin-top: 10px;
+  color: white;
+}
+
+.add-project-btn:hover {
+  background-color: white;
+  color: black;
+}
 .delete-project-container {
+  background-color: white;
+  position: absolute;
   width: 300px;
   z-index: 10;
   outline: 2px grey solid;
   margin-left: 37%;
   padding: 20px;
   box-shadow: 0px 10px 20px 4px #888888;
+  margin-left: 40%;
+  margin-top: 10%;
 }
 
 .btn-large i {
@@ -153,12 +173,21 @@
 .project-cards {
   display: flex;
   flex-wrap: wrap;
-  padding-left: 50px;
-  padding-top: 40px;
+  /* padding-left: 50px;
+  padding-top: 40px; */
+  /* width: 250px;
+  height: 280px; */
 }
 
-.ProjectCard-card-1 {
+/* .ProjectCard-card-1 {
   padding: 40px;
   width: 250px;
   height: 280px;
+} */
+
+#userDetails {
+  /* margin-right: 2vw; */
+  margin-left: 0;
+  margin-top: 8vh;
+  width: 100%;
 }

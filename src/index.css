@@ -8,7 +8,9 @@ body {
   width: 80vw;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 3vh;
+  margin-top: 4vh;
+  margin-left: 1vw;
+
   /* flex-grow: 2; */
 }
 
@@ -18,6 +20,12 @@ body {
 
 #user-page-container {
   width: 20vw;
+  margin-right: 3vw;
+  margin-left: 3vw;
   /* flex-grow: 1; */
   /* width: 100%; */
+}
+
+#user-page {
+  width: 100%;
 }

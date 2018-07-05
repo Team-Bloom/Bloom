@@ -23,7 +23,7 @@ const styles = {
 const ProjectCard = props => {
   const { classes } = props;
   return (
-    <div id="project-cards">
+    <div className="project-cards">
       <Card className={classes.card}>
         <Link
           onClick={() => props.selectMap(props.project.projectId)}
@@ -44,6 +44,7 @@ const ProjectCard = props => {
         </Link>
         <button
           disabled={props.keys.length === 1 ? 'disabled' : null}
+          style={{ cursor: 'pointer' }}
           type="submit"
           className="delete-project-btn"
           onClick={() => props.areYouSure(props.project)}
