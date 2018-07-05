@@ -50,7 +50,8 @@ class Toolbar extends Component {
       recipientEmail: '',
       projectName: '',
       nonExistentCollaboratorsEmail: '',
-      userProjects: []
+      userProjects: [],
+      collapsed: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -199,22 +200,28 @@ class Toolbar extends Component {
     displayForm(action);
   }
 
+  collapse = () => {
+      this.setState({
+          collapsed: !this.state.collapsed
+      })
+  }
+
   render() {
    console.log(this.props)
 
     if (!this.props.project || !this.props.user.projects) return <div>Loding...</div>;
     return (
       <div
-        id="tool-container" className="tool-container"
+        id="tool-container" className={this.state.collapsed ? 'tool-container collapsed' : 'tool-container'}
       >
         <div id="tool-left" className="tool-left" style={styles.left}>
         <div className="project-info">
           <h1 id="title" className="title">
-            {this.props.project.metadata.title} Mind Map
+            {this.props.project.metadata.title}
           </h1>
           <span className="collaborators">{`${this.props.project.metadata.collaborators.reduce(
               (acc, el) => {
-                  return acc + el.name;
+                  return acc + el.name + ' | ';
               },
               ' | '
           )}`}</span>
@@ -254,7 +261,7 @@ class Toolbar extends Component {
         </div>
         <div id="tool-right" className="tool-right">
             <div className="current-projects">
-                <h2 className="current-projects-text">Recent projects </h2>
+                <h2 className="current-projects-text">Recent Projects </h2>
                 {
                     this.showProjects().map(projects => {
                         return (
@@ -266,6 +273,7 @@ class Toolbar extends Component {
                 }
             </div>
         </div>
+        <div className={this.state.collapsed ? "collapser collapsed" : "collapser"} onClick={this.collapse}>{(this.state.collapsed && 'Expand Toolbar' || 'Collapse Toolbar')}</div>
       </div>
     );
   }

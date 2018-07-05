@@ -25,16 +25,23 @@
     margin: 5px;
 }
 .tool-container{
-    padding: 20px 10px 10px 20px;
+    padding: 7px 10px 10px 20px;
     position: relative;
-    z-index: 100;
+    z-index: 101;
     display: flex;
     justify-content: space-between;
-    margin-top: 48px;
+    margin-top: 38px;
     border-bottom: 2px solid;
     position: fixed;
     width: 100%;
     background-color: rgba(210, 217, 224, 0.95);
+    transition: 0.2s;
+    font-size: 0.65em;
+}
+.tool-container.collapsed{
+    height: 0;
+    overflow: hidden;
+    padding: 50px 0 0 0;
 }
 .tool-container .title{
     font-size: 2em;
@@ -79,4 +86,14 @@ h2{
 }
 button{
     cursor: pointer;
+}
+.collapser{
+    position: absolute;
+bottom: 0;
+left: 0;
+padding: 2px 20px;
+}
+.collapser.collapsed{
+    font-size: 1.5em;
+    padding: 10px 20px;
 }
