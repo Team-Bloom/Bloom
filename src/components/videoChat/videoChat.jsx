@@ -129,7 +129,7 @@ export default class VideoComponent extends Component {
     //we'll use this function when we deploy this to firebase for production
     // const token = functions.httpsCallable('token');
     await axios
-      .get(`http://localhost:5000/bloom-895e7/us-central1/token`)
+      .get(`https://us-central1-bloom-895e7.cloudfunctions.net/token`)
       .then(results => {
         const { identity, token } = results.data;
         this.setState({ identity, token });
