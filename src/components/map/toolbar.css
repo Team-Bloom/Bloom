@@ -36,6 +36,11 @@
     width: 100%;
     background-color: rgba(210, 217, 224, 0.95);
 }
+.tool-container.collapsed{
+    height: 0;
+    overflow: hidden;
+    padding: 20px 0 0 0;
+}
 .tool-container .title{
     font-size: 2em;
     margin-right: .25em;
@@ -79,4 +84,9 @@ h2{
 }
 button{
     cursor: pointer;
+}
+.collapser{
+    position: absolute;
+    bottom:0;
+    left: 0;
 }
