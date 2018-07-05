@@ -39,15 +39,24 @@ class Node extends Component {
   };
 
   point = async ev => {
+      //set flag to make node look like a pointed card
       ev.stopPropagation();
-      console.log("pointing this way yo")
-      console.log(this.state)
-      console.log("pointeders", this.state.pointed, !this.state.pointed)
-      //this state isn't settig as expected
       await this.setState({
           node: {
               ...this.state.node,
               pointed: !this.state.node.pointed,
+          }
+      })
+      this.checkState()
+  }
+
+  collapse = async ev => {
+      ev.stopPropagation();
+      console.log("running")
+      await this.setState({
+          node: {
+              ...this.state.node,
+              collapsed: !this.state.node.collapsed,
           }
       })
       this.checkState()
@@ -155,6 +164,7 @@ class Node extends Component {
         cutNode={this.cutNode}
         pasteNode={this.pasteNode}
         clearPaste={this.props.clearPaste}
+        collapse={this.collapse}
       />
     );
   }

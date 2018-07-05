@@ -57,13 +57,7 @@ class App extends React.Component {
     return (
       <div id="app">
         <div>
-<<<<<<< HEAD
-          <MainNav
-            currentMap={this.state.currentMap} user={this.state.user}
-          />
-=======
           <MainNav currentMap={this.state.currentMap} user={this.state.user} />
->>>>>>> 3d29609096db9cdbdd4008f7b2db6555750c6e27
           <Routes
             user={this.state.user}
             selectMap={map => this.selectMap(map)}

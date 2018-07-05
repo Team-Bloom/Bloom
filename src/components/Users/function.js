@@ -62,7 +62,6 @@ export const numberOfProjects = user => {
     }
   }
 
-<<<<<<< HEAD
   return counter
 }
 
@@ -83,7 +82,3 @@ export const mostRecentlyUpdated = projects => {
   if (mostRecentProjects.length === 3) return numberOfMoreRecentProjects
   }
 }
-=======
-  return counter;
-};
->>>>>>> 3d29609096db9cdbdd4008f7b2db6555750c6e27

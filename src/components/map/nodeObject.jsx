@@ -48,6 +48,7 @@ class NodeObject extends Component {
         pointed={this.props.pointed}
         pasteOption={this.props.pasteOption}
         node={this.props.node}
+        collapse={this.props.collapse}
       />
     );
   }
