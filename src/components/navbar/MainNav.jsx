@@ -81,6 +81,7 @@ class MainNav extends React.Component {
           position: 'fixed',
           width: '100%',
           top: '0',
+          zIndex: '102',
         }}
       >
         <div id="nav-left" style={styles.left}>
