@@ -10,32 +10,33 @@ import {
   updateUserProjects,
 } from '../navbar/functions.js';
 import { mostRecentlyUpdated } from '../Users/function'
+import './toolbar.css'
 
 const styles = {
   container: {
-    display: 'flex',
-    backgroundColor: 'gray',
-    justifyContent: 'space-between',
-    paddingLeft: '1%',
-    paddingRight: '1%',
-    height: '5vh',
-    alignItems: 'center',
+    // display: 'flex',
+    // backgroundColor: 'gray',
+    // justifyContent: 'space-between',
+    // paddingLeft: '1%',
+    // paddingRight: '1%',
+    // height: '5vh',
+    // alignItems: 'center',
   },
   left: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    // display: 'flex',
+    // justifyContent: 'space-between',
     // width: '9%',
   },
   link: {
-    color: 'white',
-    fontSize: '1.3em',
-    cursor: 'pointer',
+    // color: 'white',
+    // fontSize: '1.3em',
+    // cursor: 'pointer',
   },
   title: {
-    marginRight: '10px',
+    // marginRight: '10px',
   },
   icon: {
-    margin: '5px',
+    // margin: '5px',
   },
 };
 
@@ -204,69 +205,66 @@ class Toolbar extends Component {
     if (!this.props.project || !this.props.user.projects) return <div>Loding...</div>;
     return (
       <div
-        id="tool-container"
-        style={{
-          ...styles.container,
-          position: 'fixed',
-          width: '100%',
-          top: '5vh',
-        }}
+        id="tool-container" className="tool-container"
       >
-        <div id="tool-left" style={styles.left}>
-          <span id="title" style={{ ...styles.link, ...styles.title }}>
-            {this.props.project.metadata.title}
-          </span>
+        <div id="tool-left" className="tool-left" style={styles.left}>
+        <div className="project-info">
+          <h1 id="title" className="title">
+            {this.props.project.metadata.title} Mind Map
+          </h1>
+          <span className="collaborators">{`${this.props.project.metadata.collaborators.reduce(
+              (acc, el) => {
+                  return acc + el.name;
+              },
+              ' | '
+          )}`}</span>
+          <AddCollaboratorForm
+              showForm={this.showForm}
+              handleChange={this.handleChange}
+              recipientName={this.state.recipientName}
+              recipientEmail={this.state.recipientEmail}
+              handleSubmit={this.handleSubmit}
+              collabName={this.state.nonExistentCollaboratorsEmail}
+              />
+             </div>
+          <div>
           <SaveProjectForm
             showForm={this.showForm}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
             projectName={this.state.projectName}
           />
-          <AddCollaboratorForm
-            showForm={this.showForm}
-            handleChange={this.handleChange}
-            recipientName={this.state.recipientName}
-            recipientEmail={this.state.recipientEmail}
-            handleSubmit={this.handleSubmit}
-            collabName={this.state.nonExistentCollaboratorsEmail}
-          />
-        </div>
-        <div>
           <button
             type="button"
+            className="button"
             onClick={this.props.goBack}
             disabled={this.props.project.history.length < 2}
           >
-            Back
+            Map Undo
           </button>
           <button
             type="button"
+            className="button"
             disabled={this.props.project.forward.length < 1}
             onClick={this.props.goForward}
           >
-            Forward
+            Map Redo
           </button>
+          </div>
         </div>
-        <div className="current-projects">
-          <span className="current-projects-text">Recent projects: </span>
-        {
-          this.showProjects().map(projects => {
-            return (
-            <Link to={`/map/${projects.projectName}`} >
-            <span className="project-list">{projects.title}{' | '}</span>
-            </Link >
-            )
-          })
-        }
-        </div>
-        <div id="tool-right">
-          <span
-          >{`Collaborators: ${this.props.project.metadata.collaborators.reduce(
-            (acc, el) => {
-              return acc + el.name + ' | ';
-            },
-            ''
-          )}`}</span>
+        <div id="tool-right" className="tool-right">
+            <div className="current-projects">
+                <h2 className="current-projects-text">Recent projects </h2>
+                {
+                    this.showProjects().map(projects => {
+                        return (
+                            <Link className="button" to={`/map/${projects.projectName}`} >
+                            <span className="project-list">{projects.title}</span>
+                            </Link >
+                        )
+                    })
+                }
+            </div>
         </div>
       </div>
     );
