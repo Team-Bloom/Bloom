@@ -11,7 +11,7 @@ function NodeTmpl(props) {
             className={props.node.collapsed ? 'collapsed dragger' : 'dragger'}
             onMouseDown={props.func}
             ref={props.dragger}
-            style={{ left: props.node.left + 'px', top: props.node.top + 'px' }}
+            style={{ left: props.node.left + 'px', top: props.node.top + 'px', paddingLeft: props.node.parentWidth - 100 }}
           >
             <NodeObject
               addNode={props.addNode}
@@ -62,9 +62,9 @@ function NodeTmpl(props) {
             }
           >
             <path
-              d={`m-100,0l100,0c100,0,${props.node.left - 200},${
+              d={`m-100,0l${props.node.parentWidth && props.node.parentWidth - 5 || 100},0c100,0,${props.node.left - 200},${
                 props.node.top
-              },${props.node.left - 89},${props.node.top},l100,0`}
+            },${props.node.left - 89},${props.node.top},l${props.node.width && props.node.width !== 'auto' && props.node.width - 5 || 100},0`}
               style={{ stroke: 'rgb(0,0,0)', strokeWidth: 2, fill: 'none' }}
             />
           </svg>

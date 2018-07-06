@@ -89,11 +89,12 @@ button{
 }
 .collapser{
     position: absolute;
-bottom: 0;
+bottom: -21px;
 left: 0;
 padding: 2px 20px;
 }
 .collapser.collapsed{
     font-size: 1.5em;
     padding: 10px 20px;
+    bottom: 0;
 }
