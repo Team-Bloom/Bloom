@@ -20,6 +20,7 @@ class Node extends Component {
   }
 
   static getDerivedStateFromProps = (props, state) => {
+    console.log("GDSFP", props, state)
     if (props.count !== state.count) {
       return {
         node: props.node,
@@ -31,14 +32,20 @@ class Node extends Component {
 
   handleChange = ev => {
       let width = 'auto';
+      let children = this.state.node.children;
       if(ev.target.value.length > 12){
           width = ev.target.value.length * 5
+          children = children.map(child => {
+              child.parentWidth = width
+              return child
+          })
       }
     this.setState({
       node: {
         ...this.state.node,
         text: ev.target.value,
         width: width,
+        children: children,
       },
     });
   };
