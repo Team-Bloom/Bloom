@@ -32,8 +32,9 @@ class Node extends Component {
   handleChange = ev => {
       let width = 'auto';
       let children = this.state.node.children;
-      if(ev.target.value.length > 12){
-          width = ev.target.value.length * 5
+      if(ev.target.value.length > 8){
+          width = ev.target.value.length > 24 ? ev.target.value.length * 5 : ev.target.value.length * 10
+          if (width > 400) width = 400
           children = children.map(child => {
               child.parentWidth = width
               return child
