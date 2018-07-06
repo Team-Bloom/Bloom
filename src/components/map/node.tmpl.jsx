@@ -11,7 +11,7 @@ function NodeTmpl(props) {
             className={props.node.collapsed ? 'collapsed dragger' : 'dragger'}
             onMouseDown={props.func}
             ref={props.dragger}
-            style={{ left: props.node.left + 'px', top: props.node.top + 'px' }}
+            style={{ left: props.node.left + 'px', top: props.node.top + 'px', paddingLeft: props.node.parentWidth - 100 }}
           >
             <NodeObject
               addNode={props.addNode}
