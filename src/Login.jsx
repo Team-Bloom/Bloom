@@ -8,7 +8,6 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <h1>Bloom</h1>
         <div id="firebaseui-auth-container" />
         <div id="loader">Loading...</div>
       </div>
