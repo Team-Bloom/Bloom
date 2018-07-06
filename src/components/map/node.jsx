@@ -30,10 +30,15 @@ class Node extends Component {
   };
 
   handleChange = ev => {
+      let width = 'auto';
+      if(ev.target.value.length > 12){
+          width = ev.target.value.length * 5
+      }
     this.setState({
       node: {
         ...this.state.node,
         text: ev.target.value,
+        width: width,
       },
     });
   };

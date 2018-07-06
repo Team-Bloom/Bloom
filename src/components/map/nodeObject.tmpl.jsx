@@ -4,7 +4,7 @@ function NodeObjectTmpl(props) {
   return (
     <div
       className={`${props.pointed ? 'node pointed' : 'node'}`}
-      onClick={props.toggleEdit}
+      onClick={props.toggleEdit} style={{width: props.node.width}}
     >
       {props.isEdit ? (
         <input
