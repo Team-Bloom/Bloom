@@ -77,12 +77,15 @@ class Node extends Component {
   addNode = async ev => {
     ev.stopPropagation();
     const newNode = {
-      left: '200',
+      left: '275',
       top: `${this.state.node.children.length * 100 - 100}`,
       id: makeHashCode(),
       text: 'Nodename',
       children: [],
     };
+    if(this.state.node.width){
+        newNode.parentWidth = this.state.node.width
+    }
     await this.setState({
       ...this.state,
       node: {
