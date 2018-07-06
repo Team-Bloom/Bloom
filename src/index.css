@@ -29,3 +29,7 @@ body {
 #user-page {
   width: 100%;
 }
+
+#firebaseui-auth-container {
+  margin-top: 3vh;
+}
