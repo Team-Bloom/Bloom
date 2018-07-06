@@ -19,6 +19,7 @@ const makeDraggable = (function(){
     const stopDrag = (ev) => {
       ev.stopPropagation()
       document.onmousemove = null
+      document.onmouseup = null
       if (!draggingThis.state.shouldEdit){
           draggingThis.checkState()
       }

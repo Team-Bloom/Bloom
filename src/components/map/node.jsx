@@ -20,7 +20,6 @@ class Node extends Component {
   }
 
   static getDerivedStateFromProps = (props, state) => {
-    console.log("GDSFP", props, state)
     if (props.count !== state.count) {
       return {
         node: props.node,
@@ -64,7 +63,6 @@ class Node extends Component {
 
   collapse = async ev => {
       ev.stopPropagation();
-      console.log("running")
       await this.setState({
           node: {
               ...this.state.node,
