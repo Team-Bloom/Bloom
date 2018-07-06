@@ -137,7 +137,6 @@ export default class MapView extends Component {
   };
 
   render() {
-    console.log('STATE', this.state);
     let maps = this.state.project && this.state.project.maps;
     if (!this.props.user.metadata) return <div>Loading...</div>;
     return (
