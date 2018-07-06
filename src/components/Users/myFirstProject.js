@@ -11,7 +11,7 @@ const myFirstProject = (userObj, email, title) => ({
       version: [
         {
           text: 'first node',
-          left: 50,
+          left: 250,
           top: 50,
           children: [],
         },
@@ -22,8 +22,8 @@ const myFirstProject = (userObj, email, title) => ({
   maps: [
     {
       text: 'first node',
-      left: 50,
-      top: 50,
+      left: 250,
+      top: 250,
       children: [],
     },
   ],
