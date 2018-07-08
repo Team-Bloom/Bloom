@@ -30,7 +30,7 @@
     z-index: 101;
     display: flex;
     justify-content: space-between;
-    margin-top: 38px;
+    margin-top: 5vh;
     border-bottom: 2px solid;
     position: fixed;
     width: 100%;
