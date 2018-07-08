@@ -28,13 +28,16 @@ function NodeTmpl(props) {
               pasteOption={props.pasteOption}
               node={props.node}
               collapse={props.collapse}
+              shouldEdit={props.shouldEdit}
+              makeEditable={props.makeEditable}
             />
             {props.node &&
               !props.node.collapsed &&
               props.node.children &&
-              props.node.children.map(node => {
+              props.node.children.map((node, index) => {
                 return (
                   <Node
+                    key={index}
                     checkState={props.checkState}
                     deleteNode={props.deleteNode}
                     node={node}
