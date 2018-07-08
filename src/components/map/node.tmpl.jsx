@@ -56,7 +56,8 @@ function NodeTmpl(props) {
             height={
               props.node &&
               props.node.top &&
-              Math.abs(props.node.top) + 2 + 'px'
+              Math.abs(props.node.top) + 2 + 'px' ||
+              '2px'
             }
             width={
               props.node &&

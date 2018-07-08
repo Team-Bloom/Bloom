@@ -111,10 +111,16 @@ export default class MapView extends Component {
     //to make it clear as possible that our database is being changed and sent
     const projectId = this.props.match.params.projectId;
     try {
+        let history;
+        if(this.state.project.history.length > 60){
+            history = this.state.project.history.slice(-59)
+        } else {
+            history = this.state.project.history
+        }
       let payload = {
         ...this.state.project,
         maps: [mapState],
-        history: [...this.state.project.history, { version: [mapState] }],
+        history: [...history, { version: [mapState] }],
         forward: [],
         'metadata.lastUpdated': Date.now(),
       };
