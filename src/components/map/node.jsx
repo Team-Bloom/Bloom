@@ -116,6 +116,12 @@ class Node extends Component {
     this.props.checkState({ cut: true, id: id });
   };
 
+  makeEditable = () => {
+      this.setState({
+          shouldEdit: true,
+      })
+  }
+
   checkState = async childState => {
     //this will need to recursively bubble up the state
     if (childState) {
@@ -125,6 +131,7 @@ class Node extends Component {
           const childrenAfter = this.state.node.children[i + 1]
             ? this.state.node.children.slice(i + 1)
             : [];
+
           if (childState.delete) {
             //delete child that matches
             await this.setState({
@@ -179,6 +186,8 @@ class Node extends Component {
         pasteNode={this.pasteNode}
         clearPaste={this.props.clearPaste}
         collapse={this.collapse}
+        shouldEdit={this.state.shouldEdit}
+        makeEditable={this.makeEditable}
       />
     );
   }

@@ -5,19 +5,28 @@ import './node.css';
 class NodeObject extends Component {
   constructor(props) {
     super(props);
+    this.textEdit = React.createRef();
     this.state = {
       isEdit: false,
     };
   }
 
-  toggleEdit = () => {
-    if (this.state.shouldEdit) {
-      this.setState({
+  componentDidMount = () => {
+      console.log(this.textEdit)
+      //this.textEdit.current.focus()
+  }
+
+  toggleEdit = async () => {
+    if (this.props.shouldEdit) {
+      await this.setState({
         isEdit: !this.state.isEdit,
       });
+      if(this.state.isEdit){
+          this.textEdit.current.focus()
+      }
       this.props.checkState();
     } else {
-      this.setState({ shouldEdit: true });
+      this.props.makeEditable();
     }
   };
 
@@ -49,6 +58,7 @@ class NodeObject extends Component {
         pasteOption={this.props.pasteOption}
         node={this.props.node}
         collapse={this.props.collapse}
+        textEdit={this.textEdit}
       />
     );
   }

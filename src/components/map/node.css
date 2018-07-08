@@ -175,3 +175,10 @@ a {
     background-color: white;
     cursor: pointer;
 }
+input[type=text]:not(.browser-default), input[type=text]:not(.browser-default):focus:not([readonly]){
+    height: inherit;
+    border-bottom: 0px;
+    box-shadow: none;
+    margin: 0;
+    width: 100%;
+}

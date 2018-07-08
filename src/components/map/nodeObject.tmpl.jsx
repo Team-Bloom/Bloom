@@ -7,15 +7,16 @@ function NodeObjectTmpl(props) {
       onClick={props.toggleEdit} style={{width: props.node.width, marginLeft: props.node.parentWidth - 100}}
     >
       {props.isEdit ? (
-        <input
+        <textarea
           type="text"
           name="text"
           value={props.text}
           onChange={props.handleChange}
+          ref={props.textEdit}
           onClick={ev => {
             ev.stopPropagation();
           }}
-        />
+        ></textarea>
       ) : (
         <span>{props.text}</span>
       )}

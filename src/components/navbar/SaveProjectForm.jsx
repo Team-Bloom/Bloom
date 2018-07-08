@@ -32,7 +32,7 @@ class SaveProjectForm extends React.Component {
     }
     return (
       <div className="popup" onClick={() => this.props.showForm('save')}>
-        <div class="button">Change Name</div>
+        <div className="button">Change Name</div>
         <span style={{ ...styles.tooltiptext, ...hoverStyle }}>
           Save project as...
         </span>
